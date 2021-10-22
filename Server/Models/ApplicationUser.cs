@@ -8,5 +8,6 @@ namespace jVision.Server.Models
 {
     public class ApplicationUser : IdentityUser
     {
+        public virtual ICollection<Box> Boxes { get; set; }
     }
 }

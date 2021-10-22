@@ -111,7 +111,7 @@ using Microsoft.AspNetCore.Components.Authorization;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 19 "C:\Users\natha\source\repos\jVision\Client\Shared\MainLayout.razor"
+#line 20 "C:\Users\natha\source\repos\jVision\Client\Shared\MainLayout.razor"
        
     [CascadingParameter]
     Task<AuthenticationState> AuthenticationState { get; set; }

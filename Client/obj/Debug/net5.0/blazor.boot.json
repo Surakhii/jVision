@@ -210,12 +210,11 @@
       "netstandard.dll": "sha256-5TcSqPhm3fAT6s3NH7+BMGakcfGgZGd3\/\/cVwVs2VPI=",
       "System.Private.CoreLib.dll": "sha256-VJv3DLM\/G0m\/RnTeWL9X8mkbxlsn8nNRhm0BHYEY+uo=",
       "jVision.Shared.dll": "sha256-Xu\/CCE7nSYMBDQjY8NjyJmVLrGHudbzk997KLR6tJrg=",
-      "jVision.Client.dll": "sha256-1nPpVYQVk42xfUhalDKC0HVnAW8y8bKELS2Yi8sieOI="
+      "jVision.Client.dll": "sha256-bT6fZxOyUszUz13PzrQUstx+bqqFZtWvvZWVzv6x2h4="
     },
     "lazyAssembly": null,
     "pdb": {
-      "jVision.Shared.pdb": "sha256-GOazUKxs8iy8mAnle0\/hU4hJyo4J2TqYNKrSAK8ZZ7Q=",
-      "jVision.Client.pdb": "sha256-y6b5C2NFvShLRmy2vBQT67ie7UAMrxfdRS5ZdzSOLtA="
+      "jVision.Client.pdb": "sha256-8FrHW3vx\/7xsd33qajHzjsZnVKXfzbEknMhLirDheHQ="
     },
     "runtime": {
       "dotnet.timezones.blat": "sha256-PvlHrby1PYtdX46ITs6pB8iDNqXNcewh8Eoa\/Gm2+GM=",
