@@ -1,12 +1,41 @@
 ﻿@page "/"
 @using Microsoft.AspNetCore.Components.Authorization
+@using jVision.Shared.Models 
 <AuthorizeView>
     <Authorized>
         <h1>Hello @context.User.Identity.Name</h1>
         <p>Welcome to Blazor Learner.</p>
+        <button class="btn">Click me!</button>
+        @error
     </Authorized>
     <Authorizing>
         <h1>Loading ...</h1>
     </Authorizing>
 </AuthorizeView>
+
+@code {
+    [Inject] public HttpClient Http { get; set; }
+
+    private IList<BoxDTO> boxes;
+    private string error;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            string requestUri = "Box";
+            boxes = await Http.GetFromJsonAsync<IList<BoxDTO>>(requestUri);
+        } catch (Exception)
+        {
+            error = "Error Encountered";
+        };
+    }
+    //private async Task AddBox()
+        //{
+            //BoxDTO = newBox = new BoxDTO
+            //{
+
+            //}
+      //  }
+}
 

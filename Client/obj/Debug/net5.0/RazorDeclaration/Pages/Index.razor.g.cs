@@ -89,6 +89,13 @@ using Microsoft.AspNetCore.Components.Authorization;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 3 "C:\Users\natha\source\repos\jVision\Client\Pages\Index.razor"
+using jVision.Shared.Models;
+
+#line default
+#line hidden
+#nullable disable
     [Microsoft.AspNetCore.Components.RouteAttribute("/")]
     public partial class Index : Microsoft.AspNetCore.Components.ComponentBase
     {
@@ -97,6 +104,36 @@ using Microsoft.AspNetCore.Components.Authorization;
         {
         }
         #pragma warning restore 1998
+#nullable restore
+#line 16 "C:\Users\natha\source\repos\jVision\Client\Pages\Index.razor"
+       
+    [Inject] public HttpClient Http { get; set; }
+
+    private IList<BoxDTO> boxes;
+    private string error;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            string requestUri = "Box";
+            boxes = await Http.GetFromJsonAsync<IList<BoxDTO>>(requestUri);
+        } catch (Exception)
+        {
+            error = "Error Encountered";
+        };
+    }
+    //private async Task AddBox()
+        //{
+            //BoxDTO = newBox = new BoxDTO
+            //{
+
+            //}
+      //  }
+
+#line default
+#line hidden
+#nullable disable
     }
 }
 #pragma warning restore 1591

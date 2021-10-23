@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace jVision.Server.Models
+namespace jVision.Shared.Models
 {
-    public class Box
+    public class BoxDTO
     {
         public int BoxId { get; set; }
         public string UserId { get; set; }
-        public ApplicationUser User { get; set; }
         public string Ip { get; set; }
         public string Hostname { get; set; }
         public bool State { get; set; }
@@ -21,7 +21,7 @@ namespace jVision.Server.Models
         public string Os { get; set; }
         public string Cidr { get; set; }
 
-        public ICollection<Service> Services { get; set; }
-        
+        public ICollection<ServiceDTO> Services { get; set; }
+
     }
 }
