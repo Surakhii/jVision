@@ -109,9 +109,10 @@ using jVision.Shared.Models;
        
     [Inject] public HttpClient Http { get; set; }
 
-    private IList<BoxDTO> boxes;
+    private IList<BoxDTO> boxes = new List<BoxDTO>();
+    private IList<ServiceDTO> services = new List<ServiceDTO>();
     private string error;
-    
+
     protected override async Task OnInitializedAsync()
     {
         try
@@ -123,13 +124,34 @@ using jVision.Shared.Models;
             error = "Error Encountered";
         };
     }
-    //private async Task AddBox()
-        //{
-            //BoxDTO = newBox = new BoxDTO
-            //{
 
-            //}
-      //  }
+    private async Task AddBox()
+    {
+        Console.WriteLine("anyuthing");
+        ServiceDTO newService = new ServiceDTO
+        {
+            Port = 22
+        };
+        services.Add(newService);
+        BoxDTO newBox = new BoxDTO
+        {
+            Ip = "192.168.1.1",
+            Hostname = "Hostname",
+            State = false,
+            Comments = "none",
+            Active = false,
+            Pwned = false,
+            Unrelated = false,
+            Comeback = false,
+            Os = "Windows",
+            Cidr = "/24",
+            Services = services
+        };
+        boxes.Add(newBox);
+        var response = await Http.PostAsJsonAsync("Box", boxes);
+        Console.WriteLine(response);
+
+    }
 
 #line default
 #line hidden

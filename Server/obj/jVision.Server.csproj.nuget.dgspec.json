@@ -139,6 +139,10 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "dependencies": {
+            "CoreAdmin": {
+              "target": "Package",
+              "version": "[1.8.0, )"
+            },
             "Microsoft.AspNetCore.Components.Authorization": {
               "target": "Package",
               "version": "[5.0.11, )"
@@ -152,6 +156,10 @@
               "version": "[5.0.11, )"
             },
             "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
+              "target": "Package",
+              "version": "[5.0.11, )"
+            },
+            "Microsoft.EntityFrameworkCore.Proxies": {
               "target": "Package",
               "version": "[5.0.11, )"
             },

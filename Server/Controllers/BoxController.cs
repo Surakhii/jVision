@@ -27,12 +27,10 @@ namespace jVision.Server.Controllers
 
 
         [HttpGet]
-
         public async Task<ActionResult<IEnumerable<BoxDTO>>> GetBox()
         {
             return await _context.Boxes
                 .Select(x => BoxToDTO(x))
-                .Include(s => s.Services)
                 .ToListAsync();
         }
 
@@ -53,7 +51,7 @@ namespace jVision.Server.Controllers
                 Comeback = b.Comeback,
                 Os = b.Os,
                 Cidr = b.Cidr,
-                Services = (ICollection<Service>)b.Services
+                Services = b.Services?.Select(x => DTOToService(x)).ToList()
             }));
             await _context.SaveChangesAsync();
 
@@ -67,7 +65,16 @@ namespace jVision.Server.Controllers
         /**
 
         **/
-
+        private static Service DTOToService(ServiceDTO s) =>
+            new Service
+            {
+                Port = s.Port,
+                Protocol = s.Protocol,
+                State = s.State,
+                Name = s.Name,
+                Version = s.Version,
+                Script = s.Script
+            };
         private static BoxDTO BoxToDTO(Box box) =>
             new BoxDTO
             {
