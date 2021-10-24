@@ -4,9 +4,22 @@
 <AuthorizeView>
     <Authorized>
         <h1>Hello @context.User.Identity.Name</h1>
-        <p>Welcome to Blazor Learner.</p>
-        <button class="btn ctn-success" @onclick="AddBox">Click me!</button>
-        @error
+
+        <button class="btn btn-success" @onclick="AddBox">Click me!</button>
+        <button class="btn btn-success" @onclick="DeleteBox">dclcisdf</button>
+        @if (boxes == null)
+        {
+            <p><em>Loading...</em></p>
+        }
+        else
+        {
+            @foreach (var box in boxes)
+            {
+               
+            }
+            @error
+        }
+
     </Authorized>
     <Authorizing>
         <h1>Loading ...</h1>
@@ -18,13 +31,15 @@
 
     private IList<BoxDTO> boxes = new List<BoxDTO>();
     private IList<ServiceDTO> services = new List<ServiceDTO>();
+    private IList<BoxDTO> boxesAdded = new List<BoxDTO>();
+    private IList<ServiceDTO> servicesAdded = new List<ServiceDTO>();
+    public string hello = "hello";
     private string error;
-
+    private string requestUri = "Box";
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            string requestUri = "Box";
             boxes = await Http.GetFromJsonAsync<IList<BoxDTO>>(requestUri);
         } catch (Exception)
         {
@@ -39,10 +54,11 @@
         {
             Port = 22
         };
-        services.Add(newService);
+        servicesAdded.Add(newService);
         BoxDTO newBox = new BoxDTO
         {
             Ip = "192.168.1.1",
+            UserName = "jbrick123",
             Hostname = "Hostname",
             State = false,
             Comments = "none",
@@ -50,14 +66,19 @@
             Pwned = false,
             Unrelated = false,
             Comeback = false,
-            Os = "Windows",
+            Os = "Linux",
             Cidr = "/24",
-            Services = services
+            Services = servicesAdded
         };
-        boxes.Add(newBox);
-        var response = await Http.PostAsJsonAsync("Box", boxes);
+        boxesAdded.Add(newBox);
+        var response = await Http.PostAsJsonAsync(requestUri, boxesAdded);
         Console.WriteLine(response);
 
+    }
+
+    private async Task DeleteBox()
+    {
+        await Http.DeleteAsync(requestUri);
     }
 }
 

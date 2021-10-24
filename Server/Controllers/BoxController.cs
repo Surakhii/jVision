@@ -30,6 +30,8 @@ namespace jVision.Server.Controllers
         public async Task<ActionResult<IEnumerable<BoxDTO>>> GetBox()
         {
             return await _context.Boxes
+                //maybe convert service to dto?
+                .Include(c => c.Services)
                 .Select(x => BoxToDTO(x))
                 .ToListAsync();
         }
@@ -38,10 +40,11 @@ namespace jVision.Server.Controllers
         public async Task<ActionResult<IEnumerable<BoxDTO>>> PostBox(IEnumerable<BoxDTO> bto)
         {
             //async vs sync?
-            _context.Boxes.AddRange(bto.Select(b => new Box
+            await _context.Boxes.AddRangeAsync(bto.Select(b => new Box
             {
                 //UserId = b.UserId,
                 Ip = b.Ip,
+                User = _context.Users.Where(l => l.UserName.Equals(b.UserName)).FirstOrDefault(),
                 Hostname = b.Hostname,
                 State = b.State,
                 Comments = b.Comments,
@@ -58,6 +61,13 @@ namespace jVision.Server.Controllers
             return StatusCode(200);
         }
 
+        [HttpDelete]
+        public async Task<IActionResult> DeleteBox()
+        {
+            _context.Boxes.RemoveRange(_context.Boxes);
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
         private bool BoxExists(int id)
         {
             return _context.Boxes.Any(e => e.BoxId == id);
@@ -80,6 +90,7 @@ namespace jVision.Server.Controllers
             {
                 BoxId = box.BoxId,
                 UserId = box.UserId,
+                UserName = box.User?.UserName,
                 Ip = box.Ip,
                 Hostname = box.Hostname,
                 State = box.State,
@@ -90,7 +101,8 @@ namespace jVision.Server.Controllers
                 Comeback = box.Comeback,
                 Os = box.Os,
                 Cidr = box.Cidr,
-                Services = (ICollection<ServiceDTO>)box.Services
+                Services = box.Services?.Select(x=>ServiceToDTO(x)).ToList()
+                //(ICollection<ServiceDTO>)box.Services
             };
 
         private static ServiceDTO ServiceToDTO(Service s) =>
@@ -105,7 +117,6 @@ namespace jVision.Server.Controllers
                 Version = s.Version,
                 Script = s.Script
             };
-        public ICollection<ServiceDTO> Services { get; set; }
 
     }
 }

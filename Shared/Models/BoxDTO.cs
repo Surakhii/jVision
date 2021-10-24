@@ -10,6 +10,7 @@ namespace jVision.Shared.Models
     {
         public int BoxId { get; set; }
         public string UserId { get; set; }
+        public string UserName { get; set; }
         public string Ip { get; set; }
         public string Hostname { get; set; }
         public bool State { get; set; }

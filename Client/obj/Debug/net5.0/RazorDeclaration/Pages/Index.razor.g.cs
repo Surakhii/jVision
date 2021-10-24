@@ -105,19 +105,21 @@ using jVision.Shared.Models;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 16 "C:\Users\natha\source\repos\jVision\Client\Pages\Index.razor"
+#line 29 "C:\Users\natha\source\repos\jVision\Client\Pages\Index.razor"
        
     [Inject] public HttpClient Http { get; set; }
 
     private IList<BoxDTO> boxes = new List<BoxDTO>();
     private IList<ServiceDTO> services = new List<ServiceDTO>();
+    private IList<BoxDTO> boxesAdded = new List<BoxDTO>();
+    private IList<ServiceDTO> servicesAdded = new List<ServiceDTO>();
+    public string hello = "hello";
     private string error;
-
+    private string requestUri = "Box";
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            string requestUri = "Box";
             boxes = await Http.GetFromJsonAsync<IList<BoxDTO>>(requestUri);
         } catch (Exception)
         {
@@ -132,10 +134,11 @@ using jVision.Shared.Models;
         {
             Port = 22
         };
-        services.Add(newService);
+        servicesAdded.Add(newService);
         BoxDTO newBox = new BoxDTO
         {
             Ip = "192.168.1.1",
+            UserName = "jbrick123",
             Hostname = "Hostname",
             State = false,
             Comments = "none",
@@ -143,14 +146,19 @@ using jVision.Shared.Models;
             Pwned = false,
             Unrelated = false,
             Comeback = false,
-            Os = "Windows",
+            Os = "Linux",
             Cidr = "/24",
-            Services = services
+            Services = servicesAdded
         };
-        boxes.Add(newBox);
-        var response = await Http.PostAsJsonAsync("Box", boxes);
+        boxesAdded.Add(newBox);
+        var response = await Http.PostAsJsonAsync(requestUri, boxesAdded);
         Console.WriteLine(response);
 
+    }
+
+    private async Task DeleteBox()
+    {
+        await Http.DeleteAsync(requestUri);
     }
 
 #line default

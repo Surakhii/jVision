@@ -97,11 +97,3 @@ C:\Users\natha\source\repos\jVision\Server\obj\Debug\net5.0\jVision.Server.genru
 C:\Users\natha\source\repos\jVision\Server\bin\Debug\net5.0\Microsoft.AspNetCore.Components.Authorization.dll
 C:\Users\natha\source\repos\jVision\Server\bin\Debug\net5.0\Castle.Core.dll
 C:\Users\natha\source\repos\jVision\Server\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Proxies.dll
-C:\Users\natha\source\repos\jVision\Server\bin\Debug\net5.0\DotNetEd.CoreAdmin.Views.dll
-C:\Users\natha\source\repos\jVision\Server\bin\Debug\net5.0\DotNetEd.CoreAdmin.dll
-C:\Users\natha\source\repos\jVision\Server\bin\Debug\net5.0\Microsoft.AspNetCore.Mvc.Razor.Host.dll
-C:\Users\natha\source\repos\jVision\Server\bin\Debug\net5.0\Microsoft.CodeAnalysis.dll
-C:\Users\natha\source\repos\jVision\Server\bin\Debug\net5.0\Microsoft.CodeAnalysis.CSharp.dll
-C:\Users\natha\source\repos\jVision\Server\bin\Debug\net5.0\Microsoft.Extensions.PlatformAbstractions.dll
-C:\Users\natha\source\repos\jVision\Server\bin\Debug\net5.0\Mvc.Grid.Core.dll
-C:\Users\natha\source\repos\jVision\Server\obj\Debug\net5.0\jVision.Server.MvcApplicationPartsAssemblyInfo.cs
