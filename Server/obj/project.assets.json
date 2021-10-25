@@ -2,6 +2,44 @@
   "version": 3,
   "targets": {
     "net5.0": {
+      "BlazorTable/1.17.0": {
+        "type": "package",
+        "dependencies": {
+          "LINQKit.Core": "1.1.26",
+          "Microsoft.AspNetCore.Components": "3.1.18",
+          "Microsoft.AspNetCore.Components.Web": "3.1.18",
+          "Microsoft.Extensions.Localization": "3.1.18"
+        },
+        "compile": {
+          "lib/netstandard2.1/BlazorTable.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.1/BlazorTable.dll": {}
+        },
+        "resource": {
+          "lib/netstandard2.1/da/BlazorTable.resources.dll": {
+            "locale": "da"
+          },
+          "lib/netstandard2.1/de/BlazorTable.resources.dll": {
+            "locale": "de"
+          },
+          "lib/netstandard2.1/es/BlazorTable.resources.dll": {
+            "locale": "es"
+          },
+          "lib/netstandard2.1/fr/BlazorTable.resources.dll": {
+            "locale": "fr"
+          },
+          "lib/netstandard2.1/pt-BR/BlazorTable.resources.dll": {
+            "locale": "pt-BR"
+          }
+        },
+        "build": {
+          "buildTransitive/BlazorTable.props": {}
+        },
+        "buildMultiTargeting": {
+          "buildMultiTargeting/BlazorTable.props": {}
+        }
+      },
       "Castle.Core/4.4.1": {
         "type": "package",
         "dependencies": {
@@ -30,6 +68,15 @@
         },
         "runtime": {
           "lib/netstandard2.0/Humanizer.dll": {}
+        }
+      },
+      "LinqKit.Core/1.1.26": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.1/LinqKit.Core.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.1/LinqKit.Core.dll": {}
         }
       },
       "Microsoft.AspNetCore.Authentication/2.2.0": {
@@ -763,6 +810,30 @@
         },
         "runtime": {
           "lib/net5.0/Microsoft.Extensions.Identity.Stores.dll": {}
+        }
+      },
+      "Microsoft.Extensions.Localization/3.1.18": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "3.1.18",
+          "Microsoft.Extensions.Localization.Abstractions": "3.1.18",
+          "Microsoft.Extensions.Logging.Abstractions": "3.1.18",
+          "Microsoft.Extensions.Options": "3.1.18"
+        },
+        "compile": {
+          "lib/netcoreapp3.1/Microsoft.Extensions.Localization.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/Microsoft.Extensions.Localization.dll": {}
+        }
+      },
+      "Microsoft.Extensions.Localization.Abstractions/3.1.18": {
+        "type": "package",
+        "compile": {
+          "lib/netcoreapp3.1/Microsoft.Extensions.Localization.Abstractions.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/Microsoft.Extensions.Localization.Abstractions.dll": {}
         }
       },
       "Microsoft.Extensions.Logging/5.0.0": {
@@ -2477,6 +2548,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v5.0",
         "dependencies": {
+          "BlazorTable": "1.17.0",
           "Microsoft.AspNetCore.Components.Authorization": "5.0.11",
           "Microsoft.AspNetCore.Components.WebAssembly": "5.0.10",
           "Microsoft.EntityFrameworkCore.Sqlite": "5.0.11",
@@ -2509,6 +2581,35 @@
     }
   },
   "libraries": {
+    "BlazorTable/1.17.0": {
+      "sha512": "ILENDhGe0EnNa126KAvHVHlbPbzaTcKTaaN9sG90gzwwF7sP9Uc7NDpeuDCzlhkUg4eHdkJnBPv1xb//jvUz5g==",
+      "type": "package",
+      "path": "blazortable/1.17.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "blazortable.1.17.0.nupkg.sha512",
+        "blazortable.nuspec",
+        "build/BlazorTable.props",
+        "build/Microsoft.AspNetCore.StaticWebAssets.props",
+        "buildMultiTargeting/BlazorTable.props",
+        "buildTransitive/BlazorTable.props",
+        "icon.png",
+        "lib/netstandard2.1/BlazorTable.dll",
+        "lib/netstandard2.1/BlazorTable.xml",
+        "lib/netstandard2.1/da/BlazorTable.resources.dll",
+        "lib/netstandard2.1/de/BlazorTable.resources.dll",
+        "lib/netstandard2.1/es/BlazorTable.resources.dll",
+        "lib/netstandard2.1/fr/BlazorTable.resources.dll",
+        "lib/netstandard2.1/pt-BR/BlazorTable.resources.dll",
+        "staticwebassets/BlazorTable.min.js",
+        "staticwebassets/images/filter.png",
+        "staticwebassets/images/minus.png",
+        "staticwebassets/images/plus.png",
+        "staticwebassets/images/sort-asc.png",
+        "staticwebassets/images/sort-desc.png"
+      ]
+    },
     "Castle.Core/4.4.1": {
       "sha512": "zanbjWC0Y05gbx4eGXkzVycOQqVOFVeCjVsDSyuao9P4mtN1w3WxxTo193NGC7j3o2u3AJRswaoC6hEbnGACnQ==",
       "type": "package",
@@ -2548,6 +2649,36 @@
         "lib/netstandard2.0/Humanizer.dll",
         "lib/netstandard2.0/Humanizer.xml",
         "logo.png"
+      ]
+    },
+    "LinqKit.Core/1.1.26": {
+      "sha512": "svSbON3rh4QVIeTK7sDO8OyC2lrhDGctnRPUMNPKVChMPY2v/x0DDtfBq7CWsWyuaYD00q5TxVKoZkW5+pqcXw==",
+      "type": "package",
+      "path": "linqkit.core/1.1.26",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net35/LinqKit.Core.dll",
+        "lib/net35/LinqKit.Core.xml",
+        "lib/net40/LinqKit.Core.dll",
+        "lib/net40/LinqKit.Core.xml",
+        "lib/net45/LinqKit.Core.dll",
+        "lib/net45/LinqKit.Core.xml",
+        "lib/netstandard1.3/LinqKit.Core.dll",
+        "lib/netstandard1.3/LinqKit.Core.xml",
+        "lib/netstandard2.0/LinqKit.Core.dll",
+        "lib/netstandard2.0/LinqKit.Core.xml",
+        "lib/netstandard2.1/LinqKit.Core.dll",
+        "lib/netstandard2.1/LinqKit.Core.xml",
+        "lib/portable40-net40+sl5+win8+wp8+wpa81/LinqKit.Core.dll",
+        "lib/portable40-net40+sl5+win8+wp8+wpa81/LinqKit.Core.xml",
+        "lib/portable45-net45+win8+wp8+wpa81/LinqKit.Core.dll",
+        "lib/portable45-net45+win8+wp8+wpa81/LinqKit.Core.xml",
+        "lib/uap10.0.10240/LinqKit.Core.dll",
+        "lib/uap10.0.10240/LinqKit.Core.pri",
+        "lib/uap10.0.10240/LinqKit.Core.xml",
+        "linqkit.core.1.1.26.nupkg.sha512",
+        "linqkit.core.nuspec"
       ]
     },
     "Microsoft.AspNetCore.Authentication/2.2.0": {
@@ -3536,6 +3667,38 @@
         "lib/netstandard2.0/Microsoft.Extensions.Identity.Stores.xml",
         "microsoft.extensions.identity.stores.5.0.11.nupkg.sha512",
         "microsoft.extensions.identity.stores.nuspec"
+      ]
+    },
+    "Microsoft.Extensions.Localization/3.1.18": {
+      "sha512": "k2GGkPlWUtPlR/hKGUv+CknsBfU5ntys9SspNJtpE1SPGvf5wtsaTOLq+jjvwr14Z7amFDfFnYGX/P3It82v5Q==",
+      "type": "package",
+      "path": "microsoft.extensions.localization/3.1.18",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "lib/netcoreapp3.1/Microsoft.Extensions.Localization.dll",
+        "lib/netcoreapp3.1/Microsoft.Extensions.Localization.xml",
+        "lib/netstandard2.0/Microsoft.Extensions.Localization.dll",
+        "lib/netstandard2.0/Microsoft.Extensions.Localization.xml",
+        "microsoft.extensions.localization.3.1.18.nupkg.sha512",
+        "microsoft.extensions.localization.nuspec"
+      ]
+    },
+    "Microsoft.Extensions.Localization.Abstractions/3.1.18": {
+      "sha512": "215w5E3BW2G4iQK0YpOmOZu+3Mi/gc8JaLLj4t6b8NpTGmjOiAk1eigwiYreCZpa2M/mFzlnh4AgrN0t/lMtIQ==",
+      "type": "package",
+      "path": "microsoft.extensions.localization.abstractions/3.1.18",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "lib/netcoreapp3.1/Microsoft.Extensions.Localization.Abstractions.dll",
+        "lib/netcoreapp3.1/Microsoft.Extensions.Localization.Abstractions.xml",
+        "lib/netstandard2.0/Microsoft.Extensions.Localization.Abstractions.dll",
+        "lib/netstandard2.0/Microsoft.Extensions.Localization.Abstractions.xml",
+        "microsoft.extensions.localization.abstractions.3.1.18.nupkg.sha512",
+        "microsoft.extensions.localization.abstractions.nuspec"
       ]
     },
     "Microsoft.Extensions.Logging/5.0.0": {
@@ -7941,6 +8104,7 @@
   },
   "projectFileDependencyGroups": {
     "net5.0": [
+      "BlazorTable >= 1.17.0",
       "Microsoft.AspNetCore.Components.Authorization >= 5.0.11",
       "Microsoft.AspNetCore.Components.WebAssembly.Server >= 5.0.10",
       "Microsoft.AspNetCore.Identity >= 2.2.0",
@@ -8000,6 +8164,10 @@
       "net5.0": {
         "targetAlias": "net5.0",
         "dependencies": {
+          "BlazorTable": {
+            "target": "Package",
+            "version": "[1.17.0, )"
+          },
           "Microsoft.AspNetCore.Components.Authorization": {
             "target": "Package",
             "version": "[5.0.11, )"

@@ -1,9 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "f6P1uch291oQ60sVbwZ5EvGy3RTBC2HJ/3rjjGwZUWWNF/Ej1ejwskr/cK+pZoG8CSoYZlKVbd3tzbYCzEjEkQ==",
+  "dgSpecHash": "ReSHBXyRRSZE2Kgd5Sq2yn2Hq2xOnmmCap2QIQa/pBr+WFJ2rsWwbr6axpjMdGQt+r6jNLpBBIgJ9zuRQzW+og==",
   "success": true,
   "projectFilePath": "C:\\Users\\natha\\source\\repos\\jVision\\Client\\jVision.Client.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\natha\\.nuget\\packages\\blazortable\\1.17.0\\blazortable.1.17.0.nupkg.sha512",
+    "C:\\Users\\natha\\.nuget\\packages\\linqkit.core\\1.1.26\\linqkit.core.1.1.26.nupkg.sha512",
     "C:\\Users\\natha\\.nuget\\packages\\microsoft.aspnetcore.authentication\\2.2.0\\microsoft.aspnetcore.authentication.2.2.0.nupkg.sha512",
     "C:\\Users\\natha\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.2.0\\microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\natha\\.nuget\\packages\\microsoft.aspnetcore.authentication.cookies\\2.2.0\\microsoft.aspnetcore.authentication.cookies.2.2.0.nupkg.sha512",
@@ -54,6 +56,8 @@
     "C:\\Users\\natha\\.nuget\\packages\\microsoft.extensions.hosting.abstractions\\2.2.0\\microsoft.extensions.hosting.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\natha\\.nuget\\packages\\microsoft.extensions.identity.core\\5.0.11\\microsoft.extensions.identity.core.5.0.11.nupkg.sha512",
     "C:\\Users\\natha\\.nuget\\packages\\microsoft.extensions.identity.stores\\5.0.11\\microsoft.extensions.identity.stores.5.0.11.nupkg.sha512",
+    "C:\\Users\\natha\\.nuget\\packages\\microsoft.extensions.localization\\3.1.18\\microsoft.extensions.localization.3.1.18.nupkg.sha512",
+    "C:\\Users\\natha\\.nuget\\packages\\microsoft.extensions.localization.abstractions\\3.1.18\\microsoft.extensions.localization.abstractions.3.1.18.nupkg.sha512",
     "C:\\Users\\natha\\.nuget\\packages\\microsoft.extensions.logging\\5.0.0\\microsoft.extensions.logging.5.0.0.nupkg.sha512",
     "C:\\Users\\natha\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\5.0.0\\microsoft.extensions.logging.abstractions.5.0.0.nupkg.sha512",
     "C:\\Users\\natha\\.nuget\\packages\\microsoft.extensions.objectpool\\2.2.0\\microsoft.extensions.objectpool.2.2.0.nupkg.sha512",

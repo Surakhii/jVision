@@ -97,3 +97,10 @@ C:\Users\natha\source\repos\jVision\Server\obj\Debug\net5.0\jVision.Server.genru
 C:\Users\natha\source\repos\jVision\Server\bin\Debug\net5.0\Microsoft.AspNetCore.Components.Authorization.dll
 C:\Users\natha\source\repos\jVision\Server\bin\Debug\net5.0\Castle.Core.dll
 C:\Users\natha\source\repos\jVision\Server\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Proxies.dll
+C:\Users\natha\source\repos\jVision\Server\bin\Debug\net5.0\BlazorTable.dll
+C:\Users\natha\source\repos\jVision\Server\bin\Debug\net5.0\LinqKit.Core.dll
+C:\Users\natha\source\repos\jVision\Server\bin\Debug\net5.0\da\BlazorTable.resources.dll
+C:\Users\natha\source\repos\jVision\Server\bin\Debug\net5.0\de\BlazorTable.resources.dll
+C:\Users\natha\source\repos\jVision\Server\bin\Debug\net5.0\es\BlazorTable.resources.dll
+C:\Users\natha\source\repos\jVision\Server\bin\Debug\net5.0\fr\BlazorTable.resources.dll
+C:\Users\natha\source\repos\jVision\Server\bin\Debug\net5.0\pt-BR\BlazorTable.resources.dll

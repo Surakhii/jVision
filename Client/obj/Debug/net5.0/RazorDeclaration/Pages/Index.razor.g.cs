@@ -96,6 +96,13 @@ using jVision.Shared.Models;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 4 "C:\Users\natha\source\repos\jVision\Client\Pages\Index.razor"
+using BlazorTable;
+
+#line default
+#line hidden
+#nullable disable
     [Microsoft.AspNetCore.Components.RouteAttribute("/")]
     public partial class Index : Microsoft.AspNetCore.Components.ComponentBase
     {
@@ -105,12 +112,33 @@ using jVision.Shared.Models;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 29 "C:\Users\natha\source\repos\jVision\Client\Pages\Index.razor"
+#line 61 "C:\Users\natha\source\repos\jVision\Client\Pages\Index.razor"
        
     [Inject] public HttpClient Http { get; set; }
 
+
+    //Collapse
+    
+    private string _collapsedColor = "DodgerBlue";
+    private string _expandedColor = "LightBlue";
+    private string _hoverColor = "LightGray";
+    private bool _isAnimated = false;
+    private bool _isCollapseDisabled = false;
+    private bool _isCollapsed = false;
+    private bool _showOverflow = false;
+    private int _height = 200;
+
+    //Accordion
+    private string _accordionCollapsedColor = "green";
+    private string _accordionExpandedColor = "lightGreen";
+    private string _accordionHoverColor = "lime";
+    private bool _isAccordionDisabled = false;
+    private int _collapseCount;
+
+    private Accordion _accordion;
+    private CollapsePanel? _activePanel;
     private IList<BoxDTO> boxes = new List<BoxDTO>();
-    private IList<ServiceDTO> services = new List<ServiceDTO>();
+    //private IList<ServiceDTO> services = new List<ServiceDTO>();
     private IList<BoxDTO> boxesAdded = new List<BoxDTO>();
     private IList<ServiceDTO> servicesAdded = new List<ServiceDTO>();
     public string hello = "hello";
@@ -127,13 +155,28 @@ using jVision.Shared.Models;
         };
     }
 
+    private void OnAccordionChanged(CollapsePanel? active)
+    {
+        _activePanel = active;
+        var index = _accordion.CollapsePanelItems.ToList().IndexOf(active);
+
+    }
+
+    private void OnCollapsed(bool state)
+    {
+        _isCollapsed = state;
+    }
+
     private async Task AddBox()
     {
         Console.WriteLine("anyuthing");
         ServiceDTO newService = new ServiceDTO
         {
-            Port = 22
+            Port = 23,
+            State = true,
+            Name = "telnet"
         };
+        servicesAdded.Add(newService);
         servicesAdded.Add(newService);
         BoxDTO newBox = new BoxDTO
         {

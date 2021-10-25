@@ -1,35 +1,42 @@
 ﻿@inherits LayoutComponentBase
 @inject NavigationManager navigationManager
 @using jVision.Client.Services
+@using Microsoft.AspNetCore.Components.Authorization
 @using jVision.Shared.Models
 @inject CustomStateProvider authStateProvider
-@using Microsoft.AspNetCore.Components.Authorization
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
-    <div class="main">
-        <div class="top-row">
-            <button type="button" class="btn btn-link ml-md-auto" @onclick="@LogoutClick">Logout</button>
+<AuthorizeView>
+    <Authorized>
+        <div class="page">
+            <div class="sidebar">
+                <NavMenu />
+            </div>
+            <div class="main">
+                <div class="top-row">
+                    <button type="button" class="btn btn-link ml-md-auto" @onclick="@LogoutClick">@context.User.Identity.Name Logout</button>
+                </div>
+                <div class="content px-4">
+                    @Body
+                </div>
+            </div>
         </div>
-        <div class="content px-4">
-            @Body
-        </div>
-    </div>
-</div>
-@code {
-    [CascadingParameter]
-    Task<AuthenticationState> AuthenticationState { get; set; }
-    protected override async Task OnParametersSetAsync()
-    {
-        if (!(await AuthenticationState).User.Identity.IsAuthenticated)
+    </Authorized>
+    <Authorizing>
+        <h1>Enabling Turbo Thrusters ...</h1>
+    </Authorizing>
+</AuthorizeView>
+    @code {
+        [CascadingParameter]
+        Task<AuthenticationState> AuthenticationState { get; set; }
+        protected override async Task OnParametersSetAsync()
         {
+            if (!(await AuthenticationState).User.Identity.IsAuthenticated)
+            {
+                navigationManager.NavigateTo("/login");
+            }
+        }
+        async Task LogoutClick()
+        {
+            await authStateProvider.Logout();
             navigationManager.NavigateTo("/login");
         }
     }
-    async Task LogoutClick()
-    {
-        await authStateProvider.Logout();
-        navigationManager.NavigateTo("/login");
-    }
-}

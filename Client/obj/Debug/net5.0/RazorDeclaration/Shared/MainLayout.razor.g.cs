@@ -91,14 +91,14 @@ using jVision.Client.Services;
 #nullable disable
 #nullable restore
 #line 4 "C:\Users\natha\source\repos\jVision\Client\Shared\MainLayout.razor"
-using jVision.Shared.Models;
+using Microsoft.AspNetCore.Components.Authorization;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 6 "C:\Users\natha\source\repos\jVision\Client\Shared\MainLayout.razor"
-using Microsoft.AspNetCore.Components.Authorization;
+#line 5 "C:\Users\natha\source\repos\jVision\Client\Shared\MainLayout.razor"
+using jVision.Shared.Models;
 
 #line default
 #line hidden
@@ -111,22 +111,23 @@ using Microsoft.AspNetCore.Components.Authorization;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 20 "C:\Users\natha\source\repos\jVision\Client\Shared\MainLayout.razor"
-       
-    [CascadingParameter]
-    Task<AuthenticationState> AuthenticationState { get; set; }
-    protected override async Task OnParametersSetAsync()
-    {
-        if (!(await AuthenticationState).User.Identity.IsAuthenticated)
+#line 27 "C:\Users\natha\source\repos\jVision\Client\Shared\MainLayout.razor"
+           
+        [CascadingParameter]
+        Task<AuthenticationState> AuthenticationState { get; set; }
+        protected override async Task OnParametersSetAsync()
         {
+            if (!(await AuthenticationState).User.Identity.IsAuthenticated)
+            {
+                navigationManager.NavigateTo("/login");
+            }
+        }
+        async Task LogoutClick()
+        {
+            await authStateProvider.Logout();
             navigationManager.NavigateTo("/login");
         }
-    }
-    async Task LogoutClick()
-    {
-        await authStateProvider.Logout();
-        navigationManager.NavigateTo("/login");
-    }
+    
 
 #line default
 #line hidden

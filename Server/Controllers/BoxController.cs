@@ -101,6 +101,7 @@ namespace jVision.Server.Controllers
                 Comeback = box.Comeback,
                 Os = box.Os,
                 Cidr = box.Cidr,
+                Refs = box.BoxId.ToString(),
                 Services = box.Services?.Select(x=>ServiceToDTO(x)).ToList()
                 //(ICollection<ServiceDTO>)box.Services
             };

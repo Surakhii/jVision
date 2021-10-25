@@ -33,6 +33,7 @@
     ".NETCoreApp,Version=v5.0": {
       "jVision.Server/1.0.0": {
         "dependencies": {
+          "BlazorTable": "1.17.0",
           "Microsoft.AspNetCore.Components.Authorization": "5.0.11",
           "Microsoft.AspNetCore.Components.WebAssembly.Server": "5.0.10",
           "Microsoft.AspNetCore.Identity": "2.2.0",
@@ -138,8 +139,8 @@
           "Microsoft.Extensions.Hosting.Abstractions.Reference": "5.0.0.0",
           "Microsoft.Extensions.Hosting": "5.0.0.0",
           "Microsoft.Extensions.Http": "5.0.0.0",
-          "Microsoft.Extensions.Localization.Abstractions": "5.0.0.0",
-          "Microsoft.Extensions.Localization": "5.0.0.0",
+          "Microsoft.Extensions.Localization.Abstractions.Reference": "5.0.0.0",
+          "Microsoft.Extensions.Localization.Reference": "5.0.0.0",
           "Microsoft.Extensions.Logging.Abstractions.Reference": "5.0.0.0",
           "Microsoft.Extensions.Logging.Configuration": "5.0.0.0",
           "Microsoft.Extensions.Logging.Console": "5.0.0.0",
@@ -321,6 +322,40 @@
           "jVision.Server.dll": {}
         }
       },
+      "BlazorTable/1.17.0": {
+        "dependencies": {
+          "LinqKit.Core": "1.1.26",
+          "Microsoft.AspNetCore.Components": "5.0.11",
+          "Microsoft.AspNetCore.Components.Web": "5.0.10",
+          "Microsoft.Extensions.Localization": "3.1.18"
+        },
+        "runtime": {
+          "lib/netstandard2.1/BlazorTable.dll": {
+            "assemblyVersion": "1.17.0.0",
+            "fileVersion": "1.17.0.0"
+          }
+        },
+        "resources": {
+          "lib/netstandard2.1/da/BlazorTable.resources.dll": {
+            "locale": "da"
+          },
+          "lib/netstandard2.1/de/BlazorTable.resources.dll": {
+            "locale": "de"
+          },
+          "lib/netstandard2.1/es/BlazorTable.resources.dll": {
+            "locale": "es"
+          },
+          "lib/netstandard2.1/fr/BlazorTable.resources.dll": {
+            "locale": "fr"
+          },
+          "lib/netstandard2.1/pt-BR/BlazorTable.resources.dll": {
+            "locale": "pt-BR"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.1/BlazorTable.dll": {}
+        }
+      },
       "Castle.Core/4.4.1": {
         "dependencies": {
           "NETStandard.Library": "1.6.1",
@@ -350,6 +385,17 @@
             "assemblyVersion": "2.8.0.0",
             "fileVersion": "2.8.26.1919"
           }
+        }
+      },
+      "LinqKit.Core/1.1.26": {
+        "runtime": {
+          "lib/netstandard2.1/LinqKit.Core.dll": {
+            "assemblyVersion": "1.1.26.0",
+            "fileVersion": "1.1.26.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.1/LinqKit.Core.dll": {}
         }
       },
       "Microsoft.AspNetCore.Authentication/2.2.0": {
@@ -897,6 +943,15 @@
           "lib/net5.0/Microsoft.Extensions.Identity.Stores.dll": {}
         }
       },
+      "Microsoft.Extensions.Localization/3.1.18": {
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "5.0.0",
+          "Microsoft.Extensions.Localization.Abstractions": "3.1.18",
+          "Microsoft.Extensions.Logging.Abstractions": "5.0.0",
+          "Microsoft.Extensions.Options": "5.0.0"
+        }
+      },
+      "Microsoft.Extensions.Localization.Abstractions/3.1.18": {},
       "Microsoft.Extensions.Logging/5.0.0": {
         "dependencies": {
           "Microsoft.Extensions.DependencyInjection": "5.0.2",
@@ -1901,6 +1956,7 @@
       },
       "jVision.Client/1.0.0": {
         "dependencies": {
+          "BlazorTable": "1.17.0",
           "Microsoft.AspNetCore.Components.Authorization": "5.0.11",
           "Microsoft.AspNetCore.Components.WebAssembly": "5.0.10",
           "Microsoft.EntityFrameworkCore.Sqlite": "5.0.11",
@@ -2492,13 +2548,13 @@
         },
         "compileOnly": true
       },
-      "Microsoft.Extensions.Localization.Abstractions/5.0.0.0": {
+      "Microsoft.Extensions.Localization.Abstractions.Reference/5.0.0.0": {
         "compile": {
           "Microsoft.Extensions.Localization.Abstractions.dll": {}
         },
         "compileOnly": true
       },
-      "Microsoft.Extensions.Localization/5.0.0.0": {
+      "Microsoft.Extensions.Localization.Reference/5.0.0.0": {
         "compile": {
           "Microsoft.Extensions.Localization.dll": {}
         },
@@ -3550,6 +3606,13 @@
       "serviceable": false,
       "sha512": ""
     },
+    "BlazorTable/1.17.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ILENDhGe0EnNa126KAvHVHlbPbzaTcKTaaN9sG90gzwwF7sP9Uc7NDpeuDCzlhkUg4eHdkJnBPv1xb//jvUz5g==",
+      "path": "blazortable/1.17.0",
+      "hashPath": "blazortable.1.17.0.nupkg.sha512"
+    },
     "Castle.Core/4.4.1": {
       "type": "package",
       "serviceable": true,
@@ -3563,6 +3626,13 @@
       "sha512": "sha512-OiKusGL20vby4uDEswj2IgkdchC1yQ6rwbIkZDVBPIR6al2b7n3pC91elBul9q33KaBgRKhbZH3+2Ur4fnWx2A==",
       "path": "humanizer.core/2.8.26",
       "hashPath": "humanizer.core.2.8.26.nupkg.sha512"
+    },
+    "LinqKit.Core/1.1.26": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-svSbON3rh4QVIeTK7sDO8OyC2lrhDGctnRPUMNPKVChMPY2v/x0DDtfBq7CWsWyuaYD00q5TxVKoZkW5+pqcXw==",
+      "path": "linqkit.core/1.1.26",
+      "hashPath": "linqkit.core.1.1.26.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Authentication/2.2.0": {
       "type": "package",
@@ -3955,6 +4025,20 @@
       "sha512": "sha512-PZ5rdwgviEPeVoOX09g/No4+JjcHTDtbUy6M+9i/8qApRG5tUxcvJs9T0/GW6e37Vzo6Zq1WeiJW1mc12v+U1Q==",
       "path": "microsoft.extensions.identity.stores/5.0.11",
       "hashPath": "microsoft.extensions.identity.stores.5.0.11.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Localization/3.1.18": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-k2GGkPlWUtPlR/hKGUv+CknsBfU5ntys9SspNJtpE1SPGvf5wtsaTOLq+jjvwr14Z7amFDfFnYGX/P3It82v5Q==",
+      "path": "microsoft.extensions.localization/3.1.18",
+      "hashPath": "microsoft.extensions.localization.3.1.18.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Localization.Abstractions/3.1.18": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-215w5E3BW2G4iQK0YpOmOZu+3Mi/gc8JaLLj4t6b8NpTGmjOiAk1eigwiYreCZpa2M/mFzlnh4AgrN0t/lMtIQ==",
+      "path": "microsoft.extensions.localization.abstractions/3.1.18",
+      "hashPath": "microsoft.extensions.localization.abstractions.3.1.18.nupkg.sha512"
     },
     "Microsoft.Extensions.Logging/5.0.0": {
       "type": "package",
@@ -5192,12 +5276,12 @@
       "serviceable": false,
       "sha512": ""
     },
-    "Microsoft.Extensions.Localization.Abstractions/5.0.0.0": {
+    "Microsoft.Extensions.Localization.Abstractions.Reference/5.0.0.0": {
       "type": "referenceassembly",
       "serviceable": false,
       "sha512": ""
     },
-    "Microsoft.Extensions.Localization/5.0.0.0": {
+    "Microsoft.Extensions.Localization.Reference/5.0.0.0": {
       "type": "referenceassembly",
       "serviceable": false,
       "sha512": ""

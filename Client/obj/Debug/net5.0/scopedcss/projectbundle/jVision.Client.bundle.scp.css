@@ -1,5 +1,79 @@
 @import '';
 
+/* /Shared/Accordion.razor.rz.scp.css */
+.accordionPanel[disabled][b-daov7waiux] {
+    opacity: 0.7;
+    pointer-events: none;
+}
+/* /Shared/CollapsePanel.razor.rz.scp.css */
+.collapsePanel[b-jyww2i6ojk] {
+    outline: none;
+}
+
+.collapsePanel[disabled][b-jyww2i6ojk] {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.collapseHeader[b-jyww2i6ojk] {
+    outline: none;
+    width: 100%;
+    height: auto;
+    cursor: pointer;
+    border: 1px solid transparent;
+    padding: 3px;
+    display: flex;
+    box-shadow: 0 1px 2px #aaa;
+}
+
+    .collapseHeader.animate[b-jyww2i6ojk] {
+        -webkit-transition: background-color 0.5s; /* For Safari 3.1 to 6.0 */
+        transition: background-color 0.5s;
+    }
+
+.collapseContent[b-jyww2i6ojk] {
+    outline: none;
+    display: block;
+}
+
+    .collapseContent.animate[b-jyww2i6ojk] {
+        -webkit-transition: opacity 1s, height 0.4s; /* For Safari 3.1 to 6.0 */
+        transition: opacity 1s, height 0.4s;
+    }
+/* /Shared/Key.razor.rz.scp.css */
+dl dt[b-7niww3qly1] {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+}
+
+dl dd[b-7niww3qly1] {
+    display: inline-block;
+    margin: 0px 10px;
+    padding-bottom: 0;
+    vertical-align: middle;
+}
+
+dl dt.dtactive[b-7niww3qly1] {
+    background: #ffb339;
+}
+
+dl dt.dtpwned[b-7niww3qly1] {
+    background: #4bbb4b;
+}
+
+dl dt.dtunrelated[b-7niww3qly1] {
+    background: #ff7b7b;
+}
+
+dl dt.dtcome[b-7niww3qly1] {
+    background: #7ea0ff;
+}
+
+dl dt.dtinactive[b-7niww3qly1] {
+    background: rgb(230, 230, 230);
+}
 /* /Shared/MainLayout.razor.rz.scp.css */
 .page[b-06gx0wb925] {
     position: relative;
