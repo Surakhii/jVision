@@ -12,7 +12,7 @@
         </div>
     }
     <div class="collapseContent @(Animate ? "animate" : "")"
-         style="opacity: @(Collapsed ? "0" : "1"); height: @GetContentHeight(); overflow: @(ShowContentOverflow ? "auto" : "hidden");">
+         style="opacity: @(Collapsed ? "0" : "1"); max-height: @GetContentHeight(); overflow: @(ShowContentOverflow ? "auto" : "hidden");">
         @Content
     </div>
 </div>
@@ -29,7 +29,7 @@
 	}
 </style>
 
-@using Majorsoft.Blazor.Components.Core.HtmlColors;
+@using jVision.Client.Shared.HtmlColors;
 
 
 @code {

@@ -84,7 +84,7 @@ using jVision.Client.Shared;
 #nullable disable
 #nullable restore
 #line 32 "C:\Users\natha\source\repos\jVision\Client\Shared\CollapsePanel.razor"
-using Majorsoft.Blazor.Components.Core.HtmlColors;
+using jVision.Client.Shared.HtmlColors;
 
 #line default
 #line hidden

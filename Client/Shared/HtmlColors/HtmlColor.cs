@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace Majorsoft.Blazor.Components.Core.HtmlColors
+namespace jVision.Client.Shared.HtmlColors
 {
 	public record HtmlColor
 	{

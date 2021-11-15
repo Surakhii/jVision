@@ -790,3 +790,5 @@ C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\blazor.satelliteasm.
 C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\RazorDeclaration\Shared\Key.razor.g.cs
 C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\Razor\Shared\Key.razor.g.cs
 C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\scopedcss\Shared\Key.razor.rz.scp.css
+C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\RazorDeclaration\Shared\RadzenButton.razor.g.cs
+C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\Razor\Shared\RadzenButton.razor.g.cs

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace Majorsoft.Blazor.Components.Core.HtmlColors
+namespace jVision.Client.Shared.HtmlColors
 {
 	public class HslColor
 	{

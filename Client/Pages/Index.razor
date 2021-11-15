@@ -22,14 +22,14 @@ else
                 <CollapsedHeaderContent>
                     <div class="w-100">
                         <h5>@box.Hostname | @box.Ip</h5>
-                        <button class="btn btn-success">Click meh</button>
+                        <button @onclick:stopPropagation="true" @onclick:preventDefault="true" class="btn btn-success">Click me</button>
                         <span class="fa fa-lg fa-chevron-circle-down" aria-hidden="true"></span>
                     </div>
                 </CollapsedHeaderContent>
                 <ExpandedHeaderContent>
                     <div class="w-100">
                         <h5>@box.Hostname | @box.Ip </h5>
-                        <button class="btn btn-success">Click meh</button>
+                        <button class="btn btn-success">Opened</button>
                         <span class="fa fa-lg fa-chevron-circle-up" aria-hidden="true"></span>
                     </div>
                 </ExpandedHeaderContent>
