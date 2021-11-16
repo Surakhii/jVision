@@ -21,6 +21,8 @@ namespace jVision.Server.Models
         public string Os { get; set; }
         public string Cidr { get; set; }
 
+        public string Subnet { get; set; }
+
         public ICollection<Service> Services { get; set; }
         
     }

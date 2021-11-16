@@ -44,6 +44,7 @@ namespace jVision.Server.Controllers
             {
                 //UserId = b.UserId,
                 Ip = b.Ip,
+                //just use b.UserName?
                 User = _context.Users.Where(l => l.UserName.Equals(b.UserName)).FirstOrDefault(),
                 Hostname = b.Hostname,
                 State = b.State,
@@ -54,6 +55,7 @@ namespace jVision.Server.Controllers
                 Comeback = b.Comeback,
                 Os = b.Os,
                 Cidr = b.Cidr,
+                Subnet = b.Subnet,
                 Services = b.Services?.Select(x => DTOToService(x)).ToList()
             }));
             await _context.SaveChangesAsync();
@@ -101,6 +103,7 @@ namespace jVision.Server.Controllers
                 Comeback = box.Comeback,
                 Os = box.Os,
                 Cidr = box.Cidr,
+                Subnet = box.Subnet,
                 Refs = box.BoxId.ToString(),
                 Services = box.Services?.Select(x=>ServiceToDTO(x)).ToList()
                 //(ICollection<ServiceDTO>)box.Services

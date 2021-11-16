@@ -1,6 +1,7 @@
 ﻿@page "/"
 @using Microsoft.AspNetCore.Components.Authorization
 @using jVision.Shared.Models 
+@using System.Collections.Generic
 @using BlazorTable
 <h1>Box Count: @boxes.Count()</h1>
 
@@ -13,9 +14,34 @@
 else
 {
 <Key></Key>
+//DROPDOWN
+
+<label for="category">Select a Category</label>
+<select name="category" class="form-control selectpicker " value="@_searchCategory" @onchange="UpdateCategory">
+    @foreach (var item in Enum.GetValues(typeof(SearchCategory)))
+        {
+            <option value="@item">@item</option>
+        }
+</select>
+
+<label for="type">Select a Filter Type</label>
+<select name="type"  class="form-control selectpicker " value="@_searchType" @onchange="UpdateType">
+    @foreach (var item in Enum.GetValues(typeof(SearchTypes)))
+            {
+                <option value="@item">@item</option>
+            }
+</select>
+
+<select name="subnet" class="form-control selectpicker" value="@_subnet"
+////////////////////
+///
+
+//SEARCHBAR
+<input class="boarder-4 w-25 rounded col-sm-6 p-6 h-8" value="@_searchText" @oninput="UpdateSearchText" placeholder="Search" />
+
 <Accordion @ref="_accordion" id="ac1" ActiveCollapsePanel="@_activePanel" OnCollapsePanelChanged="OnAccordionChanged" >
     <CollapsePanels>
-        @foreach (var box in boxes)
+        @foreach (var box in filteredBoxes)
         {
 
             <CollapsePanel style="margin-bottom: 10px;" CollapsedColor="@_accordionCollapsedColor" ExpandedColor="@_accordionExpandedColor" HoverColor="@_accordionHoverColor"  Animate="@_isAnimated" ShowContentOverflow="true"  ContentHeight="0">
@@ -23,6 +49,7 @@ else
                     <div class="w-100">
                         <h5>@box.Hostname | @box.Ip</h5>
                         <button @onclick:stopPropagation="true" @onclick:preventDefault="true" class="btn btn-success">Click me</button>
+                        <h4>Assigned to @box.UserName</h4>
                         <span class="fa fa-lg fa-chevron-circle-down" aria-hidden="true"></span>
                     </div>
                 </CollapsedHeaderContent>
@@ -62,8 +89,27 @@ else
     [Inject] public HttpClient Http { get; set; }
 
 
+    //searchtext
+    private string _searchText = "";
+    //dropdown
+    private SearchTypes _searchType = SearchTypes.Contains;
+    private SearchCategory _searchCategory = SearchCategory.Port;
+    private string[] _subnets;
+    private enum SearchCategory
+    {
+        Port,
+        Name,
+        Script,
+        Version
+    }
+    private enum SearchTypes
+    {
+        Contains,
+        Match
+    }
+
     //Collapse
-    
+
     private string _collapsedColor = "DodgerBlue";
     private string _expandedColor = "LightBlue";
     private string _hoverColor = "LightGray";
@@ -83,9 +129,13 @@ else
     private Accordion _accordion;
     private CollapsePanel? _activePanel;
     private IList<BoxDTO> boxes = new List<BoxDTO>();
+    // private IList<BoxDTO> filteredBoxes = new List<BoxDTO>();
+    //private IList<BoxDTO> filteredBoxes = new List<BoxDTO>();
     //private IList<ServiceDTO> services = new List<ServiceDTO>();
     private IList<BoxDTO> boxesAdded = new List<BoxDTO>();
     private IList<ServiceDTO> servicesAdded = new List<ServiceDTO>();
+    private IList<BoxDTO> filteredBoxes = new List<BoxDTO>();
+
     public string hello = "hello";
     private string error;
     private string requestUri = "Box";
@@ -94,12 +144,26 @@ else
         try
         {
             boxes = await Http.GetFromJsonAsync<IList<BoxDTO>>(requestUri);
+            _subnets = boxes.SelectMany(s => s.Services).ToList();
+            filteredBoxes = new List<BoxDTO>(boxes);
         } catch (Exception)
         {
             error = "Error Encountered";
         };
     }
 
+
+
+
+
+
+
+
+
+
+    //s => s.Services
+    //.Where(p => p.Port.ToString().Contains(_searchText)).ToList())
+    //.ToList();
     private void OnAccordionChanged(CollapsePanel? active)
     {
         _activePanel = active;
@@ -112,14 +176,18 @@ else
         _isCollapsed = state;
     }
 
+
+
     private async Task AddBox()
     {
         Console.WriteLine("anyuthing");
         ServiceDTO newService = new ServiceDTO
         {
-            Port = 23,
-            State = true,
-            Name = "telnet"
+            Port = 53,
+            State = false,
+            Name = null,
+            Version = null,
+            Script = "ooo"
         };
         servicesAdded.Add(newService);
         servicesAdded.Add(newService);
@@ -142,6 +210,97 @@ else
         var response = await Http.PostAsJsonAsync(requestUri, boxesAdded);
         Console.WriteLine(response);
 
+    }
+
+    private void OnInput()
+    {
+        Console.WriteLine("test");
+    }
+    private void UpdateSearchText(ChangeEventArgs args)
+    {
+        _searchText = args.Value.ToString();
+        Search();
+    }
+
+    private void UpdateCategory(ChangeEventArgs args)
+    {
+        _searchCategory = (SearchCategory)Enum.Parse(typeof(SearchCategory), args.Value.ToString(), true);
+        Search();
+    }
+
+    private void UpdateType(ChangeEventArgs args)
+    {
+        _searchType = (SearchTypes)Enum.Parse(typeof(SearchTypes), args.Value.ToString(), true);
+        Search();
+    }
+
+    private void Search()
+    {
+        if(!string.IsNullOrEmpty(_searchText))
+        {
+            if (_searchType == SearchTypes.Contains)
+            {
+                switch (_searchCategory)
+                {
+                    case SearchCategory.Port:
+                        filteredBoxes = boxes.Where(o => o.Services.Any(i => i.Port.ToString().Contains(_searchText))).ToList();
+                        StateHasChanged();
+                        break;
+                    case SearchCategory.Name:
+                        filteredBoxes = boxes.Where(o => o.Services.Any(i => i.Name != null && i.Name.ToString().Contains(_searchText))).ToList();
+                        StateHasChanged();
+                        break;
+                    case SearchCategory.Script:
+                        filteredBoxes = boxes.Where(o => o.Services.Any(i => i.Script != null && i.Script.ToString().Contains(_searchText))).ToList();
+                        StateHasChanged();
+                        break;
+                    case SearchCategory.Version:
+                        filteredBoxes = boxes.Where(o => o.Services.Any(i => i.Version != null && i.Version.ToString().Contains(_searchText))).ToList();
+                        StateHasChanged();
+                        break;
+                }
+            }
+            else if (_searchType == SearchTypes.Match)
+            {
+                switch (_searchCategory)
+                {
+                    case SearchCategory.Port:
+                        filteredBoxes = boxes.Where(o => o.Services.Any(i => i.Port.ToString().Equals(_searchText))).ToList();
+                        StateHasChanged();
+                        break;
+                    case SearchCategory.Name:
+                        filteredBoxes = boxes.Where(o => o.Services.Any(i => i.Name != null && i.Name.ToString().Equals(_searchText))).ToList();
+                        StateHasChanged();
+                        break;
+                    case SearchCategory.Script:
+                        filteredBoxes = boxes.Where(o => o.Services.Any(i => i.Script != null && i.Script.ToString().Equals(_searchText))).ToList();
+                        StateHasChanged();
+                        break;
+                    case SearchCategory.Version:
+                        filteredBoxes = boxes.Where(o => o.Services.Any(i => i.Version != null && i.Version.ToString().Equals(_searchText))).ToList();
+                        StateHasChanged();
+                        break;
+                }
+            }
+        } else
+        {
+            filteredBoxes = boxes.ToList();
+            StateHasChanged();
+        }
+
+
+        //Console.WriteLine("hello");
+
+        /**
+        if (_searchType == SearchTypes.Contains)
+        {
+
+        }
+        else if (_searchType == SearchTypes.Match)
+        {
+
+        }
+        **/
     }
 
     private async Task DeleteBox()

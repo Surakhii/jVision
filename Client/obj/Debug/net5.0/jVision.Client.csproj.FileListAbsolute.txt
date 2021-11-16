@@ -792,3 +792,5 @@ C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\Razor\Shared\Key.raz
 C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\scopedcss\Shared\Key.razor.rz.scp.css
 C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\RazorDeclaration\Shared\RadzenButton.razor.g.cs
 C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\Razor\Shared\RadzenButton.razor.g.cs
+C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\RazorDeclaration\Shared\Searchbar.razor.g.cs
+C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\Razor\Shared\Searchbar.razor.g.cs

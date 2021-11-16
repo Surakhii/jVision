@@ -22,6 +22,7 @@ namespace jVision.Shared.Models
         public string Os { get; set; }
         public string Cidr { get; set; }
 
+        public string Subnet { get; set; }
         public string Refs { get; set; }
 
         public ICollection<ServiceDTO> Services { get; set; }

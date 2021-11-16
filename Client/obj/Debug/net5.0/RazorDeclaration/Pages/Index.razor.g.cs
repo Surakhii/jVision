@@ -8,7 +8,6 @@ namespace jVision.Client.Pages
 {
     #line hidden
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Components;
@@ -98,6 +97,13 @@ using jVision.Shared.Models;
 #nullable disable
 #nullable restore
 #line 4 "C:\Users\natha\source\repos\jVision\Client\Pages\Index.razor"
+using System.Collections.Generic;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 5 "C:\Users\natha\source\repos\jVision\Client\Pages\Index.razor"
 using BlazorTable;
 
 #line default
@@ -112,13 +118,31 @@ using BlazorTable;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 61 "C:\Users\natha\source\repos\jVision\Client\Pages\Index.razor"
+#line 86 "C:\Users\natha\source\repos\jVision\Client\Pages\Index.razor"
        
     [Inject] public HttpClient Http { get; set; }
 
 
+    //searchtext
+    private string _searchText = "";
+    //dropdown
+    private SearchTypes _searchType = SearchTypes.Contains;
+    private SearchCategory _searchCategory = SearchCategory.Port;
+    private enum SearchCategory
+    {
+        Port,
+        Name,
+        Script,
+        Version
+    }
+    private enum SearchTypes
+    {
+        Contains,
+        Match
+    }
+
     //Collapse
-    
+
     private string _collapsedColor = "DodgerBlue";
     private string _expandedColor = "LightBlue";
     private string _hoverColor = "LightGray";
@@ -138,9 +162,13 @@ using BlazorTable;
     private Accordion _accordion;
     private CollapsePanel? _activePanel;
     private IList<BoxDTO> boxes = new List<BoxDTO>();
+    // private IList<BoxDTO> filteredBoxes = new List<BoxDTO>();
+    //private IList<BoxDTO> filteredBoxes = new List<BoxDTO>();
     //private IList<ServiceDTO> services = new List<ServiceDTO>();
     private IList<BoxDTO> boxesAdded = new List<BoxDTO>();
     private IList<ServiceDTO> servicesAdded = new List<ServiceDTO>();
+    private IList<BoxDTO> filteredBoxes = new List<BoxDTO>();
+
     public string hello = "hello";
     private string error;
     private string requestUri = "Box";
@@ -149,12 +177,25 @@ using BlazorTable;
         try
         {
             boxes = await Http.GetFromJsonAsync<IList<BoxDTO>>(requestUri);
+            filteredBoxes = new List<BoxDTO>(boxes);
         } catch (Exception)
         {
             error = "Error Encountered";
         };
     }
 
+
+
+
+
+
+
+
+
+
+    //s => s.Services
+    //.Where(p => p.Port.ToString().Contains(_searchText)).ToList())
+    //.ToList();
     private void OnAccordionChanged(CollapsePanel? active)
     {
         _activePanel = active;
@@ -167,14 +208,18 @@ using BlazorTable;
         _isCollapsed = state;
     }
 
+
+
     private async Task AddBox()
     {
         Console.WriteLine("anyuthing");
         ServiceDTO newService = new ServiceDTO
         {
-            Port = 23,
-            State = true,
-            Name = "telnet"
+            Port = 53,
+            State = false,
+            Name = null,
+            Version = null,
+            Script = "ooo"
         };
         servicesAdded.Add(newService);
         servicesAdded.Add(newService);
@@ -197,6 +242,97 @@ using BlazorTable;
         var response = await Http.PostAsJsonAsync(requestUri, boxesAdded);
         Console.WriteLine(response);
 
+    }
+
+    private void OnInput()
+    {
+        Console.WriteLine("test");
+    }
+    private void UpdateSearchText(ChangeEventArgs args)
+    {
+        _searchText = args.Value.ToString();
+        Search();
+    }
+
+    private void UpdateCategory(ChangeEventArgs args)
+    {
+        _searchCategory = (SearchCategory)Enum.Parse(typeof(SearchCategory), args.Value.ToString(), true);
+        Search();
+    }
+
+    private void UpdateType(ChangeEventArgs args)
+    {
+        _searchType = (SearchTypes)Enum.Parse(typeof(SearchTypes), args.Value.ToString(), true);
+        Search();
+    }
+
+    private void Search()
+    {
+        if(!string.IsNullOrEmpty(_searchText))
+        {
+            if (_searchType == SearchTypes.Contains)
+            {
+                switch (_searchCategory)
+                {
+                    case SearchCategory.Port:
+                        filteredBoxes = boxes.Where(o => o.Services.Any(i => i.Port.ToString().Contains(_searchText))).ToList();
+                        StateHasChanged();
+                        break;
+                    case SearchCategory.Name:
+                        filteredBoxes = boxes.Where(o => o.Services.Any(i => i.Name != null && i.Name.ToString().Contains(_searchText))).ToList();
+                        StateHasChanged();
+                        break;
+                    case SearchCategory.Script:
+                        filteredBoxes = boxes.Where(o => o.Services.Any(i => i.Script != null && i.Script.ToString().Contains(_searchText))).ToList();
+                        StateHasChanged();
+                        break;
+                    case SearchCategory.Version:
+                        filteredBoxes = boxes.Where(o => o.Services.Any(i => i.Version != null && i.Version.ToString().Contains(_searchText))).ToList();
+                        StateHasChanged();
+                        break;
+                }
+            }
+            else if (_searchType == SearchTypes.Match)
+            {
+                switch (_searchCategory)
+                {
+                    case SearchCategory.Port:
+                        filteredBoxes = boxes.Where(o => o.Services.Any(i => i.Port.ToString().Equals(_searchText))).ToList();
+                        StateHasChanged();
+                        break;
+                    case SearchCategory.Name:
+                        filteredBoxes = boxes.Where(o => o.Services.Any(i => i.Name != null && i.Name.ToString().Equals(_searchText))).ToList();
+                        StateHasChanged();
+                        break;
+                    case SearchCategory.Script:
+                        filteredBoxes = boxes.Where(o => o.Services.Any(i => i.Script != null && i.Script.ToString().Equals(_searchText))).ToList();
+                        StateHasChanged();
+                        break;
+                    case SearchCategory.Version:
+                        filteredBoxes = boxes.Where(o => o.Services.Any(i => i.Version != null && i.Version.ToString().Equals(_searchText))).ToList();
+                        StateHasChanged();
+                        break;
+                }
+            }
+        } else
+        {
+            filteredBoxes = boxes.ToList();
+            StateHasChanged();
+        }
+
+
+        //Console.WriteLine("hello");
+
+        /**
+        if (_searchType == SearchTypes.Contains)
+        {
+
+        }
+        else if (_searchType == SearchTypes.Match)
+        {
+
+        }
+        **/
     }
 
     private async Task DeleteBox()
