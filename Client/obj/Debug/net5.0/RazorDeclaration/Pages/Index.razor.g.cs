@@ -125,7 +125,7 @@ using BlazorTable;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 136 "C:\Users\natha\source\repos\jVision\Client\Pages\Index.razor"
+#line 153 "C:\Users\natha\source\repos\jVision\Client\Pages\Index.razor"
        
     [Inject] public HttpClient Http { get; set; }
 
@@ -158,7 +158,7 @@ using BlazorTable;
     private string _overlayColor = "128,128,128";
     private double _overlayOpacity = 50;
     private double _modalHeight = 0;
-    private double _modalWitdth = 0;
+    private double _modalWitdth = 500;
     private double _modalMinHeight = 100;
     private double _modalMinWitdth = 100;
     private bool _modalAnimate = true;
@@ -249,7 +249,11 @@ using BlazorTable;
     private async Task HVS(BoxDTO bb)
     {
         var response = await Http.PutAsJsonAsync(requestUri, bb);
-        Console.WriteLine(response);
+        await _dialog.Close();
+    }
+    private async Task CloseDialog()
+    {
+        await _dialog.Close();
     }
 
     private async Task AddBox()

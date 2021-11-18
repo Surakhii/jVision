@@ -74,8 +74,7 @@ else
 
         <Footer>
             @*If you want to hide Header remove the whole Footer definition"*@
-            <button class="btn btn-warning ml-2">Cancel</button>
-            <button class="btn btn-primary ml-2">Ok</button>
+            <button class="btn btn-warning ml-2" @onclick="CloseDialog">Cancel</button>
         </Footer>
     </ModalDialog>
 
@@ -87,7 +86,24 @@ else
                 <!-- MODAL DIALOG-->
                 //wtf is going on here
 
-
+                @switch(box.Standing)
+                {
+                    case "Active":
+                        _accordionCollapsedColor = "#ffb339";
+                        break;
+                    case "Pwned":
+                        _accordionCollapsedColor = "#4bbb4b";
+                        break;
+                    case "Comeback":
+                        _accordionCollapsedColor = "#7ea0ff";
+                        break;
+                    case "Unrelated":
+                        _accordionCollapsedColor = "#ff7b7b";
+                        break;
+                    default:
+                        _accordionCollapsedColor = "#e6e6e6";
+                        break;
+                }
 
                 <CollapsePanel style="margin-bottom: 10px;" CollapsedColor="@_accordionCollapsedColor" ExpandedColor="@_accordionExpandedColor" HoverColor="@_accordionHoverColor" Animate="@_isAnimated" ShowContentOverflow="true" ContentHeight="0">
                     <CollapsedHeaderContent>
@@ -112,7 +128,6 @@ else
                             <h4><b>Ip: </b>@box.Ip</h4>
                             <h4><b>Os: </b> @box.Os</h4>
                             <h4><b>Subnet: </b>@box.Subnet</h4>
-                            <h4><b>Standing: </b>@box.Standing</h4>
                             <br />
                             <Table TableItem="ServiceDTO" Items="box.Services" PageSize="15" ColumnReorder="true">
                                 <Column TableItem="ServiceDTO" Title="Port" Field="@(x => x.Port)" Sortable="true" Filterable="true" Width="10%" />
@@ -124,6 +139,8 @@ else
                                 <Column TableItem="ServiceDTO" Title="Script" Field="@(x => x.Script)" Sortable="true" Filterable="true" Width="10%" Format="C" Align="Align.Right" />
                                 <Pager ShowPageNumber="true" ShowTotalCount="true" />
                             </Table>
+                            <h4><b>Comments: </b></h4>
+                            @box.Comments
                         </div>
                     </Content>
                 </CollapsePanel>
@@ -165,7 +182,7 @@ else
     private string _overlayColor = "128,128,128";
     private double _overlayOpacity = 50;
     private double _modalHeight = 0;
-    private double _modalWitdth = 0;
+    private double _modalWitdth = 500;
     private double _modalMinHeight = 100;
     private double _modalMinWitdth = 100;
     private bool _modalAnimate = true;
@@ -256,7 +273,11 @@ else
     private async Task HVS(BoxDTO bb)
     {
         var response = await Http.PutAsJsonAsync(requestUri, bb);
-        Console.WriteLine(response);
+        await _dialog.Close();
+    }
+    private async Task CloseDialog()
+    {
+        await _dialog.Close();
     }
 
     private async Task AddBox()

@@ -83,14 +83,14 @@ using jVision.Client.Shared;
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\Users\natha\source\repos\jVision\Client\Shared\ModalDialog.razor"
+#line 1 "C:\Users\natha\source\repos\jVision\Client\Shared\ModalDialog.razor"
 using HtmlColors;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 3 "C:\Users\natha\source\repos\jVision\Client\Shared\ModalDialog.razor"
+#line 2 "C:\Users\natha\source\repos\jVision\Client\Shared\ModalDialog.razor"
 using jVision.Shared.Models;
 
 #line default
@@ -104,8 +104,12 @@ using jVision.Shared.Models;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 102 "C:\Users\natha\source\repos\jVision\Client\Shared\ModalDialog.razor"
+#line 116 "C:\Users\natha\source\repos\jVision\Client\Shared\ModalDialog.razor"
        
+
+    //rich text edit
+
+
     private bool _disposedValue;
     private BoxDTO _box;
     private bool _isOpened = false;
@@ -232,18 +236,7 @@ using jVision.Shared.Models;
         _dialogTop = _dialogDefaultTop;
     }
 
-    private async Task OverlayClicked(MouseEventArgs e)
-    {
-        if (CloseOnOverlayClick && _isOpened)
-        {
-            if (OnOverlayClicked.HasDelegate)
-            {
-                await OnOverlayClicked.InvokeAsync(e);
-            }
 
-            await Close();
-        }
-    }
     private async Task CloseClicked(MouseEventArgs e)
     {
         if (ShowCloseButton && _isOpened)
@@ -257,6 +250,7 @@ using jVision.Shared.Models;
             await Close();
         }
     }
+   
     private async Task OverlayKeyPress(KeyboardEventArgs e)
     {
         if (CloseOnEscapeKey && (e.Key?.Equals("Escape", StringComparison.OrdinalIgnoreCase) ?? false) && _isOpened)

@@ -104,3 +104,5 @@ C:\Users\natha\source\repos\jVision\Server\bin\Debug\net5.0\de\BlazorTable.resou
 C:\Users\natha\source\repos\jVision\Server\bin\Debug\net5.0\es\BlazorTable.resources.dll
 C:\Users\natha\source\repos\jVision\Server\bin\Debug\net5.0\fr\BlazorTable.resources.dll
 C:\Users\natha\source\repos\jVision\Server\bin\Debug\net5.0\pt-BR\BlazorTable.resources.dll
+C:\Users\natha\source\repos\jVision\Server\bin\Debug\net5.0\Blazorise.dll
+C:\Users\natha\source\repos\jVision\Server\bin\Debug\net5.0\Blazorise.RichTextEdit.dll

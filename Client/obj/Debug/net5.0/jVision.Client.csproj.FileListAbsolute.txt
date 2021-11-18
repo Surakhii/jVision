@@ -447,8 +447,6 @@ C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\Razor\Pages\Index.ra
 C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\Razor\_Imports.razor.g.cs
 C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\Razor\Shared\MainLayout.razor.g.cs
 C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\Razor\Shared\NavMenu.razor.g.cs
-C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\build-gz\CO1CS1oG.gz
-C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\build-gz\CFPyy1tt.gz
 C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\build-gz\rcugC1FH.gz
 C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\build-gz\shWDIgkp.gz
 C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\build-gz\k+6pxBui.gz
@@ -473,7 +471,6 @@ C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\build-gz\Cg6noCaf.gz
 C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\build-gz\wxuDDBwD.gz
 C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\build-gz\BpRqTBRN.gz
 C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\build-gz\3LhV1Y64.gz
-C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\build-gz\ahc2kTll.gz
 C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\build-gz\Eidg+Ayy.gz
 C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\build-gz\RQ8gWuUu.gz
 C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\build-gz\cWkW62dF.gz
@@ -671,10 +668,7 @@ C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\RazorDeclaration\Sha
 C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\Razor\Pages\Authentication\Login.razor.g.cs
 C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\Razor\Pages\Authentication\Register.razor.g.cs
 C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\Razor\Shared\AuthLayout.razor.g.cs
-C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\build-gz\FxuE3yPq.gz
-C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\build-gz\08O7tdvp.gz
 C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\build-gz\NdEKH5RG.gz
-C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\build-gz\YRnYO5Hm.gz
 C:\Users\natha\source\repos\jVision\Client\bin\Debug\net5.0\wwwroot\_framework\Microsoft.AspNetCore.Authentication.dll.gz
 C:\Users\natha\source\repos\jVision\Client\bin\Debug\net5.0\wwwroot\_framework\Microsoft.AspNetCore.Authentication.Abstractions.dll.gz
 C:\Users\natha\source\repos\jVision\Client\bin\Debug\net5.0\wwwroot\_framework\Microsoft.AspNetCore.Authentication.Cookies.dll.gz
@@ -797,3 +791,15 @@ C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\Razor\Shared\Searchb
 C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\RazorDeclaration\Shared\ModalDialog.razor.g.cs
 C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\Razor\Shared\ModalDialog.razor.g.cs
 C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\scopedcss\Shared\ModalDialog.razor.rz.scp.css
+C:\Users\natha\source\repos\jVision\Client\bin\Debug\net5.0\wwwroot\_framework\Blazorise.dll.gz
+C:\Users\natha\source\repos\jVision\Client\bin\Debug\net5.0\wwwroot\_framework\Blazorise.RichTextEdit.dll.gz
+C:\Users\natha\source\repos\jVision\Client\bin\Debug\net5.0\wwwroot\_framework\Blazorise.dll
+C:\Users\natha\source\repos\jVision\Client\bin\Debug\net5.0\wwwroot\_framework\Blazorise.RichTextEdit.dll
+C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\build-gz\YfITFtO4.gz
+C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\build-gz\XyYl7w5H.gz
+C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\build-gz\LbfbLd+S.gz
+C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\build-gz\jrfTJu0o.gz
+C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\build-gz\uD40R5WF.gz
+C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\build-gz\g0xW+MSE.gz
+C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\build-gz\KufSBUY2.gz
+C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\build-gz\hBu57NEw.gz

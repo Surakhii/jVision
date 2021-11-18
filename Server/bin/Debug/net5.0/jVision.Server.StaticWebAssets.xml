@@ -2,5 +2,8 @@
   <ContentRoot BasePath="/" Path="C:\Users\natha\source\repos\jVision\Client\bin\Debug\net5.0\wwwroot\" />
   <ContentRoot BasePath="/" Path="C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\scopedcss\bundle\" />
   <ContentRoot BasePath="/" Path="C:\Users\natha\source\repos\jVision\Client\wwwroot\" />
+  <ContentRoot BasePath="/" Path="C:\Users\natha\source\repos\jVision\Server\obj\Debug\net5.0\scopedcss\bundle\" />
+  <ContentRoot BasePath="_content/Blazorise" Path="C:\Users\natha\.nuget\packages\blazorise\0.9.5\build\..\staticwebassets\" />
+  <ContentRoot BasePath="_content/Blazorise.RichTextEdit" Path="C:\Users\natha\.nuget\packages\blazorise.richtextedit\0.9.5\build\..\staticwebassets\" />
   <ContentRoot BasePath="_content/BlazorTable" Path="C:\Users\natha\.nuget\packages\blazortable\1.17.0\build\..\staticwebassets\" />
 </StaticWebAssets>

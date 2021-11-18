@@ -1,11 +1,10 @@
-﻿
-@using HtmlColors;
+﻿@using HtmlColors;
 @using jVision.Shared.Models;
 @implements IAsyncDisposable
 
 @if (_isOpened)
 {
-    <div @ref="_overlayDiv" class="bmodal" @onclick="OverlayClicked" @onkeyup="OverlayKeyPress"
+    <div @ref="_overlayDiv" class="bmodal"  @onkeyup="OverlayKeyPress"
          style="background-color:rgba(0,0,0,0.5);"
          @attributes=AllOtherAttributes>
         <div @ref="_modal" class="bmodal-content dynamicStyle" tabindex="100" @onclick:stopPropagation="true">
@@ -65,19 +64,33 @@
                             </InputSelect>
                         </label>
                     </p>
+
+                    <p>
+                        <label>
+                            Comments
+                            <InputTextArea @bind-Value="_box.Comments" class="form-control" />
+                        </label>
+                    </p>
+
+
                     <div class="pt-2 pb-2">
+
                         <button type="submit"
                                 class="btn btn-primary mr-auto">
                             Save
                         </button>
                     </div>
+
                     <DataAnnotationsValidator />
                     <ValidationSummary />
+
+                </EditForm>                    
+                <div class="pt-2 pb-2">
                     @if (Footer != null)
                     {
                         <div class="bmodal-footer">@Footer</div>
                     }
-                </EditForm>
+                </div>
             </div>
         </div>
 
@@ -101,6 +114,10 @@
 }
 
 @code {
+
+    //rich text edit
+
+
     private bool _disposedValue;
     private BoxDTO _box;
     private bool _isOpened = false;
@@ -227,18 +244,7 @@
         _dialogTop = _dialogDefaultTop;
     }
 
-    private async Task OverlayClicked(MouseEventArgs e)
-    {
-        if (CloseOnOverlayClick && _isOpened)
-        {
-            if (OnOverlayClicked.HasDelegate)
-            {
-                await OnOverlayClicked.InvokeAsync(e);
-            }
 
-            await Close();
-        }
-    }
     private async Task CloseClicked(MouseEventArgs e)
     {
         if (ShowCloseButton && _isOpened)
@@ -252,6 +258,7 @@
             await Close();
         }
     }
+   
     private async Task OverlayKeyPress(KeyboardEventArgs e)
     {
         if (CloseOnEscapeKey && (e.Key?.Equals("Escape", StringComparison.OrdinalIgnoreCase) ?? false) && _isOpened)
