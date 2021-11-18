@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using jVision.Server.Data;
 
 namespace jVision.Server.Migrations
 {
     [DbContext(typeof(JvisionServerDBContext))]
-    partial class JvisionServerDBContextModelSnapshot : ModelSnapshot
+    [Migration("20211116220900_Add-Subnet")]
+    partial class AddSubnet
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -214,8 +216,14 @@ namespace jVision.Server.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("Active")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Cidr")
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("Comeback")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Comments")
                         .HasColumnType("TEXT");
@@ -229,14 +237,17 @@ namespace jVision.Server.Migrations
                     b.Property<string>("Os")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Standing")
-                        .HasColumnType("TEXT");
+                    b.Property<bool>("Pwned")
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("State")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Subnet")
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("Unrelated")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("UserId")
                         .HasColumnType("TEXT");

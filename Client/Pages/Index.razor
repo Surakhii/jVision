@@ -1,100 +1,152 @@
 ﻿@page "/"
 @using Microsoft.AspNetCore.Components.Authorization
-@using jVision.Shared.Models 
+@using jVision.Shared.Models
+@using jVision.Shared
 @using System.Collections.Generic
 @using BlazorTable
 <h1>Box Count: @boxes.Count()</h1>
 
 <button class="btn btn-success" @onclick="AddBox">Click me!</button>
 <button class="btn btn-success" @onclick="DeleteBox">Delete All</button>
+<button class="btn btn-info" @onclick="ResetFilters">Reset Filters</button>
 @if (boxes == null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
-<Key></Key>
-//DROPDOWN
+    <Key></Key>
+    //DROPDOWN
 
-<label for="category">Select a Category</label>
-<select name="category" class="form-control selectpicker " value="@_searchCategory" @onchange="UpdateCategory">
-    @foreach (var item in Enum.GetValues(typeof(SearchCategory)))
+    <label for="category">Category</label>
+    <select name="category" class="form-control selectpicker " value="@_searchCategory" @onchange="UpdateCategory">
+        @foreach (var item in Enum.GetValues(typeof(SearchCategory)))
         {
             <option value="@item">@item</option>
         }
-</select>
+    </select>
 
-<label for="type">Select a Filter Type</label>
-<select name="type"  class="form-control selectpicker " value="@_searchType" @onchange="UpdateType">
-    @foreach (var item in Enum.GetValues(typeof(SearchTypes)))
-            {
-                <option value="@item">@item</option>
-            }
-</select>
-
-<select name="subnet" class="form-control selectpicker" value="@_subnet"
-////////////////////
-///
-
-//SEARCHBAR
-<input class="boarder-4 w-25 rounded col-sm-6 p-6 h-8" value="@_searchText" @oninput="UpdateSearchText" placeholder="Search" />
-
-<Accordion @ref="_accordion" id="ac1" ActiveCollapsePanel="@_activePanel" OnCollapsePanelChanged="OnAccordionChanged" >
-    <CollapsePanels>
-        @foreach (var box in filteredBoxes)
+    <label for="type">Filter Type</label>
+    <select name="type" class="form-control selectpicker " value="@_searchType" @onchange="UpdateType">
+        @foreach (var item in Enum.GetValues(typeof(SearchTypes)))
         {
-
-            <CollapsePanel style="margin-bottom: 10px;" CollapsedColor="@_accordionCollapsedColor" ExpandedColor="@_accordionExpandedColor" HoverColor="@_accordionHoverColor"  Animate="@_isAnimated" ShowContentOverflow="true"  ContentHeight="0">
-                <CollapsedHeaderContent>
-                    <div class="w-100">
-                        <h5>@box.Hostname | @box.Ip</h5>
-                        <button @onclick:stopPropagation="true" @onclick:preventDefault="true" class="btn btn-success">Click me</button>
-                        <h4>Assigned to @box.UserName</h4>
-                        <span class="fa fa-lg fa-chevron-circle-down" aria-hidden="true"></span>
-                    </div>
-                </CollapsedHeaderContent>
-                <ExpandedHeaderContent>
-                    <div class="w-100">
-                        <h5>@box.Hostname | @box.Ip </h5>
-                        <button class="btn btn-success">Opened</button>
-                        <span class="fa fa-lg fa-chevron-circle-up" aria-hidden="true"></span>
-                    </div>
-                </ExpandedHeaderContent>
-                <Content>
-                    <div style="border: 1px solid gray; height: 100%;">
-                        <h4><b>Hostname: </b>@box.Hostname</h4>
-                        <h4><b>Ip: </b>@box.Ip</h4>
-                        <h4><b>Os: </b> @box.Os</h4>
-                        <br />
-                        <Table TableItem="ServiceDTO" Items="box.Services" PageSize="15" ColumnReorder="true" >
-                            <Column TableItem="ServiceDTO" Title="Port" Field="@(x => x.Port)" Sortable="true" Filterable="true" Width="10%" />
-                            <Column TableItem="ServiceDTO" Title="Name" Field="@(x => x.Name)" Sortable="true" Filterable="true" Width="20%" />
-                            <Column TableItem="ServiceDTO" Title="Protocol" Field="@(x => x.Protocol)" Sortable="true" Filterable="true" Width="20%" />
-                            <Column TableItem="ServiceDTO" Title="State" Field="@(x => x.State)" Sortable="true" Filterable="true" Width="20%">
-                            </Column>
-                            <Column TableItem="ServiceDTO" Title="Version" Field="@(x => x.Version)" Sortable="true" Filterable="true" Width="10%" />
-                            <Column TableItem="ServiceDTO" Title="Script" Field="@(x => x.Script)" Sortable="true" Filterable="true" Width="10%" Format="C" Align="Align.Right" />
-                            <Pager ShowPageNumber="true" ShowTotalCount="true" />
-                        </Table>
-                    </div>
-                </Content>
-            </CollapsePanel>
+            <option value="@item">@item</option>
         }
-        @error
-    </CollapsePanels>
-</Accordion>
+    </select>
+
+    <label for="subnet">Subnet</label>
+    <select name="subnet" class="form-control selectpicker" value="@_subnetSelection" @onchange="UpdateSubnet">
+        <option value="all">all</option>
+        @foreach (var item in _subnets)
+        {
+            <option value="@item">@item </option>
+        }
+    </select>
+
+    //SEARCHBAR
+    <input class="boarder-4 w-25 rounded col-sm-6 p-6 h-8" value="@_searchText" @oninput="UpdateSearchText" placeholder="Search" />
+
+    <ModalDialog @ref="@_dialog"
+                 OverlayBackgroundColor="@_overlayColor"
+                 OverlayOpacity="@(_overlayOpacity/100)"
+                 Height="@_modalHeight"
+                 HandleValidSubmit="HVS"
+                 Width="@_modalWitdth"
+                 MinHeight="@_modalMinHeight"
+                 MinWidth="@_modalMinWitdth"
+                 CloseOnOverlayClick="_modalCloseOnClick"
+                 CloseOnEscapeKey="_modalCloseOnEsc"
+                 Focus="_modalFocus"
+                 Centered="_modalCentered"
+                 ShowCloseButton="_modalShowClose">
+        <!--
+        OnOpen=""
+        OnClose=""
+        OnCloseButtonClicked=""
+        OnOverlayClicked=""
+        OnEscapeKeyPress=""
+         -->
+
+        <Header>
+            @*If you want to hide Header remove the whole Header definition and set ShowCloseButton="false"*@
+            <h4>@_modalTitle</h4>
+        </Header>
+
+        <Footer>
+            @*If you want to hide Header remove the whole Footer definition"*@
+            <button class="btn btn-warning ml-2">Cancel</button>
+            <button class="btn btn-primary ml-2">Ok</button>
+        </Footer>
+    </ModalDialog>
+
+    <Accordion @ref="_accordion" id="ac1" ActiveCollapsePanel="@_activePanel" OnCollapsePanelChanged="OnAccordionChanged">
+
+        <CollapsePanels>
+            @foreach (var box in filteredBoxes)
+            {
+                <!-- MODAL DIALOG-->
+                //wtf is going on here
+
+
+
+                <CollapsePanel style="margin-bottom: 10px;" CollapsedColor="@_accordionCollapsedColor" ExpandedColor="@_accordionExpandedColor" HoverColor="@_accordionHoverColor" Animate="@_isAnimated" ShowContentOverflow="true" ContentHeight="0">
+                    <CollapsedHeaderContent>
+                        <div class="w-100">
+                            <h5>@box.Hostname | @box.Ip | @myModals.Count() | @box.BoxId</h5>
+                            <button @onclick:stopPropagation="true" @onclick:preventDefault="true" class="btn btn-success" @onclick="(() => OpenDialog(box))">Edit</button>
+                            <h4>Assigned to @box.UserName</h4>
+                            <span class="fa fa-lg fa-chevron-circle-down" aria-hidden="true"></span>
+                        </div>
+                    </CollapsedHeaderContent>
+                    <ExpandedHeaderContent>
+
+                        <div class="w-100">
+                            <h5>@box.Hostname | @box.Ip </h5>
+                            <button @onclick:stopPropagation="true" @onclick:preventDefault="true" class="btn btn-success" @onclick="(() => OpenDialog(box))">Edit</button>
+                            <span class="fa fa-lg fa-chevron-circle-up" aria-hidden="true"></span>
+                        </div>
+                    </ExpandedHeaderContent>
+                    <Content>
+                        <div style="border: 1px solid gray; height: 100%;">
+                            <h4><b>Hostname: </b>@box.Hostname</h4>
+                            <h4><b>Ip: </b>@box.Ip</h4>
+                            <h4><b>Os: </b> @box.Os</h4>
+                            <h4><b>Subnet: </b>@box.Subnet</h4>
+                            <h4><b>Standing: </b>@box.Standing</h4>
+                            <br />
+                            <Table TableItem="ServiceDTO" Items="box.Services" PageSize="15" ColumnReorder="true">
+                                <Column TableItem="ServiceDTO" Title="Port" Field="@(x => x.Port)" Sortable="true" Filterable="true" Width="10%" />
+                                <Column TableItem="ServiceDTO" Title="Name" Field="@(x => x.Name)" Sortable="true" Filterable="true" Width="20%" />
+                                <Column TableItem="ServiceDTO" Title="Protocol" Field="@(x => x.Protocol)" Sortable="true" Filterable="true" Width="20%" />
+                                <Column TableItem="ServiceDTO" Title="State" Field="@(x => x.State)" Sortable="true" Filterable="true" Width="20%">
+                                </Column>
+                                <Column TableItem="ServiceDTO" Title="Version" Field="@(x => x.Version)" Sortable="true" Filterable="true" Width="10%" />
+                                <Column TableItem="ServiceDTO" Title="Script" Field="@(x => x.Script)" Sortable="true" Filterable="true" Width="10%" Format="C" Align="Align.Right" />
+                                <Pager ShowPageNumber="true" ShowTotalCount="true" />
+                            </Table>
+                        </div>
+                    </Content>
+                </CollapsePanel>
+            }
+            @error
+        </CollapsePanels>
+    </Accordion>
 }
 
 @code {
     [Inject] public HttpClient Http { get; set; }
 
+    //private List<int> identifiers = new List<int>();
+    private Dictionary<int, ModalDialog> myModals = new Dictionary<int, ModalDialog>();
 
     //searchtext
     private string _searchText = "";
     //dropdown
     private SearchTypes _searchType = SearchTypes.Contains;
     private SearchCategory _searchCategory = SearchCategory.Port;
-    private string[] _subnets;
+    private string _subnetSelection = "all";
+    private List<string> _subnets = new List<string>();
+
     private enum SearchCategory
     {
         Port,
@@ -107,6 +159,23 @@ else
         Contains,
         Match
     }
+
+    //dialog
+    private ModalDialog _dialog;
+    private string _overlayColor = "128,128,128";
+    private double _overlayOpacity = 50;
+    private double _modalHeight = 0;
+    private double _modalWitdth = 0;
+    private double _modalMinHeight = 100;
+    private double _modalMinWitdth = 100;
+    private bool _modalAnimate = true;
+    private bool _modalCloseOnClick = true;
+    private bool _modalCloseOnEsc = true;
+    private bool _modalFocus = true;
+    private bool _modalCentered = true;
+    private bool _modalShowClose = true;
+    private string _modalTitle = "Edit Box";
+    private string _yourName;
 
     //Collapse
 
@@ -144,9 +213,12 @@ else
         try
         {
             boxes = await Http.GetFromJsonAsync<IList<BoxDTO>>(requestUri);
-            _subnets = boxes.SelectMany(s => s.Services).ToList();
             filteredBoxes = new List<BoxDTO>(boxes);
-        } catch (Exception)
+            _subnets = boxes.Where(x => x.Subnet != null)
+                .Select(s => s.Subnet).Distinct().ToList();
+            //identifiers = boxes.Select(s => s.BoxId).ToList();
+        }
+        catch (Exception)
         {
             error = "Error Encountered";
         };
@@ -176,7 +248,16 @@ else
         _isCollapsed = state;
     }
 
+    private async Task OpenDialog(BoxDTO b)
+    {
+        await _dialog.Open(b);
+    }
 
+    private async Task HVS(BoxDTO bb)
+    {
+        var response = await Http.PutAsJsonAsync(requestUri, bb);
+        Console.WriteLine(response);
+    }
 
     private async Task AddBox()
     {
@@ -198,18 +279,25 @@ else
             Hostname = "Hostname",
             State = false,
             Comments = "none",
-            Active = false,
-            Pwned = false,
-            Unrelated = false,
-            Comeback = false,
+            Standing = "Active",
             Os = "Linux",
             Cidr = "/24",
-            Services = servicesAdded
+            Services = servicesAdded,
+            Subnet = "192.168.1.0/24"
         };
         boxesAdded.Add(newBox);
         var response = await Http.PostAsJsonAsync(requestUri, boxesAdded);
         Console.WriteLine(response);
 
+    }
+
+    private void ResetFilters()
+    {
+        _searchText = "";
+        _searchCategory = SearchCategory.Port;
+        _searchType = SearchTypes.Contains;
+        _subnetSelection = "all";
+        Search();
     }
 
     private void OnInput()
@@ -233,30 +321,41 @@ else
         _searchType = (SearchTypes)Enum.Parse(typeof(SearchTypes), args.Value.ToString(), true);
         Search();
     }
+    private void UpdateSubnet(ChangeEventArgs args)
+    {
+        _subnetSelection = args.Value.ToString();
+        Search();
+    }
 
     private void Search()
     {
-        if(!string.IsNullOrEmpty(_searchText))
+        if (!_subnetSelection.Equals("all"))
+        {
+            filteredBoxes = boxes.Where(o => o.Subnet != null && o.Subnet.Equals(_subnetSelection)).ToList();
+
+        }
+        else
+        {
+            filteredBoxes = boxes.ToList();
+        }
+
+        if (!string.IsNullOrEmpty(_searchText))
         {
             if (_searchType == SearchTypes.Contains)
             {
                 switch (_searchCategory)
                 {
                     case SearchCategory.Port:
-                        filteredBoxes = boxes.Where(o => o.Services.Any(i => i.Port.ToString().Contains(_searchText))).ToList();
-                        StateHasChanged();
+                        filteredBoxes = filteredBoxes.Where(o => o.Services.Any(i => i.Port.ToString().Contains(_searchText))).ToList();
                         break;
                     case SearchCategory.Name:
-                        filteredBoxes = boxes.Where(o => o.Services.Any(i => i.Name != null && i.Name.ToString().Contains(_searchText))).ToList();
-                        StateHasChanged();
+                        filteredBoxes = filteredBoxes.Where(o => o.Services.Any(i => i.Name != null && i.Name.ToString().Contains(_searchText))).ToList();
                         break;
                     case SearchCategory.Script:
-                        filteredBoxes = boxes.Where(o => o.Services.Any(i => i.Script != null && i.Script.ToString().Contains(_searchText))).ToList();
-                        StateHasChanged();
+                        filteredBoxes = filteredBoxes.Where(o => o.Services.Any(i => i.Script != null && i.Script.ToString().Contains(_searchText))).ToList();
                         break;
                     case SearchCategory.Version:
-                        filteredBoxes = boxes.Where(o => o.Services.Any(i => i.Version != null && i.Version.ToString().Contains(_searchText))).ToList();
-                        StateHasChanged();
+                        filteredBoxes = filteredBoxes.Where(o => o.Services.Any(i => i.Version != null && i.Version.ToString().Contains(_searchText))).ToList();
                         break;
                 }
             }
@@ -265,28 +364,25 @@ else
                 switch (_searchCategory)
                 {
                     case SearchCategory.Port:
-                        filteredBoxes = boxes.Where(o => o.Services.Any(i => i.Port.ToString().Equals(_searchText))).ToList();
-                        StateHasChanged();
+                        filteredBoxes = filteredBoxes.Where(o => o.Services.Any(i => i.Port.ToString().Equals(_searchText))).ToList();
                         break;
                     case SearchCategory.Name:
-                        filteredBoxes = boxes.Where(o => o.Services.Any(i => i.Name != null && i.Name.ToString().Equals(_searchText))).ToList();
-                        StateHasChanged();
+                        filteredBoxes = filteredBoxes.Where(o => o.Services.Any(i => i.Name != null && i.Name.ToString().Equals(_searchText))).ToList();
                         break;
                     case SearchCategory.Script:
-                        filteredBoxes = boxes.Where(o => o.Services.Any(i => i.Script != null && i.Script.ToString().Equals(_searchText))).ToList();
-                        StateHasChanged();
+                        filteredBoxes = filteredBoxes.Where(o => o.Services.Any(i => i.Script != null && i.Script.ToString().Equals(_searchText))).ToList();
                         break;
                     case SearchCategory.Version:
-                        filteredBoxes = boxes.Where(o => o.Services.Any(i => i.Version != null && i.Version.ToString().Equals(_searchText))).ToList();
-                        StateHasChanged();
+                        filteredBoxes = filteredBoxes.Where(o => o.Services.Any(i => i.Version != null && i.Version.ToString().Equals(_searchText))).ToList();
                         break;
                 }
             }
-        } else
-        {
-            filteredBoxes = boxes.ToList();
-            StateHasChanged();
         }
+        else
+        {
+            filteredBoxes = filteredBoxes.ToList();
+        }
+        StateHasChanged();
 
 
         //Console.WriteLine("hello");

@@ -45,14 +45,11 @@ namespace jVision.Server.Controllers
                 //UserId = b.UserId,
                 Ip = b.Ip,
                 //just use b.UserName?
-                User = _context.Users.Where(l => l.UserName.Equals(b.UserName)).FirstOrDefault(),
+                User = _context.Users?.Where(l => l.UserName.Equals(b.UserName)).FirstOrDefault(),
                 Hostname = b.Hostname,
                 State = b.State,
                 Comments = b.Comments,
-                Active = b.Active,
-                Pwned = b.Pwned,
-                Unrelated = b.Unrelated,
-                Comeback = b.Comeback,
+                Standing = b.Standing,
                 Os = b.Os,
                 Cidr = b.Cidr,
                 Subnet = b.Subnet,
@@ -61,6 +58,35 @@ namespace jVision.Server.Controllers
             await _context.SaveChangesAsync();
 
             return StatusCode(200);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> PutBox(BoxDTO boxdto)
+        {
+            var box = await _context.Boxes.FindAsync(boxdto.BoxId);
+            if (box == null)
+            {
+                return NotFound();
+            }
+            box.Ip = boxdto.Ip;
+            box.User = _context.Users.Where(l => l.UserName.Equals(boxdto.UserName)).FirstOrDefault();
+            box.Hostname = boxdto.Hostname;
+            box.State = boxdto.State;
+            box.Comments = boxdto.Comments;
+            box.Standing = boxdto.Standing;
+            box.Os = boxdto.Os;
+            box.Cidr = boxdto.Cidr;
+            box.Subnet = boxdto.Subnet;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException) when (!BoxExists(boxdto.BoxId))
+            {
+                return NotFound();
+            }
+            return NoContent();
         }
 
         [HttpDelete]
@@ -97,10 +123,7 @@ namespace jVision.Server.Controllers
                 Hostname = box.Hostname,
                 State = box.State,
                 Comments = box.Comments,
-                Active = box.Active,
-                Pwned = box.Pwned,
-                Unrelated = box.Unrelated,
-                Comeback = box.Comeback,
+                Standing = box.Standing,
                 Os = box.Os,
                 Cidr = box.Cidr,
                 Subnet = box.Subnet,

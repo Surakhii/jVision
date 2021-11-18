@@ -97,13 +97,20 @@ using jVision.Shared.Models;
 #nullable disable
 #nullable restore
 #line 4 "C:\Users\natha\source\repos\jVision\Client\Pages\Index.razor"
-using System.Collections.Generic;
+using jVision.Shared;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
 #line 5 "C:\Users\natha\source\repos\jVision\Client\Pages\Index.razor"
+using System.Collections.Generic;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 6 "C:\Users\natha\source\repos\jVision\Client\Pages\Index.razor"
 using BlazorTable;
 
 #line default
@@ -118,16 +125,21 @@ using BlazorTable;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 86 "C:\Users\natha\source\repos\jVision\Client\Pages\Index.razor"
+#line 136 "C:\Users\natha\source\repos\jVision\Client\Pages\Index.razor"
        
     [Inject] public HttpClient Http { get; set; }
 
+    //private List<int> identifiers = new List<int>();
+    private Dictionary<int, ModalDialog> myModals = new Dictionary<int, ModalDialog>();
 
     //searchtext
     private string _searchText = "";
     //dropdown
     private SearchTypes _searchType = SearchTypes.Contains;
     private SearchCategory _searchCategory = SearchCategory.Port;
+    private string _subnetSelection = "all";
+    private List<string> _subnets = new List<string>();
+
     private enum SearchCategory
     {
         Port,
@@ -140,6 +152,23 @@ using BlazorTable;
         Contains,
         Match
     }
+
+    //dialog
+    private ModalDialog _dialog;
+    private string _overlayColor = "128,128,128";
+    private double _overlayOpacity = 50;
+    private double _modalHeight = 0;
+    private double _modalWitdth = 0;
+    private double _modalMinHeight = 100;
+    private double _modalMinWitdth = 100;
+    private bool _modalAnimate = true;
+    private bool _modalCloseOnClick = true;
+    private bool _modalCloseOnEsc = true;
+    private bool _modalFocus = true;
+    private bool _modalCentered = true;
+    private bool _modalShowClose = true;
+    private string _modalTitle = "Edit Box";
+    private string _yourName;
 
     //Collapse
 
@@ -178,7 +207,11 @@ using BlazorTable;
         {
             boxes = await Http.GetFromJsonAsync<IList<BoxDTO>>(requestUri);
             filteredBoxes = new List<BoxDTO>(boxes);
-        } catch (Exception)
+            _subnets = boxes.Where(x => x.Subnet != null)
+                .Select(s => s.Subnet).Distinct().ToList();
+            //identifiers = boxes.Select(s => s.BoxId).ToList();
+        }
+        catch (Exception)
         {
             error = "Error Encountered";
         };
@@ -208,7 +241,16 @@ using BlazorTable;
         _isCollapsed = state;
     }
 
+    private async Task OpenDialog(BoxDTO b)
+    {
+        await _dialog.Open(b);
+    }
 
+    private async Task HVS(BoxDTO bb)
+    {
+        var response = await Http.PutAsJsonAsync(requestUri, bb);
+        Console.WriteLine(response);
+    }
 
     private async Task AddBox()
     {
@@ -230,18 +272,25 @@ using BlazorTable;
             Hostname = "Hostname",
             State = false,
             Comments = "none",
-            Active = false,
-            Pwned = false,
-            Unrelated = false,
-            Comeback = false,
+            Standing = "Active",
             Os = "Linux",
             Cidr = "/24",
-            Services = servicesAdded
+            Services = servicesAdded,
+            Subnet = "192.168.1.0/24"
         };
         boxesAdded.Add(newBox);
         var response = await Http.PostAsJsonAsync(requestUri, boxesAdded);
         Console.WriteLine(response);
 
+    }
+
+    private void ResetFilters()
+    {
+        _searchText = "";
+        _searchCategory = SearchCategory.Port;
+        _searchType = SearchTypes.Contains;
+        _subnetSelection = "all";
+        Search();
     }
 
     private void OnInput()
@@ -265,30 +314,41 @@ using BlazorTable;
         _searchType = (SearchTypes)Enum.Parse(typeof(SearchTypes), args.Value.ToString(), true);
         Search();
     }
+    private void UpdateSubnet(ChangeEventArgs args)
+    {
+        _subnetSelection = args.Value.ToString();
+        Search();
+    }
 
     private void Search()
     {
-        if(!string.IsNullOrEmpty(_searchText))
+        if (!_subnetSelection.Equals("all"))
+        {
+            filteredBoxes = boxes.Where(o => o.Subnet != null && o.Subnet.Equals(_subnetSelection)).ToList();
+
+        }
+        else
+        {
+            filteredBoxes = boxes.ToList();
+        }
+
+        if (!string.IsNullOrEmpty(_searchText))
         {
             if (_searchType == SearchTypes.Contains)
             {
                 switch (_searchCategory)
                 {
                     case SearchCategory.Port:
-                        filteredBoxes = boxes.Where(o => o.Services.Any(i => i.Port.ToString().Contains(_searchText))).ToList();
-                        StateHasChanged();
+                        filteredBoxes = filteredBoxes.Where(o => o.Services.Any(i => i.Port.ToString().Contains(_searchText))).ToList();
                         break;
                     case SearchCategory.Name:
-                        filteredBoxes = boxes.Where(o => o.Services.Any(i => i.Name != null && i.Name.ToString().Contains(_searchText))).ToList();
-                        StateHasChanged();
+                        filteredBoxes = filteredBoxes.Where(o => o.Services.Any(i => i.Name != null && i.Name.ToString().Contains(_searchText))).ToList();
                         break;
                     case SearchCategory.Script:
-                        filteredBoxes = boxes.Where(o => o.Services.Any(i => i.Script != null && i.Script.ToString().Contains(_searchText))).ToList();
-                        StateHasChanged();
+                        filteredBoxes = filteredBoxes.Where(o => o.Services.Any(i => i.Script != null && i.Script.ToString().Contains(_searchText))).ToList();
                         break;
                     case SearchCategory.Version:
-                        filteredBoxes = boxes.Where(o => o.Services.Any(i => i.Version != null && i.Version.ToString().Contains(_searchText))).ToList();
-                        StateHasChanged();
+                        filteredBoxes = filteredBoxes.Where(o => o.Services.Any(i => i.Version != null && i.Version.ToString().Contains(_searchText))).ToList();
                         break;
                 }
             }
@@ -297,28 +357,25 @@ using BlazorTable;
                 switch (_searchCategory)
                 {
                     case SearchCategory.Port:
-                        filteredBoxes = boxes.Where(o => o.Services.Any(i => i.Port.ToString().Equals(_searchText))).ToList();
-                        StateHasChanged();
+                        filteredBoxes = filteredBoxes.Where(o => o.Services.Any(i => i.Port.ToString().Equals(_searchText))).ToList();
                         break;
                     case SearchCategory.Name:
-                        filteredBoxes = boxes.Where(o => o.Services.Any(i => i.Name != null && i.Name.ToString().Equals(_searchText))).ToList();
-                        StateHasChanged();
+                        filteredBoxes = filteredBoxes.Where(o => o.Services.Any(i => i.Name != null && i.Name.ToString().Equals(_searchText))).ToList();
                         break;
                     case SearchCategory.Script:
-                        filteredBoxes = boxes.Where(o => o.Services.Any(i => i.Script != null && i.Script.ToString().Equals(_searchText))).ToList();
-                        StateHasChanged();
+                        filteredBoxes = filteredBoxes.Where(o => o.Services.Any(i => i.Script != null && i.Script.ToString().Equals(_searchText))).ToList();
                         break;
                     case SearchCategory.Version:
-                        filteredBoxes = boxes.Where(o => o.Services.Any(i => i.Version != null && i.Version.ToString().Equals(_searchText))).ToList();
-                        StateHasChanged();
+                        filteredBoxes = filteredBoxes.Where(o => o.Services.Any(i => i.Version != null && i.Version.ToString().Equals(_searchText))).ToList();
                         break;
                 }
             }
-        } else
-        {
-            filteredBoxes = boxes.ToList();
-            StateHasChanged();
         }
+        else
+        {
+            filteredBoxes = filteredBoxes.ToList();
+        }
+        StateHasChanged();
 
 
         //Console.WriteLine("hello");

@@ -14,10 +14,7 @@ namespace jVision.Server.Models
         public string Hostname { get; set; }
         public bool State { get; set; }
         public string Comments { get; set; }
-        public bool Active { get; set; }
-        public bool Pwned { get; set; }
-        public bool Unrelated { get; set; }
-        public bool Comeback { get; set; }
+        public string Standing { get; set; }
         public string Os { get; set; }
         public string Cidr { get; set; }
 

@@ -794,3 +794,6 @@ C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\RazorDeclaration\Sha
 C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\Razor\Shared\RadzenButton.razor.g.cs
 C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\RazorDeclaration\Shared\Searchbar.razor.g.cs
 C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\Razor\Shared\Searchbar.razor.g.cs
+C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\RazorDeclaration\Shared\ModalDialog.razor.g.cs
+C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\Razor\Shared\ModalDialog.razor.g.cs
+C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\scopedcss\Shared\ModalDialog.razor.rz.scp.css

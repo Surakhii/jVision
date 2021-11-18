@@ -239,13 +239,13 @@
       "mscorlib.dll": "sha256-7WjHY56PbksCp7YOxNV59r6MqLujjAH8vhnMJ+zVezY=",
       "netstandard.dll": "sha256-5TcSqPhm3fAT6s3NH7+BMGakcfGgZGd3\/\/cVwVs2VPI=",
       "System.Private.CoreLib.dll": "sha256-VJv3DLM\/G0m\/RnTeWL9X8mkbxlsn8nNRhm0BHYEY+uo=",
-      "jVision.Shared.dll": "sha256-eMOKrNPTak0j\/cegJ6bOMk33w\/0luz\/+e4G4pqUaAFY=",
-      "jVision.Client.dll": "sha256-1kQLEicd2Vfys3knrLsJAfHTqcSemIBl90eD0d6j0io="
+      "jVision.Shared.dll": "sha256-ZEC0C2c8w8ZnGvwc3lwnifR40sthCaNUTH\/\/PGIkExE=",
+      "jVision.Client.dll": "sha256-soFLEKi8cGv3unMRkFzbhYOZA6h0yLW4x2uzmic+Anc="
     },
     "lazyAssembly": null,
     "pdb": {
-      "jVision.Shared.pdb": "sha256-ykhZXGP7rQ7CEQUgtOb4ByuIiqCH\/uFv1np5QOlYFUo=",
-      "jVision.Client.pdb": "sha256-iusXo9jNKJiFg7LoDWGB1fKfwUUbVCBgT442z5yoNAM="
+      "jVision.Shared.pdb": "sha256-0c0t055tcapfHdw7OnBcoq\/sZeYDoNzC0A0lNVneLg0=",
+      "jVision.Client.pdb": "sha256-8xB\/Cs1IA13\/CSW9BCkGfbyVvLMcwNE2CDosmP41gsU="
     },
     "runtime": {
       "dotnet.timezones.blat": "sha256-PvlHrby1PYtdX46ITs6pB8iDNqXNcewh8Eoa\/Gm2+GM=",
