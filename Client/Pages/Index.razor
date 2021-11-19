@@ -3,6 +3,7 @@
 @using jVision.Shared.Models
 @using jVision.Shared
 @using System.Collections.Generic
+@inject IJSRuntime _JSRuntime
 @using BlazorTable
 <h1>Box Count: @boxes.Count()</h1>
 
@@ -44,7 +45,7 @@ else
     </select>
 
     //SEARCHBAR
-    <input class="boarder-4 w-25 rounded col-sm-6 p-6 h-8" value="@_searchText" @oninput="UpdateSearchText" placeholder="Search" />
+    <input class="form-control w-25 rounded col-sm-6 p-6 h-8" value="@_searchText" @oninput="UpdateSearchText" placeholder="Search" />
 
     <ModalDialog @ref="@_dialog"
                  OverlayBackgroundColor="@_overlayColor"
@@ -78,9 +79,6 @@ else
         </Footer>
     </ModalDialog>
 
-    <Accordion @ref="_accordion" id="ac1" ActiveCollapsePanel="@_activePanel" OnCollapsePanelChanged="OnAccordionChanged">
-
-        <CollapsePanels>
             @foreach (var box in filteredBoxes)
             {
                 <!-- MODAL DIALOG-->
@@ -90,40 +88,59 @@ else
                 {
                     case "Active":
                         _accordionCollapsedColor = "#ffb339";
+                        _accordionExpandedColor = "#ffb339";
+                        _accordionHoverColor = "#ffbb4d";
+
                         break;
                     case "Pwned":
                         _accordionCollapsedColor = "#4bbb4b";
+                        _accordionExpandedColor = "#4bbb4b";
+                        _accordionHoverColor = "#59c059";
                         break;
                     case "Comeback":
                         _accordionCollapsedColor = "#7ea0ff";
+                        _accordionExpandedColor = "#7ea0ff";
+                        _accordionHoverColor = "#99b4ff";
                         break;
                     case "Unrelated":
                         _accordionCollapsedColor = "#ff7b7b";
+                        _accordionExpandedColor = "#ff7b7b";
+                        _accordionHoverColor = "#ff9999";
                         break;
                     default:
                         _accordionCollapsedColor = "#e6e6e6";
+                        _accordionExpandedColor = "#e6e6e6";
+                        _accordionHoverColor = "#f2f2f2";
                         break;
                 }
 
-                <CollapsePanel style="margin-bottom: 10px;" CollapsedColor="@_accordionCollapsedColor" ExpandedColor="@_accordionExpandedColor" HoverColor="@_accordionHoverColor" Animate="@_isAnimated" ShowContentOverflow="true" ContentHeight="0">
+                <CollapsePanel style="margin-bottom: 10px;" CollapsedColor="@_accordionCollapsedColor" Animate="false" ExpandedColor="@_accordionExpandedColor" HoverColor="@_accordionHoverColor"  ShowContentOverflow="true" ContentHeight="0">
                     <CollapsedHeaderContent>
-                        <div class="w-100">
-                            <h5>@box.Hostname | @box.Ip | @myModals.Count() | @box.BoxId</h5>
-                            <button @onclick:stopPropagation="true" @onclick:preventDefault="true" class="btn btn-success" @onclick="(() => OpenDialog(box))">Edit</button>
-                            <h4>Assigned to @box.UserName</h4>
-                            <span class="fa fa-lg fa-chevron-circle-down" aria-hidden="true"></span>
+
+                        <div class="p-2 flex-grow-1"><h5>@box.Hostname | @box.Ip</h5></div>
+
+                        <div class="p-1">
+                            <button @onclick:stopPropagation="true" @onclick:preventDefault="true" class="btn btn-success p-2 align-middle" @onclick="(() => OpenDialog(box, users))">Edit</button>
                         </div>
+                        <div class="p-2">
+                            <h5 class="align-middle">Assigned to @box.UserName</h5>
+                        </div>
+                        <div class="p-2"><span class="fa fa-lg fa-chevron-circle-down align-middle" aria-hidden="true"></span></div>
                     </CollapsedHeaderContent>
                     <ExpandedHeaderContent>
 
-                        <div class="w-100">
-                            <h5>@box.Hostname | @box.Ip </h5>
-                            <button @onclick:stopPropagation="true" @onclick:preventDefault="true" class="btn btn-success" @onclick="(() => OpenDialog(box))">Edit</button>
-                            <span class="fa fa-lg fa-chevron-circle-up" aria-hidden="true"></span>
+                        <div class="p-2 flex-grow-1"><h5>@box.Hostname | @box.Ip</h5></div>
+
+                        <div class="p-1">
+                            <button @onclick:stopPropagation="true" @onclick:preventDefault="true" class="btn btn-success p-2 align-middle" @onclick="(() => OpenDialog(box, users))">Edit</button>
                         </div>
+                        <div class="p-2">
+                            <h5 class="align-middle">Assigned to @box.UserName</h5>
+                        </div>
+                        <div class="p-2"><span class="fa fa-lg fa-chevron-circle-up align-middle" aria-hidden="true"></span></div>
                     </ExpandedHeaderContent>
                     <Content>
-                        <div style="border: 1px solid gray; height: 100%;">
+                        <div style="border: 1px solid gray; height: 100%; padding:15px;">
                             <h4><b>Hostname: </b>@box.Hostname</h4>
                             <h4><b>Ip: </b>@box.Ip</h4>
                             <h4><b>Os: </b> @box.Os</h4>
@@ -146,8 +163,22 @@ else
                 </CollapsePanel>
             }
             @error
-        </CollapsePanels>
-    </Accordion>
+    /**
+    <div class="accordion" id="accordionExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button" type="button" @onclick="@(e => Collapse("#collapseOne"))" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    Accordion Item #1
+                </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                </div>
+            </div>
+        </div>
+    </div>
+    **/
 }
 
 @code {
@@ -162,14 +193,15 @@ else
     private SearchTypes _searchType = SearchTypes.Contains;
     private SearchCategory _searchCategory = SearchCategory.Port;
     private string _subnetSelection = "all";
-    private List<string> _subnets = new List<string>();
+
 
     private enum SearchCategory
     {
         Port,
         Name,
         Script,
-        Version
+        Version,
+        Os
     }
     private enum SearchTypes
     {
@@ -215,6 +247,8 @@ else
     private Accordion _accordion;
     private CollapsePanel? _activePanel;
     private IList<BoxDTO> boxes = new List<BoxDTO>();
+    private List<string> users = new List<string>();
+    private List<string> _subnets => boxes.Where(x => x.Subnet != null).Select(s => s.Subnet).Distinct().ToList();
     // private IList<BoxDTO> filteredBoxes = new List<BoxDTO>();
     //private IList<BoxDTO> filteredBoxes = new List<BoxDTO>();
     //private IList<ServiceDTO> services = new List<ServiceDTO>();
@@ -225,14 +259,16 @@ else
     public string hello = "hello";
     private string error;
     private string requestUri = "Box";
+    private string userUri = "User";
     protected override async Task OnInitializedAsync()
     {
         try
         {
             boxes = await Http.GetFromJsonAsync<IList<BoxDTO>>(requestUri);
+            boxes = boxes.OrderBy(o => o.Ip).ToList();
+            users = await Http.GetFromJsonAsync<List<string>>(userUri);
             filteredBoxes = new List<BoxDTO>(boxes);
-            _subnets = boxes.Where(x => x.Subnet != null)
-                .Select(s => s.Subnet).Distinct().ToList();
+            
             //identifiers = boxes.Select(s => s.BoxId).ToList();
         }
         catch (Exception)
@@ -248,26 +284,18 @@ else
 
 
 
-
-
     //s => s.Services
     //.Where(p => p.Port.ToString().Contains(_searchText)).ToList())
     //.ToList();
-    private void OnAccordionChanged(CollapsePanel? active)
-    {
-        _activePanel = active;
-        var index = _accordion.CollapsePanelItems.ToList().IndexOf(active);
-
-    }
 
     private void OnCollapsed(bool state)
     {
         _isCollapsed = state;
     }
 
-    private async Task OpenDialog(BoxDTO b)
+    private async Task OpenDialog(BoxDTO b, List<string> u)
     {
-        await _dialog.Open(b);
+        await _dialog.Open(b, u);
     }
 
     private async Task HVS(BoxDTO bb)
@@ -348,6 +376,7 @@ else
         Search();
     }
 
+
     private void Search()
     {
         if (!_subnetSelection.Equals("all"))
@@ -378,6 +407,9 @@ else
                     case SearchCategory.Version:
                         filteredBoxes = filteredBoxes.Where(o => o.Services.Any(i => i.Version != null && i.Version.ToString().Contains(_searchText))).ToList();
                         break;
+                    case SearchCategory.Os:
+                        filteredBoxes = filteredBoxes.Where(o => o.Os != null && o.Os.Contains(_searchText)).ToList();
+                        break;
                 }
             }
             else if (_searchType == SearchTypes.Match)
@@ -396,12 +428,11 @@ else
                     case SearchCategory.Version:
                         filteredBoxes = filteredBoxes.Where(o => o.Services.Any(i => i.Version != null && i.Version.ToString().Equals(_searchText))).ToList();
                         break;
+                    case SearchCategory.Os:
+                        filteredBoxes = filteredBoxes.Where(o => o.Os != null && o.Os.Equals(_searchText)).ToList();
+                        break;
                 }
             }
-        }
-        else
-        {
-            filteredBoxes = filteredBoxes.ToList();
         }
         StateHasChanged();
 

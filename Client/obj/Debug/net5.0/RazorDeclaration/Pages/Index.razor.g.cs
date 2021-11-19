@@ -110,7 +110,7 @@ using System.Collections.Generic;
 #line hidden
 #nullable disable
 #nullable restore
-#line 6 "C:\Users\natha\source\repos\jVision\Client\Pages\Index.razor"
+#line 7 "C:\Users\natha\source\repos\jVision\Client\Pages\Index.razor"
 using BlazorTable;
 
 #line default
@@ -125,7 +125,7 @@ using BlazorTable;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 153 "C:\Users\natha\source\repos\jVision\Client\Pages\Index.razor"
+#line 184 "C:\Users\natha\source\repos\jVision\Client\Pages\Index.razor"
        
     [Inject] public HttpClient Http { get; set; }
 
@@ -138,14 +138,15 @@ using BlazorTable;
     private SearchTypes _searchType = SearchTypes.Contains;
     private SearchCategory _searchCategory = SearchCategory.Port;
     private string _subnetSelection = "all";
-    private List<string> _subnets = new List<string>();
+
 
     private enum SearchCategory
     {
         Port,
         Name,
         Script,
-        Version
+        Version,
+        Os
     }
     private enum SearchTypes
     {
@@ -191,6 +192,8 @@ using BlazorTable;
     private Accordion _accordion;
     private CollapsePanel? _activePanel;
     private IList<BoxDTO> boxes = new List<BoxDTO>();
+    private List<string> users = new List<string>();
+    private List<string> _subnets => boxes.Where(x => x.Subnet != null).Select(s => s.Subnet).Distinct().ToList();
     // private IList<BoxDTO> filteredBoxes = new List<BoxDTO>();
     //private IList<BoxDTO> filteredBoxes = new List<BoxDTO>();
     //private IList<ServiceDTO> services = new List<ServiceDTO>();
@@ -201,14 +204,16 @@ using BlazorTable;
     public string hello = "hello";
     private string error;
     private string requestUri = "Box";
+    private string userUri = "User";
     protected override async Task OnInitializedAsync()
     {
         try
         {
             boxes = await Http.GetFromJsonAsync<IList<BoxDTO>>(requestUri);
+            boxes = boxes.OrderBy(o => o.Ip).ToList();
+            users = await Http.GetFromJsonAsync<List<string>>(userUri);
             filteredBoxes = new List<BoxDTO>(boxes);
-            _subnets = boxes.Where(x => x.Subnet != null)
-                .Select(s => s.Subnet).Distinct().ToList();
+            
             //identifiers = boxes.Select(s => s.BoxId).ToList();
         }
         catch (Exception)
@@ -224,26 +229,18 @@ using BlazorTable;
 
 
 
-
-
     //s => s.Services
     //.Where(p => p.Port.ToString().Contains(_searchText)).ToList())
     //.ToList();
-    private void OnAccordionChanged(CollapsePanel? active)
-    {
-        _activePanel = active;
-        var index = _accordion.CollapsePanelItems.ToList().IndexOf(active);
-
-    }
 
     private void OnCollapsed(bool state)
     {
         _isCollapsed = state;
     }
 
-    private async Task OpenDialog(BoxDTO b)
+    private async Task OpenDialog(BoxDTO b, List<string> u)
     {
-        await _dialog.Open(b);
+        await _dialog.Open(b, u);
     }
 
     private async Task HVS(BoxDTO bb)
@@ -324,6 +321,7 @@ using BlazorTable;
         Search();
     }
 
+
     private void Search()
     {
         if (!_subnetSelection.Equals("all"))
@@ -354,6 +352,9 @@ using BlazorTable;
                     case SearchCategory.Version:
                         filteredBoxes = filteredBoxes.Where(o => o.Services.Any(i => i.Version != null && i.Version.ToString().Contains(_searchText))).ToList();
                         break;
+                    case SearchCategory.Os:
+                        filteredBoxes = filteredBoxes.Where(o => o.Os != null && o.Os.Contains(_searchText)).ToList();
+                        break;
                 }
             }
             else if (_searchType == SearchTypes.Match)
@@ -372,12 +373,11 @@ using BlazorTable;
                     case SearchCategory.Version:
                         filteredBoxes = filteredBoxes.Where(o => o.Services.Any(i => i.Version != null && i.Version.ToString().Equals(_searchText))).ToList();
                         break;
+                    case SearchCategory.Os:
+                        filteredBoxes = filteredBoxes.Where(o => o.Os != null && o.Os.Equals(_searchText)).ToList();
+                        break;
                 }
             }
-        }
-        else
-        {
-            filteredBoxes = filteredBoxes.ToList();
         }
         StateHasChanged();
 
@@ -404,6 +404,7 @@ using BlazorTable;
 #line default
 #line hidden
 #nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IJSRuntime _JSRuntime { get; set; }
     }
 }
 #pragma warning restore 1591

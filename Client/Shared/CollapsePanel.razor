@@ -1,17 +1,17 @@
 ﻿<div @ref="_inputRef" class="collapsePanel" tabindex="200" disabled="@Disabled" @attributes=AllOtherAttributes>
     @if (Collapsed)
     {
-        <div id="@($"collapse_{_componentId}")" class="collapseHeader collapsed @(Animate ? "animate" : "")" @onclick="ExpandCollapse">
+        <div id="@($"collapse_{_componentId}")" class="collapseHeader collapsed d-flex my-auto" style="padding:20px;"@onclick="ExpandCollapse">
             @(CommonHeader ?? CollapsedHeaderContent)
         </div>
     }
     else
     {
-        <div id="@($"collapse_{_componentId}")" class="collapseHeader expanded @(Animate ? "animate" : "")" @onclick="ExpandCollapse">
+        <div id="@($"collapse_{_componentId}")" class="collapseHeader expanded d-flex my-auto" style="padding:20px;" @onclick="ExpandCollapse">
             @(CommonHeader ?? ExpandedHeaderContent)
         </div>
     }
-    <div class="collapseContent @(Animate ? "animate" : "")"
+    <div class="collapseContent"
          style="opacity: @(Collapsed ? "0" : "1"); max-height: @GetContentHeight(); overflow: @(ShowContentOverflow ? "auto" : "hidden");">
         @Content
     </div>
@@ -19,13 +19,13 @@
 
 <style>
 	.collapseHeader[id=@($"collapse_{_componentId}")].expanded {
-		background-color: @($"rgb({ExpandedColor})");
+		background-color: @ExpandedColor;
 	}
 	.collapseHeader[id=@($"collapse_{_componentId}")].collapsed {
-		background-color: @($"rgb({CollapsedColor})");
+		background-color: @CollapsedColor;
 	}
 	.collapseHeader[id=@($"collapse_{_componentId}")]:hover {
-		background-color: @($"rgb({HoverColor})");
+		background-color: @HoverColor;
 	}
 </style>
 
@@ -33,11 +33,6 @@
 
 
 @code {
-    [CascadingParameter] private Accordion Parent { get; set; }
-    protected override void OnInitialized()
-    {
-        Parent?.AddCollapsePanel(this);
-    }
 
     private string _componentId = Guid.NewGuid().ToString("n");
     private ElementReference _inputRef;
@@ -72,7 +67,7 @@
     public string ExpandedColor
     {
         get => _expandedColor;
-        set => _expandedColor = new HtmlColor(value)?.RgbColor.ToRgbString();
+        set => _expandedColor = value;
     }
     private string _collapsedColor = "211,211,211";//lightGray
     /// <summary>
@@ -82,7 +77,7 @@
     public string CollapsedColor
     {
         get => _collapsedColor;
-        set => _collapsedColor = new HtmlColor(value)?.RgbColor.ToRgbString();
+        set => _collapsedColor = value;
     }
     private string _hoverColor = "245, 245, 245";//WhiteSmoke
     /// <summary>
@@ -92,7 +87,7 @@
     public string HoverColor
     {
         get => _hoverColor;
-        set => _hoverColor = new HtmlColor(value)?.RgbColor.ToRgbString();
+        set => _hoverColor = value;
     }
 
     /// <summary>
@@ -105,7 +100,7 @@
     /// </summary>
     [Parameter] public bool Disabled { get; set; } = false;
 
-    private bool _collapsed = false;
+    private bool _collapsed = true;
     /// <summary>
     /// Can be set if panel should be collapsed `true` or expanded `false`.
     /// </summary>
@@ -118,10 +113,7 @@
             if (value != _collapsed)
             {
                 _collapsed = value;
-                InvokeAsync(async () =>
-                {
-                    await CollapseEvent();
-                });
+
             }
         }
     }
@@ -152,17 +144,9 @@
     {
         _collapsed = !Collapsed;
 
-        await CollapseEvent();
-    }
-    private async Task CollapseEvent()
-    {
-        Parent?.ActivateCollapsePanel(_collapsed ? null : this);
 
-        if (OnCollapseChanged.HasDelegate)
-        {
-            await OnCollapseChanged.InvokeAsync(_collapsed);
-        }
     }
+
 
     private string GetContentHeight()
     {

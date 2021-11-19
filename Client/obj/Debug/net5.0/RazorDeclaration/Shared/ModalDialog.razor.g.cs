@@ -104,7 +104,7 @@ using jVision.Shared.Models;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 116 "C:\Users\natha\source\repos\jVision\Client\Shared\ModalDialog.razor"
+#line 127 "C:\Users\natha\source\repos\jVision\Client\Shared\ModalDialog.razor"
        
 
     //rich text edit
@@ -112,6 +112,7 @@ using jVision.Shared.Models;
 
     private bool _disposedValue;
     private BoxDTO _box;
+    private List<string> _users;
     private bool _isOpened = false;
     private double _opacity = 0.8;
     private double _animationDuration = 0.25;
@@ -285,8 +286,9 @@ using jVision.Shared.Models;
     /// When method called Modal dialog will be opened. It should be await-ed.
     /// </summary>
     /// <returns>Task</returns>
-    public async Task Open(BoxDTO b)
+    public async Task Open(BoxDTO b, List<string> u)
     {
+        _users = u;
         _box = b;
         _dialogTop = _dialogDefaultTop;//Reset dialog to page top
         _isOpened = true;

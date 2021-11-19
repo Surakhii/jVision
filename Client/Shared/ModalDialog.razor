@@ -54,6 +54,17 @@
                     </p>
                     <p>
                         <label>
+                            User
+                            <InputSelect @bind-Value="_box.UserName" class="form-control">
+                                <option value="">Select User</option>
+                                @foreach(var user in _users) { 
+                                    <option value="@user">@user</option>
+                                }
+                            </InputSelect>
+                        </label>
+                    </p>
+                    <p>
+                        <label>
                             Standing
                             <InputSelect @bind-Value="_box.Standing" class="form-control">
                                 <option value="">Choose</option>
@@ -120,6 +131,7 @@
 
     private bool _disposedValue;
     private BoxDTO _box;
+    private List<string> _users;
     private bool _isOpened = false;
     private double _opacity = 0.8;
     private double _animationDuration = 0.25;
@@ -293,8 +305,9 @@
     /// When method called Modal dialog will be opened. It should be await-ed.
     /// </summary>
     /// <returns>Task</returns>
-    public async Task Open(BoxDTO b)
+    public async Task Open(BoxDTO b, List<string> u)
     {
+        _users = u;
         _box = b;
         _dialogTop = _dialogDefaultTop;//Reset dialog to page top
         _isOpened = true;

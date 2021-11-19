@@ -31,9 +31,25 @@ namespace jVision.Server.Controllers
         {
             return await _context.Boxes
                 //maybe convert service to dto?
+                //fix this whole thing
                 .Include(c => c.Services)
-                .Select(x => BoxToDTO(x))
-                .ToListAsync();
+                .Select(box => new BoxDTO
+                {
+                    BoxId = box.BoxId,
+                    UserId = box.UserId,
+                    UserName = _context.Users.Where(s => s != null && s.Id == box.UserId).Select(l => l.UserName).FirstOrDefault(),
+                    Ip = box.Ip,
+                    Hostname = box.Hostname,
+                    State = box.State,
+                    Comments = box.Comments,
+                    Standing = box.Standing,
+                    Os = box.Os,
+                    Cidr = box.Cidr,
+                    Subnet = box.Subnet,
+                    Refs = box.BoxId.ToString(),
+                    Services = box.Services.Where(s => s!= null).Select(x => ServiceToDTO(x)).ToList()
+                    //(ICollection<ServiceDTO>)box.Services
+                }).ToListAsync();
         }
 
         [HttpPost]
@@ -113,8 +129,9 @@ namespace jVision.Server.Controllers
                 Version = s.Version,
                 Script = s.Script
             };
-        private static BoxDTO BoxToDTO(Box box) =>
-            new BoxDTO
+        private static BoxDTO BoxToDTO(Box box)
+        {
+            return new BoxDTO
             {
                 BoxId = box.BoxId,
                 UserId = box.UserId,
@@ -128,9 +145,10 @@ namespace jVision.Server.Controllers
                 Cidr = box.Cidr,
                 Subnet = box.Subnet,
                 Refs = box.BoxId.ToString(),
-                Services = box.Services?.Select(x=>ServiceToDTO(x)).ToList()
+                Services = box.Services?.Select(x => ServiceToDTO(x)).ToList()
                 //(ICollection<ServiceDTO>)box.Services
             };
+        }
 
         private static ServiceDTO ServiceToDTO(Service s) =>
             new ServiceDTO

@@ -803,3 +803,4 @@ C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\build-gz\uD40R5WF.gz
 C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\build-gz\g0xW+MSE.gz
 C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\build-gz\KufSBUY2.gz
 C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\build-gz\hBu57NEw.gz
+C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\scopedcss\Pages\Index.Razor.rz.scp.css

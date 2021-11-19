@@ -99,11 +99,6 @@ using jVision.Client.Shared.HtmlColors;
 #nullable restore
 #line 35 "C:\Users\natha\source\repos\jVision\Client\Shared\CollapsePanel.razor"
        
-    [CascadingParameter] private Accordion Parent { get; set; }
-    protected override void OnInitialized()
-    {
-        Parent?.AddCollapsePanel(this);
-    }
 
     private string _componentId = Guid.NewGuid().ToString("n");
     private ElementReference _inputRef;
@@ -138,7 +133,7 @@ using jVision.Client.Shared.HtmlColors;
     public string ExpandedColor
     {
         get => _expandedColor;
-        set => _expandedColor = new HtmlColor(value)?.RgbColor.ToRgbString();
+        set => _expandedColor = value;
     }
     private string _collapsedColor = "211,211,211";//lightGray
     /// <summary>
@@ -148,7 +143,7 @@ using jVision.Client.Shared.HtmlColors;
     public string CollapsedColor
     {
         get => _collapsedColor;
-        set => _collapsedColor = new HtmlColor(value)?.RgbColor.ToRgbString();
+        set => _collapsedColor = value;
     }
     private string _hoverColor = "245, 245, 245";//WhiteSmoke
     /// <summary>
@@ -158,7 +153,7 @@ using jVision.Client.Shared.HtmlColors;
     public string HoverColor
     {
         get => _hoverColor;
-        set => _hoverColor = new HtmlColor(value)?.RgbColor.ToRgbString();
+        set => _hoverColor = value;
     }
 
     /// <summary>
@@ -171,7 +166,7 @@ using jVision.Client.Shared.HtmlColors;
     /// </summary>
     [Parameter] public bool Disabled { get; set; } = false;
 
-    private bool _collapsed = false;
+    private bool _collapsed = true;
     /// <summary>
     /// Can be set if panel should be collapsed `true` or expanded `false`.
     /// </summary>
@@ -184,10 +179,7 @@ using jVision.Client.Shared.HtmlColors;
             if (value != _collapsed)
             {
                 _collapsed = value;
-                InvokeAsync(async () =>
-                {
-                    await CollapseEvent();
-                });
+
             }
         }
     }
@@ -218,17 +210,9 @@ using jVision.Client.Shared.HtmlColors;
     {
         _collapsed = !Collapsed;
 
-        await CollapseEvent();
-    }
-    private async Task CollapseEvent()
-    {
-        Parent?.ActivateCollapsePanel(_collapsed ? null : this);
 
-        if (OnCollapseChanged.HasDelegate)
-        {
-            await OnCollapseChanged.InvokeAsync(_collapsed);
-        }
     }
+
 
     private string GetContentHeight()
     {
