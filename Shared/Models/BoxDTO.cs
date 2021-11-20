@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using jVision.Shared.Annotations;
 
 namespace jVision.Shared.Models
 {
@@ -11,6 +13,8 @@ namespace jVision.Shared.Models
         public int BoxId { get; set; }
         public string UserId { get; set; }
         public string UserName { get; set; }
+        [Required]
+        [IpAddress]
         public string Ip { get; set; }
         public string Hostname { get; set; }
         public bool State { get; set; }

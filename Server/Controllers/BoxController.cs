@@ -10,6 +10,7 @@ using jVision.Shared;
 using Microsoft.AspNetCore.SignalR;
 using jVision.Shared.Models;
 using jVision.Server.Models;
+using jVision.Server.Hubs;
 
 namespace jVision.Server.Controllers
 {
@@ -18,10 +19,12 @@ namespace jVision.Server.Controllers
     public class BoxController : ControllerBase
     {
         private readonly JvisionServerDBContext _context;
+        private readonly IHubContext<BoxHub, IBoxClient> _hubContext;
         //HUB CONTEXt
-        public BoxController(JvisionServerDBContext context)
+        public BoxController(JvisionServerDBContext context, IHubContext<BoxHub, IBoxClient> hubContext)
         {
             _context = context;
+            _hubContext = hubContext;
 
         }
 
@@ -72,6 +75,7 @@ namespace jVision.Server.Controllers
                 Services = b.Services?.Select(x => DTOToService(x)).ToList()
             }));
             await _context.SaveChangesAsync();
+            await _hubContext.Clients.All.BoxAdded("added");
 
             return StatusCode(200);
         }
@@ -79,6 +83,7 @@ namespace jVision.Server.Controllers
         [HttpPut]
         public async Task<IActionResult> PutBox(BoxDTO boxdto)
         {
+
             var box = await _context.Boxes.FindAsync(boxdto.BoxId);
             if (box == null)
             {
@@ -102,6 +107,8 @@ namespace jVision.Server.Controllers
             {
                 return NotFound();
             }
+            await _hubContext.Clients.All.BoxUpdated(boxdto);
+            Console.WriteLine("PLEASE");
             return NoContent();
         }
 

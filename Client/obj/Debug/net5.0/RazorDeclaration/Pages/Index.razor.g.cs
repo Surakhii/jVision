@@ -110,7 +110,14 @@ using System.Collections.Generic;
 #line hidden
 #nullable disable
 #nullable restore
-#line 7 "C:\Users\natha\source\repos\jVision\Client\Pages\Index.razor"
+#line 6 "C:\Users\natha\source\repos\jVision\Client\Pages\Index.razor"
+using Microsoft.AspNetCore.SignalR.Client;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 9 "C:\Users\natha\source\repos\jVision\Client\Pages\Index.razor"
 using BlazorTable;
 
 #line default
@@ -125,13 +132,13 @@ using BlazorTable;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 184 "C:\Users\natha\source\repos\jVision\Client\Pages\Index.razor"
+#line 186 "C:\Users\natha\source\repos\jVision\Client\Pages\Index.razor"
        
     [Inject] public HttpClient Http { get; set; }
 
     //private List<int> identifiers = new List<int>();
     private Dictionary<int, ModalDialog> myModals = new Dictionary<int, ModalDialog>();
-
+    private HubConnection hubConnection;
     //searchtext
     private string _searchText = "";
     //dropdown
@@ -156,6 +163,7 @@ using BlazorTable;
 
     //dialog
     private ModalDialog _dialog;
+    private int bCount => boxes.Count();
     private string _overlayColor = "128,128,128";
     private double _overlayOpacity = 50;
     private double _modalHeight = 0;
@@ -201,25 +209,47 @@ using BlazorTable;
     private IList<ServiceDTO> servicesAdded = new List<ServiceDTO>();
     private IList<BoxDTO> filteredBoxes = new List<BoxDTO>();
 
-    public string hello = "hello";
     private string error;
     private string requestUri = "Box";
     private string userUri = "User";
     protected override async Task OnInitializedAsync()
     {
+        hubConnection = new HubConnectionBuilder().WithUrl(NavigationManager.ToAbsoluteUri("/boxhub")).Build();
+        await hubConnection.StartAsync();
+
         try
         {
             boxes = await Http.GetFromJsonAsync<IList<BoxDTO>>(requestUri);
-            boxes = boxes.OrderBy(o => o.Ip).ToList();
+            //fix the ordering here
+            boxes = boxes.Where(o=>o.Ip != null).OrderBy(i=>Version.Parse(i.Ip)).ToList();
             users = await Http.GetFromJsonAsync<List<string>>(userUri);
             filteredBoxes = new List<BoxDTO>(boxes);
-            
+
             //identifiers = boxes.Select(s => s.BoxId).ToList();
         }
-        catch (Exception)
+        catch (Exception e)
         {
+            Console.WriteLine(e);
             error = "Error Encountered";
         };
+        hubConnection.On<BoxDTO>("BoxUpdated", t =>
+        {
+            BoxDTO updatedBox = boxes.Where(s => s.BoxId == t.BoxId).FirstOrDefault();
+            boxes[boxes.IndexOf(updatedBox)] = t;
+            Search();
+        });
+        hubConnection.On<string>("BoxAdded", async t =>
+        {
+            boxes = await Http.GetFromJsonAsync<IList<BoxDTO>>(requestUri);
+            //fix the ordering here
+            boxes = boxes.OrderBy(o => o.Ip).ToList();
+            Search();
+        });
+        hubConnection.On<string>("UserAdded", async t =>
+        {
+            users = await Http.GetFromJsonAsync<List<string>>(userUri);
+            StateHasChanged();
+        });
     }
 
 
@@ -255,7 +285,6 @@ using BlazorTable;
 
     private async Task AddBox()
     {
-        Console.WriteLine("anyuthing");
         ServiceDTO newService = new ServiceDTO
         {
             Port = 53,
@@ -404,6 +433,7 @@ using BlazorTable;
 #line default
 #line hidden
 #nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager NavigationManager { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IJSRuntime _JSRuntime { get; set; }
     }
 }

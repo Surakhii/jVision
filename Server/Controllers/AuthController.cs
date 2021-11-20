@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using jVision.Server.Hubs;
 using jVision.Server.Models;
 using jVision.Shared.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace jVision.Server.Controllers
 {
@@ -16,10 +18,12 @@ namespace jVision.Server.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        public AuthController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        private readonly IHubContext<BoxHub, IBoxClient> _hubContext;
+        public AuthController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IHubContext<BoxHub, IBoxClient> hubContext)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _hubContext = hubContext;
         }
         [HttpPost]
         public async Task<IActionResult> Login(LoginRequest request)
@@ -39,11 +43,13 @@ namespace jVision.Server.Controllers
             user.UserName = parameters.UserName;
             var result = await _userManager.CreateAsync(user, parameters.Password);
             if (!result.Succeeded) return BadRequest(result.Errors.FirstOrDefault()?.Description);
+            await _hubContext.Clients.All.UserAdded("user");
             return await Login(new LoginRequest
             {
                 UserName = parameters.UserName,
                 Password = parameters.Password
             });
+
         }
 
         [Authorize]

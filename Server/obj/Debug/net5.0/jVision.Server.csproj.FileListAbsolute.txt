@@ -106,3 +106,12 @@ C:\Users\natha\source\repos\jVision\Server\bin\Debug\net5.0\fr\BlazorTable.resou
 C:\Users\natha\source\repos\jVision\Server\bin\Debug\net5.0\pt-BR\BlazorTable.resources.dll
 C:\Users\natha\source\repos\jVision\Server\bin\Debug\net5.0\Blazorise.dll
 C:\Users\natha\source\repos\jVision\Server\bin\Debug\net5.0\Blazorise.RichTextEdit.dll
+C:\Users\natha\source\repos\jVision\Server\bin\Debug\net5.0\Microsoft.AspNetCore.Connections.Abstractions.dll
+C:\Users\natha\source\repos\jVision\Server\bin\Debug\net5.0\Microsoft.AspNetCore.Http.Connections.Client.dll
+C:\Users\natha\source\repos\jVision\Server\bin\Debug\net5.0\Microsoft.AspNetCore.Http.Connections.Common.dll
+C:\Users\natha\source\repos\jVision\Server\bin\Debug\net5.0\Microsoft.AspNetCore.Http.Features.dll
+C:\Users\natha\source\repos\jVision\Server\bin\Debug\net5.0\Microsoft.AspNetCore.SignalR.Client.dll
+C:\Users\natha\source\repos\jVision\Server\bin\Debug\net5.0\Microsoft.AspNetCore.SignalR.Client.Core.dll
+C:\Users\natha\source\repos\jVision\Server\bin\Debug\net5.0\Microsoft.AspNetCore.SignalR.Common.dll
+C:\Users\natha\source\repos\jVision\Server\bin\Debug\net5.0\Microsoft.AspNetCore.SignalR.Protocols.Json.dll
+C:\Users\natha\source\repos\jVision\Server\bin\Debug\net5.0\Microsoft.Extensions.Primitives.dll
