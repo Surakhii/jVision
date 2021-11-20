@@ -47,7 +47,6 @@ namespace jVision.Server.Controllers
                     Comments = box.Comments,
                     Standing = box.Standing,
                     Os = box.Os,
-                    Cidr = box.Cidr,
                     Subnet = box.Subnet,
                     Refs = box.BoxId.ToString(),
                     Services = box.Services.Where(s => s!= null).Select(x => ServiceToDTO(x)).ToList()
@@ -56,9 +55,27 @@ namespace jVision.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<IEnumerable<BoxDTO>>> PostBox(IEnumerable<BoxDTO> bto)
+        public async Task<ActionResult<IList<BoxDTO>>> PostBox(IList<BoxDTO> bto)
         {
             //async vs sync?
+            //check if it is a COMPLETE duplicate
+            foreach (var box in bto.ToList())
+            {
+                Box exists = _context.Boxes.Include(x=>x.Services).FirstOrDefault(bruh => bruh.Ip == box.Ip);
+                if(exists != null)
+                {
+                    exists.User = _context.Users.Where(l => l.UserName.Equals(box.UserName)).FirstOrDefault();
+                    exists.Hostname = box.Hostname;
+                    exists.State = box.State;
+                    exists.Comments = box.Comments;
+                    exists.Standing = box.Standing;
+                    exists.Os = box.Os;
+                    exists.Subnet = box.Subnet;
+                    _context.RemoveRange(exists.Services);
+                    exists.Services = box.Services?.Select(x => DTOToService(x)).ToList();
+                    bto.Remove(box);
+                }
+            }
             await _context.Boxes.AddRangeAsync(bto.Select(b => new Box
             {
                 //UserId = b.UserId,
@@ -70,7 +87,6 @@ namespace jVision.Server.Controllers
                 Comments = b.Comments,
                 Standing = b.Standing,
                 Os = b.Os,
-                Cidr = b.Cidr,
                 Subnet = b.Subnet,
                 Services = b.Services?.Select(x => DTOToService(x)).ToList()
             }));
@@ -96,7 +112,6 @@ namespace jVision.Server.Controllers
             box.Comments = boxdto.Comments;
             box.Standing = boxdto.Standing;
             box.Os = boxdto.Os;
-            box.Cidr = boxdto.Cidr;
             box.Subnet = boxdto.Subnet;
 
             try
@@ -126,6 +141,14 @@ namespace jVision.Server.Controllers
         /**
 
         **/
+
+        private static void RemoveAll(IList<Service> s)
+        {
+            while(s.Count !=0)
+            {
+                s.RemoveAt(0);
+            }
+        }
         private static Service DTOToService(ServiceDTO s) =>
             new Service
             {
@@ -149,7 +172,6 @@ namespace jVision.Server.Controllers
                 Comments = box.Comments,
                 Standing = box.Standing,
                 Os = box.Os,
-                Cidr = box.Cidr,
                 Subnet = box.Subnet,
                 Refs = box.BoxId.ToString(),
                 Services = box.Services?.Select(x => ServiceToDTO(x)).ToList()

@@ -20,11 +20,10 @@ namespace jVision.Server.Models
         public string Comments { get; set; }
         public string Standing { get; set; }
         public string Os { get; set; }
-        public string Cidr { get; set; }
 
         public string Subnet { get; set; }
 
-        public ICollection<Service> Services { get; set; }
+        public IList<Service> Services { get; set; }
         
     }
 }

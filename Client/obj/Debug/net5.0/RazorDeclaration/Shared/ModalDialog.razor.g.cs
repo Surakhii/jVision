@@ -104,12 +104,12 @@ using jVision.Shared.Models;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 127 "C:\Users\natha\source\repos\jVision\Client\Shared\ModalDialog.razor"
+#line 131 "C:\Users\natha\source\repos\jVision\Client\Shared\ModalDialog.razor"
        
 
     //rich text edit
 
-
+    private BoxDTO _tempbox = new BoxDTO();
     private bool _disposedValue;
     private BoxDTO _box;
     private List<string> _users;
@@ -235,6 +235,7 @@ using jVision.Shared.Models;
     protected override async Task OnInitializedAsync()
     {
         _dialogTop = _dialogDefaultTop;
+        Console.WriteLine("ye");
     }
 
 
@@ -243,15 +244,27 @@ using jVision.Shared.Models;
         if (ShowCloseButton && _isOpened)
         {
 
-            if (OnCloseButtonClicked.HasDelegate)
-            {
-                await OnCloseButtonClicked.InvokeAsync(e);
-            }
-
+            reset();
             await Close();
         }
     }
-   
+
+    private async Task CloseDialog()
+    {
+        reset();
+        await Close();
+    }
+    private void reset()
+    {
+        _box.Ip = _tempbox.Ip;
+        _box.Hostname = _tempbox.Hostname;
+        _box.Subnet = _tempbox.Subnet;
+        _box.Os = _tempbox.Os;
+        _box.UserName = _tempbox.UserName;
+        _box.Standing = _tempbox.Standing;
+        _box.Comments = _tempbox.Comments;
+
+    }
     private async Task OverlayKeyPress(KeyboardEventArgs e)
     {
         if (CloseOnEscapeKey && (e.Key?.Equals("Escape", StringComparison.OrdinalIgnoreCase) ?? false) && _isOpened)
@@ -289,6 +302,13 @@ using jVision.Shared.Models;
     public async Task Open(BoxDTO b, List<string> u)
     {
         _users = u;
+        _tempbox.Ip = b.Ip;
+        _tempbox.Hostname = b.Hostname;
+        _tempbox.Subnet = b.Subnet;
+        _tempbox.Os = b.Os;
+        _tempbox.UserName = b.UserName;
+        _tempbox.Standing = b.Standing;
+        _tempbox.Comments = b.Comments;
         _box = b;
         _dialogTop = _dialogDefaultTop;//Reset dialog to page top
         _isOpened = true;

@@ -132,7 +132,7 @@ using BlazorTable;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 186 "C:\Users\natha\source\repos\jVision\Client\Pages\Index.razor"
+#line 181 "C:\Users\natha\source\repos\jVision\Client\Pages\Index.razor"
        
     [Inject] public HttpClient Http { get; set; }
 
@@ -287,7 +287,7 @@ using BlazorTable;
     {
         ServiceDTO newService = new ServiceDTO
         {
-            Port = 53,
+            Port = 69,
             State = false,
             Name = null,
             Version = null,
@@ -302,8 +302,8 @@ using BlazorTable;
             Hostname = "Hostname",
             State = false,
             Comments = "none",
-            Standing = "Active",
-            Os = "Linux",
+            Standing = "Unrelated",
+            Os = "Windows",
             Cidr = "/24",
             Services = servicesAdded,
             Subnet = "192.168.1.0/24"
