@@ -825,3 +825,6 @@ C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\build-gz\OwzWFEGb.gz
 C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\build-gz\rz0p8Ao8.gz
 C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\build-gz\jck+jWBD.gz
 C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\build-gz\SZUe00d6.gz
+C:\Users\natha\source\repos\jVision\Client\bin\Debug\net5.0\wwwroot\_framework\Blazored.Toast.dll.gz
+C:\Users\natha\source\repos\jVision\Client\bin\Debug\net5.0\wwwroot\_framework\Blazored.Toast.dll
+C:\Users\natha\source\repos\jVision\Client\obj\Debug\net5.0\build-gz\L2CF+XTf.gz

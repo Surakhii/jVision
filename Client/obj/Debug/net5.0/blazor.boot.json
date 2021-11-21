@@ -7,6 +7,7 @@
   "linkerEnabled": false,
   "resources": {
     "assembly": {
+      "Blazored.Toast.dll": "sha256-6cGnZ9WDP6hzM+ZRdvG+94hYjOke+bTjbJ5Xyawsp0M=",
       "Blazorise.dll": "sha256-QX+sQ7YME\/p9qKfx30NXsfp4FwArXS6hXKvFrlAdQ4A=",
       "Blazorise.RichTextEdit.dll": "sha256-H4Qeg0M7XTBFnAyyyClB9wcis3uzRXSwvUDS8VsYsR8=",
       "BlazorTable.dll": "sha256-l3bsCAVJ0N8XeEh+fGw48U8\/Tg8RGE7IluLh6T0V4ls=",
@@ -249,12 +250,12 @@
       "netstandard.dll": "sha256-5TcSqPhm3fAT6s3NH7+BMGakcfGgZGd3\/\/cVwVs2VPI=",
       "System.Private.CoreLib.dll": "sha256-VJv3DLM\/G0m\/RnTeWL9X8mkbxlsn8nNRhm0BHYEY+uo=",
       "jVision.Shared.dll": "sha256-wQcWMVB36bMgACjeJ6bfCSNtv8QeSNTRO8MPiQri0G4=",
-      "jVision.Client.dll": "sha256-msGziZcbbXTDI1H4xEGZtz9B0jvLzDH3mAhs2AydDXQ="
+      "jVision.Client.dll": "sha256-RnxhPIeaNzFwW+O\/y+qedha9d0RP9oNCHHVgLsvj2eQ="
     },
     "lazyAssembly": null,
     "pdb": {
       "jVision.Shared.pdb": "sha256-1r9mdD25NJ6lqjBiZCk9aN9tFcgj0iK+j3cXgYy3Ks8=",
-      "jVision.Client.pdb": "sha256-oE4tbSURpmL2NwAzRDwtuBpixBLBzEAM4bY\/IGnUffI="
+      "jVision.Client.pdb": "sha256-miP6TBs4YD9g\/GYWz26DHjOhlfRU9oZoZ5LgEghiNps="
     },
     "runtime": {
       "dotnet.timezones.blat": "sha256-PvlHrby1PYtdX46ITs6pB8iDNqXNcewh8Eoa\/Gm2+GM=",

@@ -2,10 +2,15 @@
 @using Microsoft.AspNetCore.Components.Authorization
 @using jVision.Shared.Models
 @using jVision.Shared
+@using jVision.Client.Shared
 @using System.Collections.Generic
 @using Microsoft.AspNetCore.SignalR.Client
 @inject IJSRuntime _JSRuntime
-@inject NavigationManager NavigationManager 
+@using Blazored.Toast
+@using Blazored.Toast.Services
+@inject IToastService toastService 
+@inject NavigationManager NavigationManager
+
 @using BlazorTable
 <h1>Box Count: @bCount</h1>
 
@@ -76,90 +81,92 @@ else
         </Header>
     </ModalDialog>
 
-            @foreach (var box in filteredBoxes)
-            {
-                <!-- MODAL DIALOG-->
-                //wtf is going on here
+    <BlazoredToasts Position="Blazored.Toast.Configuration.ToastPosition.TopRight" Timeout="300" IconType="IconType.FontAwesome" />
 
-                @switch(box.Standing)
-                {
-                    case "Active":
-                        _accordionCollapsedColor = "#ffb339";
-                        _accordionExpandedColor = "#ffb339";
-                        _accordionHoverColor = "#ffbb4d";
+    @foreach (var box in filteredBoxes)
+    {
+        <!-- MODAL DIALOG-->
+        //wtf is going on here
 
-                        break;
-                    case "Pwned":
-                        _accordionCollapsedColor = "#4bbb4b";
-                        _accordionExpandedColor = "#4bbb4b";
-                        _accordionHoverColor = "#59c059";
-                        break;
-                    case "Comeback":
-                        _accordionCollapsedColor = "#7ea0ff";
-                        _accordionExpandedColor = "#7ea0ff";
-                        _accordionHoverColor = "#99b4ff";
-                        break;
-                    case "Unrelated":
-                        _accordionCollapsedColor = "#ff7b7b";
-                        _accordionExpandedColor = "#ff7b7b";
-                        _accordionHoverColor = "#ff9999";
-                        break;
-                    default:
-                        _accordionCollapsedColor = "#e6e6e6";
-                        _accordionExpandedColor = "#e6e6e6";
-                        _accordionHoverColor = "#f2f2f2";
-                        break;
-                }
+        @switch (box.Standing)
+        {
+            case "Active":
+                _accordionCollapsedColor = "#ffb339";
+                _accordionExpandedColor = "#ffb339";
+                _accordionHoverColor = "#ffbb4d";
 
-                <CollapsePanel style="margin-bottom: 10px;" CollapsedColor="@_accordionCollapsedColor" Animate="false" ExpandedColor="@_accordionExpandedColor" HoverColor="@_accordionHoverColor"  ShowContentOverflow="true" ContentHeight="0">
-                    <CollapsedHeaderContent>
+                break;
+            case "Pwned":
+                _accordionCollapsedColor = "#4bbb4b";
+                _accordionExpandedColor = "#4bbb4b";
+                _accordionHoverColor = "#59c059";
+                break;
+            case "Comeback":
+                _accordionCollapsedColor = "#7ea0ff";
+                _accordionExpandedColor = "#7ea0ff";
+                _accordionHoverColor = "#99b4ff";
+                break;
+            case "Unrelated":
+                _accordionCollapsedColor = "#ff7b7b";
+                _accordionExpandedColor = "#ff7b7b";
+                _accordionHoverColor = "#ff9999";
+                break;
+            default:
+                _accordionCollapsedColor = "#e6e6e6";
+                _accordionExpandedColor = "#e6e6e6";
+                _accordionHoverColor = "#f2f2f2";
+                break;
+        }
 
-                        <div class="p-2 flex-grow-1"><h5>@box.Hostname | @box.Ip</h5></div>
+        <CollapsePanel style="margin-bottom: 10px;" CollapsedColor="@_accordionCollapsedColor" Animate="false" ExpandedColor="@_accordionExpandedColor" HoverColor="@_accordionHoverColor" ShowContentOverflow="true" ContentHeight="0">
+            <CollapsedHeaderContent>
 
-                        <div class="p-1">
-                            <button @onclick:stopPropagation="true" @onclick:preventDefault="true" class="btn btn-success p-2 align-middle" @onclick="(() => OpenDialog(box, users))">Edit</button>
-                        </div>
-                        <div class="p-2">
-                            <h5 class="align-middle">Assigned to @box.UserName</h5>
-                        </div>
-                        <div class="p-2"><span class="fa fa-lg fa-chevron-circle-down align-middle" aria-hidden="true"></span></div>
-                    </CollapsedHeaderContent>
-                    <ExpandedHeaderContent>
+                <div class="p-2 flex-grow-1"><h5>@box.Hostname | @box.Ip</h5></div>
 
-                        <div class="p-2 flex-grow-1"><h5>@box.Hostname | @box.Ip</h5></div>
+                <div class="p-1">
+                    <button @onclick:stopPropagation="true" @onclick:preventDefault="true" class="btn btn-success p-2 align-middle" @onclick="(() => OpenDialog(box, users))">Edit</button>
+                </div>
+                <div class="p-2">
+                    <h5 class="align-middle">Assigned to @box.UserName</h5>
+                </div>
+                <div class="p-2"><span class="fa fa-lg fa-chevron-circle-down align-middle" aria-hidden="true"></span></div>
+            </CollapsedHeaderContent>
+            <ExpandedHeaderContent>
 
-                        <div class="p-1">
-                            <button @onclick:stopPropagation="true" @onclick:preventDefault="true" class="btn btn-success p-2 align-middle" @onclick="(() => OpenDialog(box, users))">Edit</button>
-                        </div>
-                        <div class="p-2">
-                            <h5 class="align-middle">Assigned to @box.UserName</h5>
-                        </div>
-                        <div class="p-2"><span class="fa fa-lg fa-chevron-circle-up align-middle" aria-hidden="true"></span></div>
-                    </ExpandedHeaderContent>
-                    <Content>
-                        <div style="border: 1px solid gray; height: 100%; padding:15px;">
-                            <h4><b>Hostname: </b>@box.Hostname</h4>
-                            <h4><b>Ip: </b>@box.Ip</h4>
-                            <h4><b>Os: </b> @box.Os</h4>
-                            <h4><b>Subnet: </b>@box.Subnet</h4>
-                            <br />
-                            <Table TableItem="ServiceDTO" Items="box.Services" PageSize="15" ColumnReorder="true">
-                                <Column TableItem="ServiceDTO" Title="Port" Field="@(x => x.Port)" Sortable="true" Filterable="true" Width="10%" />
-                                <Column TableItem="ServiceDTO" Title="Name" Field="@(x => x.Name)" Sortable="true" Filterable="true" Width="20%" />
-                                <Column TableItem="ServiceDTO" Title="Protocol" Field="@(x => x.Protocol)" Sortable="true" Filterable="true" Width="20%" />
-                                <Column TableItem="ServiceDTO" Title="State" Field="@(x => x.State)" Sortable="true" Filterable="true" Width="20%">
-                                </Column>
-                                <Column TableItem="ServiceDTO" Title="Version" Field="@(x => x.Version)" Sortable="true" Filterable="true" Width="10%" />
-                                <Column TableItem="ServiceDTO" Title="Script" Field="@(x => x.Script)" Sortable="true" Filterable="true" Width="10%" Format="C" Align="Align.Right" />
-                                <Pager ShowPageNumber="true" ShowTotalCount="true" />
-                            </Table>
-                            <h4><b>Comments: </b></h4>
-                            @box.Comments
-                        </div>
-                    </Content>
-                </CollapsePanel>
-            }
-            @error
+                <div class="p-2 flex-grow-1"><h5>@box.Hostname | @box.Ip</h5></div>
+
+                <div class="p-1">
+                    <button @onclick:stopPropagation="true" @onclick:preventDefault="true" class="btn btn-success p-2 align-middle" @onclick="(() => OpenDialog(box, users))">Edit</button>
+                </div>
+                <div class="p-2">
+                    <h5 class="align-middle">Assigned to @box.UserName</h5>
+                </div>
+                <div class="p-2"><span class="fa fa-lg fa-chevron-circle-up align-middle" aria-hidden="true"></span></div>
+            </ExpandedHeaderContent>
+            <Content>
+                <div style="border: 1px solid gray; height: 100%; padding:15px;">
+                    <h4><b>Hostname: </b>@box.Hostname</h4>
+                    <h4><b>Ip: </b>@box.Ip</h4>
+                    <h4><b>Os: </b> @box.Os</h4>
+                    <h4><b>Subnet: </b>@box.Subnet</h4>
+                    <br />
+                    <Table TableItem="ServiceDTO" Items="box.Services" PageSize="15" ColumnReorder="true">
+                        <Column TableItem="ServiceDTO" Title="Port" Field="@(x => x.Port)" Sortable="true" Filterable="true" Width="10%" />
+                        <Column TableItem="ServiceDTO" Title="Name" Field="@(x => x.Name)" Sortable="true" Filterable="true" Width="20%" />
+                        <Column TableItem="ServiceDTO" Title="Protocol" Field="@(x => x.Protocol)" Sortable="true" Filterable="true" Width="20%" />
+                        <Column TableItem="ServiceDTO" Title="State" Field="@(x => x.State)" Sortable="true" Filterable="true" Width="20%">
+                        </Column>
+                        <Column TableItem="ServiceDTO" Title="Version" Field="@(x => x.Version)" Sortable="true" Filterable="true" Width="10%" />
+                        <Column TableItem="ServiceDTO" Title="Script" Field="@(x => x.Script)" Sortable="true" Filterable="true" Width="10%" Format="C" Align="Align.Right" />
+                        <Pager ShowPageNumber="true" ShowTotalCount="true" />
+                    </Table>
+                    <h4><b>Comments: </b></h4>
+                    @box.Comments
+                </div>
+            </Content>
+        </CollapsePanel>
+    }
+    @error
     /**
     <div class="accordion" id="accordionExample">
         <div class="accordion-item">
@@ -245,6 +252,7 @@ else
     private Accordion _accordion;
     private CollapsePanel? _activePanel;
     private IList<BoxDTO> boxes = new List<BoxDTO>();
+    //private List<BoxDTO> upgradedBoxes = new List<BoxDTO>();
     private List<string> users = new List<string>();
     private List<string> _subnets => boxes.Where(x => x.Subnet != null).Select(s => s.Subnet).Distinct().ToList();
     // private IList<BoxDTO> filteredBoxes = new List<BoxDTO>();
@@ -266,7 +274,7 @@ else
         {
             boxes = await Http.GetFromJsonAsync<IList<BoxDTO>>(requestUri);
             //fix the ordering here
-            boxes = boxes.Where(o=>o.Ip != null).OrderBy(i=>Version.Parse(i.Ip)).ToList();
+            boxes = boxes.Where(o => o.Ip != null).OrderBy(i => Version.Parse(i.Ip)).ToList();
             users = await Http.GetFromJsonAsync<List<string>>(userUri);
             filteredBoxes = new List<BoxDTO>(boxes);
 
@@ -295,10 +303,23 @@ else
             users = await Http.GetFromJsonAsync<List<string>>(userUri);
             StateHasChanged();
         });
+        hubConnection.On<List<BoxDTO>>("BoxUpgraded", t =>
+        {
+            foreach (var tox in t.ToList())
+            {
+                BoxDTO b = boxes.Where(x => x.Ip == tox.Ip).FirstOrDefault();
+                b.Hostname = tox.Hostname;
+                b.State = tox.State;
+                //b.Os = tox.Os;
+                b.Subnet = tox.Subnet;
+                b.Services.Clear();
+                b.Services = tox.Services;
+            }
+            Search();
+            toastService.ShowInfo($"Boxes Updated:{String.Join(", ", t.Select(i=>i.Ip))} ");
+            Console.WriteLine("yasdf");
+        });
     }
-
-
-
 
 
 
@@ -330,13 +351,15 @@ else
 
     private async Task AddBox()
     {
+        servicesAdded.Clear();
+        boxesAdded.Clear();
         ServiceDTO newService = new ServiceDTO
         {
-            Port = 69,
-            State = false,
-            Name = null,
-            Version = null,
-            Script = "ooo"
+            Port = 99,
+            State = true,
+            Name = "potato",
+            Version = "tomato",
+            Script = "oowerwerwerwerwerr"
         };
         servicesAdded.Add(newService);
         servicesAdded.Add(newService);
@@ -344,8 +367,8 @@ else
         {
             Ip = "192.168.1.1",
             UserName = "jbrick123",
-            Hostname = "Hostname",
-            State = false,
+            Hostname = "yoyoyoyoyoo",
+            State = true,
             Comments = "none",
             Standing = "Unrelated",
             Os = "Windows",

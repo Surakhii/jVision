@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "K4l+w+K84l4UIqxiS2+MNebH7hQT7uIb4ql2s91GYlI70yFIa63lY+YBB9rEDGorStQmQFFyZGBTdzxeVwscyA==",
+  "dgSpecHash": "wPVmoA8vBqktHS1EFpmIR9qrEKdNINlRo4U5mUYJ+YvIq3ibbg7kB3eUHbM3YtEowJ9+QBHJmYS+fpvz/t/KYA==",
   "success": true,
   "projectFilePath": "C:\\Users\\natha\\source\\repos\\jVision\\Client\\jVision.Client.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\natha\\.nuget\\packages\\blazored.toast\\3.2.2\\blazored.toast.3.2.2.nupkg.sha512",
     "C:\\Users\\natha\\.nuget\\packages\\blazorise\\0.9.5\\blazorise.0.9.5.nupkg.sha512",
     "C:\\Users\\natha\\.nuget\\packages\\blazorise.richtextedit\\0.9.5\\blazorise.richtextedit.0.9.5.nupkg.sha512",
     "C:\\Users\\natha\\.nuget\\packages\\blazortable\\1.17.0\\blazortable.1.17.0.nupkg.sha512",

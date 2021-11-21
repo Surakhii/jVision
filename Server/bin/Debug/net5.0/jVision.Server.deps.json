@@ -317,6 +317,22 @@
           "jVision.Server.dll": {}
         }
       },
+      "Blazored.Toast/3.2.2": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Components": "5.0.12",
+          "Microsoft.AspNetCore.Components.Web": "5.0.12",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "5.0.0"
+        },
+        "runtime": {
+          "lib/netstandard2.1/Blazored.Toast.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.1/Blazored.Toast.dll": {}
+        }
+      },
       "Blazorise/0.9.5": {
         "dependencies": {
           "Microsoft.AspNetCore.Components": "5.0.12",
@@ -2114,6 +2130,7 @@
       "jVision.Client/1.0.0": {
         "dependencies": {
           "BlazorTable": "1.17.0",
+          "Blazored.Toast": "3.2.2",
           "Blazorise.RichTextEdit": "0.9.5",
           "Microsoft.AspNetCore.Components.Authorization": "5.0.11",
           "Microsoft.AspNetCore.Components.WebAssembly": "5.0.10",
@@ -3728,6 +3745,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "Blazored.Toast/3.2.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-6RiWHpgIgJJFWZHnmSZb/6IBP6LS6F5brLDGTBls/B4bTf0SzPsRoTUu2g6y7sY59/PFC1XeKbwXHys9PCe6lw==",
+      "path": "blazored.toast/3.2.2",
+      "hashPath": "blazored.toast.3.2.2.nupkg.sha512"
     },
     "Blazorise/0.9.5": {
       "type": "package",

@@ -2,6 +2,26 @@
   "version": 3,
   "targets": {
     "net5.0": {
+      "Blazored.Toast/3.2.2": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNetCore.Components": "3.1.6",
+          "Microsoft.AspNetCore.Components.Web": "3.1.6",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "3.1.6"
+        },
+        "compile": {
+          "lib/netstandard2.1/Blazored.Toast.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.1/Blazored.Toast.dll": {}
+        },
+        "build": {
+          "buildTransitive/Blazored.Toast.props": {}
+        },
+        "buildMultiTargeting": {
+          "buildMultiTargeting/Blazored.Toast.props": {}
+        }
+      },
       "Blazorise/0.9.5": {
         "type": "package",
         "dependencies": {
@@ -2690,6 +2710,7 @@
         "framework": ".NETCoreApp,Version=v5.0",
         "dependencies": {
           "BlazorTable": "1.17.0",
+          "Blazored.Toast": "3.2.2",
           "Blazorise.RichTextEdit": "0.9.5",
           "Microsoft.AspNetCore.Components.Authorization": "5.0.11",
           "Microsoft.AspNetCore.Components.WebAssembly": "5.0.10",
@@ -2724,6 +2745,25 @@
     }
   },
   "libraries": {
+    "Blazored.Toast/3.2.2": {
+      "sha512": "6RiWHpgIgJJFWZHnmSZb/6IBP6LS6F5brLDGTBls/B4bTf0SzPsRoTUu2g6y7sY59/PFC1XeKbwXHys9PCe6lw==",
+      "type": "package",
+      "path": "blazored.toast/3.2.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "blazored.toast.3.2.2.nupkg.sha512",
+        "blazored.toast.nuspec",
+        "build/Blazored.Toast.props",
+        "build/Microsoft.AspNetCore.StaticWebAssets.props",
+        "buildMultiTargeting/Blazored.Toast.props",
+        "buildTransitive/Blazored.Toast.props",
+        "icon.png",
+        "lib/netstandard2.1/Blazored.Toast.dll",
+        "staticwebassets/blazored-toast.css",
+        "staticwebassets/blazored-toast.min.css"
+      ]
+    },
     "Blazorise/0.9.5": {
       "sha512": "ml+J5/LVe0QZ1IzIQo4Z/+sX1W8zgYwCF7i7FkdwBw3lZIDi7ebwaGj0wcfE8huGOwOrzwlkmv403223FPvSzg==",
       "type": "package",

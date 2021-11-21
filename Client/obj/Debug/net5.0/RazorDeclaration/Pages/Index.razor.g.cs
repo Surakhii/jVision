@@ -75,13 +75,6 @@ using jVision.Client;
 #line hidden
 #nullable disable
 #nullable restore
-#line 10 "C:\Users\natha\source\repos\jVision\Client\_Imports.razor"
-using jVision.Client.Shared;
-
-#line default
-#line hidden
-#nullable disable
-#nullable restore
 #line 2 "C:\Users\natha\source\repos\jVision\Client\Pages\Index.razor"
 using Microsoft.AspNetCore.Components.Authorization;
 
@@ -104,13 +97,20 @@ using jVision.Shared;
 #nullable disable
 #nullable restore
 #line 5 "C:\Users\natha\source\repos\jVision\Client\Pages\Index.razor"
-using System.Collections.Generic;
+using jVision.Client.Shared;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
 #line 6 "C:\Users\natha\source\repos\jVision\Client\Pages\Index.razor"
+using System.Collections.Generic;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 7 "C:\Users\natha\source\repos\jVision\Client\Pages\Index.razor"
 using Microsoft.AspNetCore.SignalR.Client;
 
 #line default
@@ -118,6 +118,20 @@ using Microsoft.AspNetCore.SignalR.Client;
 #nullable disable
 #nullable restore
 #line 9 "C:\Users\natha\source\repos\jVision\Client\Pages\Index.razor"
+using Blazored.Toast;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 10 "C:\Users\natha\source\repos\jVision\Client\Pages\Index.razor"
+using Blazored.Toast.Services;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 14 "C:\Users\natha\source\repos\jVision\Client\Pages\Index.razor"
 using BlazorTable;
 
 #line default
@@ -132,7 +146,7 @@ using BlazorTable;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 181 "C:\Users\natha\source\repos\jVision\Client\Pages\Index.razor"
+#line 188 "C:\Users\natha\source\repos\jVision\Client\Pages\Index.razor"
        
     [Inject] public HttpClient Http { get; set; }
 
@@ -200,6 +214,7 @@ using BlazorTable;
     private Accordion _accordion;
     private CollapsePanel? _activePanel;
     private IList<BoxDTO> boxes = new List<BoxDTO>();
+    //private List<BoxDTO> upgradedBoxes = new List<BoxDTO>();
     private List<string> users = new List<string>();
     private List<string> _subnets => boxes.Where(x => x.Subnet != null).Select(s => s.Subnet).Distinct().ToList();
     // private IList<BoxDTO> filteredBoxes = new List<BoxDTO>();
@@ -221,7 +236,7 @@ using BlazorTable;
         {
             boxes = await Http.GetFromJsonAsync<IList<BoxDTO>>(requestUri);
             //fix the ordering here
-            boxes = boxes.Where(o=>o.Ip != null).OrderBy(i=>Version.Parse(i.Ip)).ToList();
+            boxes = boxes.Where(o => o.Ip != null).OrderBy(i => Version.Parse(i.Ip)).ToList();
             users = await Http.GetFromJsonAsync<List<string>>(userUri);
             filteredBoxes = new List<BoxDTO>(boxes);
 
@@ -250,10 +265,23 @@ using BlazorTable;
             users = await Http.GetFromJsonAsync<List<string>>(userUri);
             StateHasChanged();
         });
+        hubConnection.On<List<BoxDTO>>("BoxUpgraded", t =>
+        {
+            foreach (var tox in t.ToList())
+            {
+                BoxDTO b = boxes.Where(x => x.Ip == tox.Ip).FirstOrDefault();
+                b.Hostname = tox.Hostname;
+                b.State = tox.State;
+                //b.Os = tox.Os;
+                b.Subnet = tox.Subnet;
+                b.Services.Clear();
+                b.Services = tox.Services;
+            }
+            Search();
+            toastService.ShowInfo($"Boxes Updated:{String.Join(", ", t.Select(i=>i.Ip))} ");
+            Console.WriteLine("yasdf");
+        });
     }
-
-
-
 
 
 
@@ -285,13 +313,15 @@ using BlazorTable;
 
     private async Task AddBox()
     {
+        servicesAdded.Clear();
+        boxesAdded.Clear();
         ServiceDTO newService = new ServiceDTO
         {
-            Port = 69,
-            State = false,
-            Name = null,
-            Version = null,
-            Script = "ooo"
+            Port = 99,
+            State = true,
+            Name = "potato",
+            Version = "tomato",
+            Script = "oowerwerwerwerwerr"
         };
         servicesAdded.Add(newService);
         servicesAdded.Add(newService);
@@ -299,8 +329,8 @@ using BlazorTable;
         {
             Ip = "192.168.1.1",
             UserName = "jbrick123",
-            Hostname = "Hostname",
-            State = false,
+            Hostname = "yoyoyoyoyoo",
+            State = true,
             Comments = "none",
             Standing = "Unrelated",
             Os = "Windows",
@@ -434,6 +464,7 @@ using BlazorTable;
 #line hidden
 #nullable disable
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager NavigationManager { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IToastService toastService { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IJSRuntime _JSRuntime { get; set; }
     }
 }

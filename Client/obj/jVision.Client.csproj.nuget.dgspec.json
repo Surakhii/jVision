@@ -48,6 +48,10 @@
               "target": "Package",
               "version": "[1.17.0, )"
             },
+            "Blazored.Toast": {
+              "target": "Package",
+              "version": "[3.2.2, )"
+            },
             "Blazorise.RichTextEdit": {
               "target": "Package",
               "version": "[0.9.5, )"

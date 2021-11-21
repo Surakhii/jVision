@@ -115,3 +115,4 @@ C:\Users\natha\source\repos\jVision\Server\bin\Debug\net5.0\Microsoft.AspNetCore
 C:\Users\natha\source\repos\jVision\Server\bin\Debug\net5.0\Microsoft.AspNetCore.SignalR.Common.dll
 C:\Users\natha\source\repos\jVision\Server\bin\Debug\net5.0\Microsoft.AspNetCore.SignalR.Protocols.Json.dll
 C:\Users\natha\source\repos\jVision\Server\bin\Debug\net5.0\Microsoft.Extensions.Primitives.dll
+C:\Users\natha\source\repos\jVision\Server\bin\Debug\net5.0\Blazored.Toast.dll

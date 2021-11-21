@@ -59,39 +59,47 @@ namespace jVision.Server.Controllers
         {
             //async vs sync?
             //check if it is a COMPLETE duplicate
+            List<BoxDTO> upgraded = new List<BoxDTO>();
             foreach (var box in bto.ToList())
             {
                 Box exists = _context.Boxes.Include(x=>x.Services).FirstOrDefault(bruh => bruh.Ip == box.Ip);
                 if(exists != null)
                 {
-                    exists.User = _context.Users.Where(l => l.UserName.Equals(box.UserName)).FirstOrDefault();
                     exists.Hostname = box.Hostname;
                     exists.State = box.State;
-                    exists.Comments = box.Comments;
-                    exists.Standing = box.Standing;
-                    exists.Os = box.Os;
                     exists.Subnet = box.Subnet;
-                    _context.RemoveRange(exists.Services);
+                    exists.Services.Clear();
                     exists.Services = box.Services?.Select(x => DTOToService(x)).ToList();
+                    _context.Boxes.Update(exists);
+                    upgraded.Add(box);
                     bto.Remove(box);
                 }
             }
-            await _context.Boxes.AddRangeAsync(bto.Select(b => new Box
+            if (upgraded.Any())
             {
-                //UserId = b.UserId,
-                Ip = b.Ip,
-                //just use b.UserName?
-                User = _context.Users?.Where(l => l.UserName.Equals(b.UserName)).FirstOrDefault(),
-                Hostname = b.Hostname,
-                State = b.State,
-                Comments = b.Comments,
-                Standing = b.Standing,
-                Os = b.Os,
-                Subnet = b.Subnet,
-                Services = b.Services?.Select(x => DTOToService(x)).ToList()
-            }));
-            await _context.SaveChangesAsync();
-            await _hubContext.Clients.All.BoxAdded("added");
+                await _context.SaveChangesAsync();
+                await _hubContext.Clients.All.BoxUpgraded(upgraded);
+            } else if(bto.Any())
+            {
+                await _context.Boxes.AddRangeAsync(bto.Select(b => new Box
+                {
+                    //UserId = b.UserId,
+                    Ip = b.Ip,
+                    //just use b.UserName?
+                    User = _context.Users?.Where(l => l.UserName.Equals(b.UserName)).FirstOrDefault(),
+                    Hostname = b.Hostname,
+                    State = b.State,
+                    Comments = b.Comments,
+                    Standing = b.Standing,
+                    Os = b.Os,
+                    Subnet = b.Subnet,
+                    Services = b.Services?.Select(x => DTOToService(x)).ToList()
+                }));
+                await _context.SaveChangesAsync();
+                await _hubContext.Clients.All.BoxAdded("added");
+            }
+
+
 
             return StatusCode(200);
         }
