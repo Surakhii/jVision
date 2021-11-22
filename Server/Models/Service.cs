@@ -12,7 +12,7 @@ namespace jVision.Server.Models
 
         public int Port { get; set; }
         public string Protocol { get; set; }
-        public bool State { get; set; }
+        public string State { get; set; }
         public string Name { get; set; }
 
         public string Version { get; set; }

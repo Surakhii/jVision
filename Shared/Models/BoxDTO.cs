@@ -17,15 +17,13 @@ namespace jVision.Shared.Models
         [IpAddress]
         public string Ip { get; set; }
         public string Hostname { get; set; }
-        public bool State { get; set; }
+        public string State { get; set; }
         public string Comments { get; set; }
 
         public string Standing { get; set; }
         public string Os { get; set; }
-        public string Cidr { get; set; }
 
         public string Subnet { get; set; }
-        public string Refs { get; set; }
 
         public ICollection<ServiceDTO> Services { get; set; }
 

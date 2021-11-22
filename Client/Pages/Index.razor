@@ -356,7 +356,7 @@ else
         ServiceDTO newService = new ServiceDTO
         {
             Port = 99,
-            State = true,
+            State = "open",
             Name = "potato",
             Version = "tomato",
             Script = "oowerwerwerwerwerr"
@@ -365,18 +365,24 @@ else
         servicesAdded.Add(newService);
         BoxDTO newBox = new BoxDTO
         {
-            Ip = "192.168.1.1",
-            UserName = "jbrick123",
+            Ip = "192.168.1.2",
             Hostname = "yoyoyoyoyoo",
-            State = true,
-            Comments = "none",
-            Standing = "Unrelated",
+            State = "open",
             Os = "Windows",
-            Cidr = "/24",
             Services = servicesAdded,
             Subnet = "192.168.1.0/24"
         };
+        BoxDTO newBox2 = new BoxDTO
+        {
+            Ip = "192.168.1.3",
+            Hostname = "hosty",
+            State = "open",
+            Os = "Linux",
+            Services = servicesAdded,
+            Subnet = "192.168.1.3/24"
+        };
         boxesAdded.Add(newBox);
+        boxesAdded.Add(newBox2);
         var response = await Http.PostAsJsonAsync(requestUri, boxesAdded);
         Console.WriteLine(response);
 

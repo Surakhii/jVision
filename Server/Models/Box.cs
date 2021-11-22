@@ -16,7 +16,7 @@ namespace jVision.Server.Models
         [IpAddress]
         public string Ip { get; set; }
         public string Hostname { get; set; }
-        public bool State { get; set; }
+        public string State { get; set; }
         public string Comments { get; set; }
         public string Standing { get; set; }
         public string Os { get; set; }

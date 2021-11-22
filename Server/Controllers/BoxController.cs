@@ -48,7 +48,6 @@ namespace jVision.Server.Controllers
                     Standing = box.Standing,
                     Os = box.Os,
                     Subnet = box.Subnet,
-                    Refs = box.BoxId.ToString(),
                     Services = box.Services.Where(s => s!= null).Select(x => ServiceToDTO(x)).ToList()
                     //(ICollection<ServiceDTO>)box.Services
                 }).ToListAsync();
@@ -65,7 +64,10 @@ namespace jVision.Server.Controllers
                 Box exists = _context.Boxes.Include(x=>x.Services).FirstOrDefault(bruh => bruh.Ip == box.Ip);
                 if(exists != null)
                 {
-                    exists.Hostname = box.Hostname;
+                    if(box.Hostname != null)
+                    {
+                        exists.Hostname = box.Hostname;
+                    }
                     exists.State = box.State;
                     exists.Subnet = box.Subnet;
                     exists.Services.Clear();
@@ -181,7 +183,6 @@ namespace jVision.Server.Controllers
                 Standing = box.Standing,
                 Os = box.Os,
                 Subnet = box.Subnet,
-                Refs = box.BoxId.ToString(),
                 Services = box.Services?.Select(x => ServiceToDTO(x)).ToList()
                 //(ICollection<ServiceDTO>)box.Services
             };

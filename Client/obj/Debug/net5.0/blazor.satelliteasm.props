@@ -1,7 +1,0 @@
-﻿<SatelliteAssembly>
-  <Assembly Name="C:\Users\natha\.nuget\packages\blazortable\1.17.0\lib\netstandard2.1\da\BlazorTable.resources.dll" Culture="da" DestinationSubDirectory="da\" />
-  <Assembly Name="C:\Users\natha\.nuget\packages\blazortable\1.17.0\lib\netstandard2.1\de\BlazorTable.resources.dll" Culture="de" DestinationSubDirectory="de\" />
-  <Assembly Name="C:\Users\natha\.nuget\packages\blazortable\1.17.0\lib\netstandard2.1\es\BlazorTable.resources.dll" Culture="es" DestinationSubDirectory="es\" />
-  <Assembly Name="C:\Users\natha\.nuget\packages\blazortable\1.17.0\lib\netstandard2.1\fr\BlazorTable.resources.dll" Culture="fr" DestinationSubDirectory="fr\" />
-  <Assembly Name="C:\Users\natha\.nuget\packages\blazortable\1.17.0\lib\netstandard2.1\pt-BR\BlazorTable.resources.dll" Culture="pt-BR" DestinationSubDirectory="pt-BR\" />
-</SatelliteAssembly>
