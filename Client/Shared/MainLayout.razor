@@ -21,7 +21,11 @@
         </div>
     </Authorized>
     <Authorizing>
-        <h1>Enabling Turbo Thrusters ...</h1>
+        <style>
+            body {background-color:black}
+        </style>
+        <h1 style="color:white">J V I S</h1>
+        <img src="https://i.imgur.com/WfaJ2j2.gif" />
     </Authorizing>
 </AuthorizeView>
     @code {
@@ -34,7 +38,8 @@
                 navigationManager.NavigateTo("/login");
             }
         }
-        async Task LogoutClick()
+
+        private async Task LogoutClick()
         {
             await authStateProvider.Logout();
             navigationManager.NavigateTo("/login");

@@ -17,6 +17,7 @@
 <button class="btn btn-success" @onclick="AddBox">Click me!</button>
 <button class="btn btn-success" @onclick="DeleteBox">Delete All</button>
 <button class="btn btn-info" @onclick="ResetFilters">Reset Filters</button>
+<CopyToClipboard Text=@string.Join("\n", filteredBoxes.Select(i=>i.Ip)) Title="Copy Host List" />
 @if (boxes == null)
 {
     <p><em>Loading...</em></p>

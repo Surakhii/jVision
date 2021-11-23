@@ -4,12 +4,13 @@
 
 <div class="form-inline">
     <button type="button" class="btn btn-primary " @onclick="CopyTextToClipboard" disabled=@_disabled>
-        <i class="@_state"></i>
+        @Title <i class="@_state p-1"></i>
     </button>
 </div>
 
 @code {
     [Parameter] public string Text { get; set; }
+    [Parameter] public string Title { get; set; }
     CancellationTokenSource cts = new();
     private string _state = "oi oi-clipboard";
     private bool _disabled = false;
