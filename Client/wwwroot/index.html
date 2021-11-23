@@ -23,6 +23,13 @@
     </div>
     <script src="_framework/blazor.webassembly.js"></script>
     <script src="_content/BlazorTable/BlazorTable.min.js"></script>
+    <script>
+        window.clipboardCopy = {
+            copyText: function (text) {
+                navigator.clipboard.writeText(text);
+            }
+        };
+    </script>
 </body>
 
 </html>

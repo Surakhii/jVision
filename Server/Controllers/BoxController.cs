@@ -98,7 +98,7 @@ namespace jVision.Server.Controllers
                     Services = b.Services?.Select(x => DTOToService(x)).ToList()
                 }));
                 await _context.SaveChangesAsync();
-                await _hubContext.Clients.All.BoxAdded("added");
+                await _hubContext.Clients.All.BoxAdded();
             }
 
 

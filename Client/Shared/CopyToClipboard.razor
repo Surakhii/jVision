@@ -1,0 +1,32 @@
+﻿@inject IJSRuntime JSRuntime
+@using System.Threading
+@implements IDisposable 
+
+<div class="form-inline">
+    <button type="button" class="btn btn-primary " @onclick="CopyTextToClipboard" disabled=@_disabled>
+        <i class="@_state"></i>
+    </button>
+</div>
+
+@code {
+    [Parameter] public string Text { get; set; }
+    CancellationTokenSource cts = new();
+    private string _state = "oi oi-clipboard";
+    private bool _disabled = false;
+    private async Task CopyTextToClipboard()
+    {
+        var tempState = _state;
+        var tempDisabled = _disabled;
+        _state = "oi oi-check";
+        _disabled = true;
+        await JSRuntime.InvokeVoidAsync("clipboardCopy.copyText", Text);
+        await Task.Delay(TimeSpan.FromSeconds(2), cts.Token);
+        _state = tempState;
+        _disabled = tempDisabled;
+    }
+    public void Dispose()
+    {
+        cts.Cancel();
+        cts.Dispose();
+    }
+}

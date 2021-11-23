@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using jVision.Server.Data;
 
 namespace jVision.Server.Migrations
 {
     [DbContext(typeof(JvisionServerDBContext))]
-    partial class JvisionServerDBContextModelSnapshot : ModelSnapshot
+    [Migration("20211122210610_remove-creds")]
+    partial class removecreds
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -278,23 +280,6 @@ namespace jVision.Server.Migrations
                     b.HasIndex("BoxId");
 
                     b.ToTable("Service");
-                });
-
-            modelBuilder.Entity("jVision.Shared.Models.Cred", b =>
-                {
-                    b.Property<int>("CredId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Text")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Type")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("CredId");
-
-                    b.ToTable("Cred");
                 });
 
             modelBuilder.Entity("jVision.Shared.Models.JvisUser", b =>

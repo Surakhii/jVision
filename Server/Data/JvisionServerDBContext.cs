@@ -17,5 +17,11 @@ namespace jVision.Server.Data
         public DbSet<JvisUser> JvisUsers { get; set; }
 
         public DbSet<Box> Boxes { get; set; }
+
+        public DbSet<Cred> Cred { get; set; }
+
+        //public DbSet<Cred> Cred { get; set; }
+
+
     }
 }

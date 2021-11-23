@@ -12,11 +12,14 @@ namespace jVision.Server.Hubs
     public interface IBoxClient
     {
         //how u get rid these param
-        Task BoxAdded(string s);
+        Task BoxAdded();
         Task UserAdded(string s);
         Task BoxUpdated(BoxDTO b);
 
         Task BoxUpgraded(List<BoxDTO> b);
+        Task CredAdded(Cred c);
+
+        Task CredDeleted(int c);
     }
     public class BoxHub : Hub<IBoxClient>
     {

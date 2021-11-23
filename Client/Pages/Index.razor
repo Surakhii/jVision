@@ -291,7 +291,7 @@ else
             boxes[boxes.IndexOf(updatedBox)] = t;
             Search();
         });
-        hubConnection.On<string>("BoxAdded", async t =>
+        hubConnection.On("BoxAdded", async () =>
         {
             boxes = await Http.GetFromJsonAsync<IList<BoxDTO>>(requestUri);
             //fix the ordering here
@@ -323,7 +323,13 @@ else
 
 
 
+    public bool IsConnected =>
+    hubConnection.State == HubConnectionState.Connected;
 
+    public void Dispose()
+    {
+        _ = hubConnection.DisposeAsync();
+    }
 
     //s => s.Services
     //.Where(p => p.Port.ToString().Contains(_searchText)).ToList())
