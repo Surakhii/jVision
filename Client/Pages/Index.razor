@@ -6,9 +6,7 @@
 @using System.Collections.Generic
 @using Microsoft.AspNetCore.SignalR.Client
 @inject IJSRuntime _JSRuntime
-@using Blazored.Toast
-@using Blazored.Toast.Services
-@inject IToastService toastService 
+
 @inject NavigationManager NavigationManager
 
 @using BlazorTable
@@ -17,6 +15,7 @@
 <button class="btn btn-success" @onclick="AddBox">Click me!</button>
 <button class="btn btn-success" @onclick="DeleteBox">Delete All</button>
 <button class="btn btn-info" @onclick="ResetFilters">Reset Filters</button>
+<a href="download/diagram" class="btn btn-info" role="button" target="_top">Download Diagram</a>
 <CopyToClipboard Text=@string.Join("\n", filteredBoxes.Select(i=>i.Ip)) Title="Copy Host List" />
 @if (boxes == null)
 {
@@ -82,7 +81,6 @@ else
         </Header>
     </ModalDialog>
 
-    <BlazoredToasts Position="Blazored.Toast.Configuration.ToastPosition.TopRight" Timeout="300" IconType="IconType.FontAwesome" />
 
     @foreach (var box in filteredBoxes)
     {
@@ -317,8 +315,6 @@ else
                 b.Services = tox.Services;
             }
             Search();
-            toastService.ShowInfo($"Boxes Updated:{String.Join(", ", t.Select(i=>i.Ip))} ");
-            Console.WriteLine("yasdf");
         });
     }
 

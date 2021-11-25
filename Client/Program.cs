@@ -8,11 +8,12 @@ using jVision.Client.Services;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
-using Blazored.Toast;
-using Blazored.Toast.Services;
 using Blazorise.RichTextEdit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Majorsoft.Blazor.Components.CssEvents;
+using Majorsoft.Blazor.Components.Notifications;
+using Majorsoft.Blazor.Components.Timer;
 
 namespace jVision.Client
 {
@@ -29,7 +30,8 @@ namespace jVision.Client
             builder.Services.AddScoped<AuthenticationStateProvider>(s => s.GetRequiredService<CustomStateProvider>());
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-            builder.Services.AddBlazoredToast();
+            builder.Services.AddCssEvents();
+            builder.Services.AddNotifications();
             await builder.Build().RunAsync();
         }
     }

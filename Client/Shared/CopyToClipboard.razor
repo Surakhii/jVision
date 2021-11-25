@@ -3,12 +3,22 @@
 @implements IDisposable 
 
 <div class="form-inline">
-    <button type="button" class="btn btn-primary " @onclick="CopyTextToClipboard" disabled=@_disabled>
-        @Title <i class="@_state p-1"></i>
-    </button>
+    @if (Large)
+    {
+        <button type="button" class="btn btn-primary " @onclick="CopyTextToClipboard" disabled=@_disabled>
+            @Title <i class="@_state p-1"></i>
+        </button>
+    }
+    else
+    {
+        <button type="button" class="btn btn-primary btn-sm " @onclick="CopyTextToClipboard" disabled=@_disabled>
+            @Title <i class="@_state p-1"></i>
+        </button>
+    }
 </div>
 
 @code {
+    [Parameter] public bool Large { get; set; } = true;
     [Parameter] public string Text { get; set; }
     [Parameter] public string Title { get; set; }
     CancellationTokenSource cts = new();
