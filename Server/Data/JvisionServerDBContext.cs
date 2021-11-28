@@ -20,6 +20,8 @@ namespace jVision.Server.Data
 
         public DbSet<Cred> Cred { get; set; }
 
+        public DbSet<AquaUpload> AquaUpload { get; set; }
+
         //public DbSet<Cred> Cred { get; set; }
 
 

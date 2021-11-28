@@ -280,6 +280,23 @@ namespace jVision.Server.Migrations
                     b.ToTable("Service");
                 });
 
+            modelBuilder.Entity("jVision.Shared.Models.AquaUpload", b =>
+                {
+                    b.Property<int>("AquaUploadId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("FileName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("AquaUploadId");
+
+                    b.ToTable("AquaUpload");
+                });
+
             modelBuilder.Entity("jVision.Shared.Models.Cred", b =>
                 {
                     b.Property<int>("CredId")
@@ -287,6 +304,7 @@ namespace jVision.Server.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Text")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Type")

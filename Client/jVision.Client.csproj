@@ -22,4 +22,8 @@
     <ProjectReference Include="..\Shared\jVision.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\aquatone reports\" />
+  </ItemGroup>
+
 </Project>

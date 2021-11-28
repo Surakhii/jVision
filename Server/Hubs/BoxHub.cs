@@ -20,6 +20,7 @@ namespace jVision.Server.Hubs
         Task CredAdded(Cred c);
 
         Task CredDeleted(int c);
+        Task AquaAdded(AquaUpload a);
     }
     public class BoxHub : Hub<IBoxClient>
     {

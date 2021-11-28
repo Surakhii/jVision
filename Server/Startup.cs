@@ -12,6 +12,9 @@ using jVision.Server.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 using jVision.Server.Hubs;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
+using Microsoft.AspNetCore.Http;
 
 namespace jVision.Server
 {
@@ -69,7 +72,11 @@ namespace jVision.Server
             app.UseHttpsRedirection();
             app.UseBlazorFrameworkFiles();
             app.UseStaticFiles();
-
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Aquastatic")),
+                RequestPath = new PathString("/Aquastatic")
+            });
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
