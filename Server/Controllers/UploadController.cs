@@ -40,6 +40,7 @@ namespace jVision.Server.Controllers
         }
 
         [HttpPost]
+        [DisableRequestSizeLimit]
         public async Task<IActionResult> Upload()
         {
             try
@@ -69,7 +70,7 @@ namespace jVision.Server.Controllers
                         //string urlPath = Path.Combine(_hostEnvironment.WebRootPath, myGuid);
                         //string requestPath = UriHelper.GetDisplayUrl(this.HttpContext.Request);
                         string basePath = GetBaseUrl();
-                        string requestPath = $"{basePath}/Aquastatic/{myGuid}/{fileName}";
+                        string requestPath = $"{basePath}/Aquastatic/{myGuid}/aqua/aquatone_report.html";
                         try
                         {
                             AquaUpload aq = new AquaUpload

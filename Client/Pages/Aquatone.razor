@@ -14,7 +14,7 @@
     {
         @foreach(var a in aquaUploads)
         {
-            <p>@a.FileName</p>
+            @a.FileName
             <a href="@a.Url">@a.Url</a>
         }
     }
@@ -57,7 +57,7 @@
         {
             try
             {
-                var fileContent = new StreamContent(zipFile.OpenReadStream());
+                var fileContent = new StreamContent(zipFile.OpenReadStream(536870912));
                 fileContent.Headers.ContentType = new MediaTypeHeaderValue(zipFile.ContentType);
                 content.Add(content: fileContent,
                     name: "\"upload\"",
