@@ -70,7 +70,7 @@ namespace jVision.Server.Controllers
                         //string urlPath = Path.Combine(_hostEnvironment.WebRootPath, myGuid);
                         //string requestPath = UriHelper.GetDisplayUrl(this.HttpContext.Request);
                         string basePath = GetBaseUrl();
-                        string requestPath = $"{basePath}/Aquastatic/{myGuid}/aqua/aquatone_report.html";
+                        string requestPath = $"{basePath}/Aquastatic/{myGuid}/aquatone_report.html";
                         try
                         {
                             AquaUpload aq = new AquaUpload
