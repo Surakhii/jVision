@@ -26,34 +26,42 @@ else
 {
     <Key></Key>
     //DROPDOWN
-
-    <label for="category">Category</label>
-    <select name="category" class="form-control selectpicker " value="@_searchCategory" @onchange="UpdateCategory">
-        @foreach (var item in Enum.GetValues(typeof(SearchCategory)))
-        {
-            <option value="@item">@item</option>
-        }
-    </select>
-
-    <label for="type">Filter Type</label>
-    <select name="type" class="form-control selectpicker " value="@_searchType" @onchange="UpdateType">
-        @foreach (var item in Enum.GetValues(typeof(SearchTypes)))
-        {
-            <option value="@item">@item</option>
-        }
-    </select>
-
-    <label for="subnet">Subnet</label>
-    <select name="subnet" class="form-control selectpicker" value="@_subnetSelection" @onchange="UpdateSubnet">
-        <option value="all">all</option>
-        @foreach (var item in _subnets)
-        {
-            <option value="@item">@item </option>
-        }
-    </select>
-
+<div class="row">
+    <div class="col-8 col-sm-1">
+        <label for="category">Category</label>
+        <select name="category" class="form-control selectpicker " value="@_searchCategory" @onchange="UpdateCategory">
+            @foreach (var item in Enum.GetValues(typeof(SearchCategory)))
+            {
+                <option value="@item">@item</option>
+            }
+        </select>
+    </div>
+    <div class="col-8 col-sm-2">
+        <label for="type">Filter Type</label>
+        <select name="type" class="form-control selectpicker" value="@_searchType" @onchange="UpdateType">
+            @foreach (var item in Enum.GetValues(typeof(SearchTypes)))
+            {
+                <option value="@item">@item</option>
+            }
+        </select>
+    </div>
+    <div class="col-8 col-sm-2">
+        <label for="subnet">Subnet</label>
+        <select name="subnet" class="form-control selectpicker" value="@_subnetSelection" @onchange="UpdateSubnet">
+            <option value="all">all</option>
+            @foreach (var item in _subnets)
+            {
+                <option value="@item">@item </option>
+            }
+        </select>
+    </div>
+    <div class="w-100"></div>
+    <div class="col-8 col-sm-5">
+        <input class="form-control rounded" value="@_searchText" @oninput="UpdateSearchText" placeholder="Search" style="margin-top:20px;margin-bottom:20px;" />
+    </div>
+</div>
     //SEARCHBAR
-    <input class="form-control w-25 rounded col-sm-6 p-6 h-8" value="@_searchText" @oninput="UpdateSearchText" placeholder="Search" />
+
 
     <ModalDialog @ref="@_dialog"
                  OverlayBackgroundColor="@_overlayColor"
@@ -121,7 +129,7 @@ else
         <CollapsePanel style="margin-bottom: 10px;" CollapsedColor="@_accordionCollapsedColor" Animate="false" ExpandedColor="@_accordionExpandedColor" HoverColor="@_accordionHoverColor" ShowContentOverflow="true" ContentHeight="0">
             <CollapsedHeaderContent>
 
-                <div class="p-2 flex-grow-1"><h5>@box.Hostname | @box.Ip</h5></div>
+                <div class="p-2 mr-auto"><h5>@box.Hostname | @box.Ip</h5></div>
 
                 <div class="p-1">
                     <button @onclick:stopPropagation="true" @onclick:preventDefault="true" class="btn btn-success p-2 align-middle" @onclick="(() => OpenDialog(box, users))">Edit</button>
@@ -133,7 +141,7 @@ else
             </CollapsedHeaderContent>
             <ExpandedHeaderContent>
 
-                <div class="p-2 flex-grow-1"><h5>@box.Hostname | @box.Ip</h5></div>
+                <div class="p-2 mr-auto"><h5>@box.Hostname | @box.Ip</h5></div>
 
                 <div class="p-1">
                     <button @onclick:stopPropagation="true" @onclick:preventDefault="true" class="btn btn-success p-2 align-middle" @onclick="(() => OpenDialog(box, users))">Edit</button>
@@ -183,12 +191,12 @@ else
         </div>
     </div>
     **/
-}
+    }
 
-@code {
-    [Inject] public HttpClient Http { get; set; }
+    @code {
+        [Inject] public HttpClient Http { get; set; }
 
-    //private List<int> identifiers = new List<int>();
+//private List<int> identifiers = new List<int>();
     private Dictionary<int, ModalDialog> myModals = new Dictionary<int, ModalDialog>();
     private HubConnection hubConnection;
     //searchtext
@@ -294,8 +302,8 @@ else
         hubConnection.On("BoxAdded", async () =>
         {
             boxes = await Http.GetFromJsonAsync<IList<BoxDTO>>(requestUri);
-            //fix the ordering here
-            boxes = boxes.OrderBy(o => o.Ip).ToList();
+        //fix the ordering here
+        boxes = boxes.OrderBy(o => o.Ip).ToList();
             Search();
         });
         hubConnection.On<string>("UserAdded", async t =>
@@ -310,8 +318,8 @@ else
                 BoxDTO b = boxes.Where(x => x.Ip == tox.Ip).FirstOrDefault();
                 b.Hostname = tox.Hostname;
                 b.State = tox.State;
-                //b.Os = tox.Os;
-                b.Subnet = tox.Subnet;
+            //b.Os = tox.Os;
+            b.Subnet = tox.Subnet;
                 b.Services.Clear();
                 b.Services = tox.Services;
             }
@@ -507,5 +515,5 @@ else
     {
         await Http.DeleteAsync(requestUri);
     }
-}
+    }
 

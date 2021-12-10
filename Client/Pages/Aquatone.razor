@@ -7,6 +7,8 @@
 
 <h3>Aquatone reports</h3>
 <InputFile OnChange="HandleSelected" multiple />
+<br />
+<br />
 @if (aquaUploads == null)
 {
     <p><em>Loading...</em></p>
@@ -14,8 +16,9 @@
     {
         @foreach(var a in aquaUploads)
         {
-            @a.FileName
-            <a href="@a.Url">@a.Url</a>
+            <h5>Aquatone Report #@aquaUploads.IndexOf(a)</h5>
+            <a href="@a.Url" target="_blank">@a.Url</a>
+            <br />
         }
     }
 @code {

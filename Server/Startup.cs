@@ -33,7 +33,13 @@ namespace jVision.Server
         {
             services.AddSignalR();
             services.AddDbContext<JvisionServerDBContext>(options => options.UseSqlite(Configuration.GetConnectionString("SqlLiteConnection")));
-            services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<JvisionServerDBContext>();
+            services.AddIdentity<ApplicationUser, IdentityRole>(o => {
+                o.Password.RequireDigit = false;
+                o.Password.RequireLowercase = false;
+                o.Password.RequireUppercase = false;
+                o.Password.RequireNonAlphanumeric = false;
+                o.Password.RequiredLength = 5;
+            }).AddEntityFrameworkStores<JvisionServerDBContext>();
             services.ConfigureApplicationCookie(options =>
             {
                 options.Cookie.HttpOnly = false;
