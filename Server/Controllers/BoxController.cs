@@ -133,7 +133,6 @@ namespace jVision.Server.Controllers
                 return NotFound();
             }
             await _hubContext.Clients.All.BoxUpdated(boxdto);
-            Console.WriteLine("PLEASE");
             return NoContent();
         }
 

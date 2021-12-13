@@ -396,7 +396,6 @@ else
         boxesAdded.Add(newBox);
         boxesAdded.Add(newBox2);
         var response = await Http.PostAsJsonAsync(requestUri, boxesAdded);
-        Console.WriteLine(response);
 
     }
 
@@ -411,7 +410,6 @@ else
 
     private void OnInput()
     {
-        Console.WriteLine("test");
     }
     private void UpdateSearchText(ChangeEventArgs args)
     {

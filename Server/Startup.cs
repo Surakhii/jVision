@@ -81,7 +81,7 @@ namespace jVision.Server
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseBlazorFrameworkFiles();
             app.UseStaticFiles();
             app.UseStaticFiles(new StaticFileOptions()
