@@ -12,8 +12,6 @@
 @using BlazorTable
 <h1>Box Count: @bCount</h1>
 
-<button class="btn btn-success" @onclick="AddBox">Click me!</button>
-<button class="btn btn-success" @onclick="DeleteBox">Delete All</button>
 <button class="btn btn-info" @onclick="ResetFilters">Reset Filters</button>
 <a href="download/diagram" class="btn btn-info" role="button" target="_top">Download Diagram</a>
 <a href="download/topology" class="btn btn-info" role="button" target="_top">Download Topology</a>
@@ -347,43 +345,6 @@ else
             await _dialog.Close();
         }
 
-        private async Task AddBox()
-        {
-            servicesAdded.Clear();
-            boxesAdded.Clear();
-            ServiceDTO newService = new ServiceDTO
-            {
-                Port = 99,
-                State = "open",
-                Name = "potato",
-                Version = "tomato",
-                Script = "oowerwerwerwerwerr"
-            };
-            servicesAdded.Add(newService);
-            servicesAdded.Add(newService);
-            BoxDTO newBox = new BoxDTO
-            {
-                Ip = "192.168.1.2",
-                Hostname = "yoyoyoyoyoo",
-                State = "open",
-                Os = "Windows",
-                Services = servicesAdded,
-                Subnet = "192.168.1.0/24"
-            };
-            BoxDTO newBox2 = new BoxDTO
-            {
-                Ip = "192.168.1.3",
-                Hostname = "hosty",
-                State = "open",
-                Os = "Linux",
-                Services = servicesAdded,
-                Subnet = "192.168.1.3/24"
-            };
-            boxesAdded.Add(newBox);
-            boxesAdded.Add(newBox2);
-            var response = await Http.PostAsJsonAsync(requestUri, boxesAdded);
-
-        }
 
         private void ResetFilters()
         {
@@ -501,9 +462,5 @@ else
             **/
         }
 
-        private async Task DeleteBox()
-        {
-            await Http.DeleteAsync(requestUri);
-        }
     }
 
