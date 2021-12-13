@@ -175,343 +175,335 @@ else
         </CollapsePanel>
     }
     @error
-    /**
-    <div class="accordion" id="accordionExample">
-        <div class="accordion-item">
-            <h2 class="accordion-header" id="headingOne">
-                <button class="accordion-button" type="button" @onclick="@(e => Collapse("#collapseOne"))" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    Accordion Item #1
-                </button>
-            </h2>
-            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                    <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                </div>
-            </div>
-        </div>
-    </div>
-    **/
+
     }
 
     @code {
         [Inject] public HttpClient Http { get; set; }
 
-//private List<int> identifiers = new List<int>();
-    private Dictionary<int, ModalDialog> myModals = new Dictionary<int, ModalDialog>();
-    private HubConnection hubConnection;
-    //searchtext
-    private string _searchText = "";
-    //dropdown
-    private SearchTypes _searchType = SearchTypes.Contains;
-    private SearchCategory _searchCategory = SearchCategory.Port;
-    private string _subnetSelection = "all";
+        //private List<int> identifiers = new List<int>();
+        private Dictionary<int, ModalDialog> myModals = new Dictionary<int, ModalDialog>();
+        private HubConnection hubConnection;
+        //searchtext
+        private string _searchText = "";
+        //dropdown
+        private SearchTypes _searchType = SearchTypes.Contains;
+        private SearchCategory _searchCategory = SearchCategory.Port;
+        private string _subnetSelection = "all";
 
 
-    private enum SearchCategory
-    {
-        Port,
-        Name,
-        Script,
-        Version,
-        Os
-    }
-    private enum SearchTypes
-    {
-        Contains,
-        Match
-    }
-
-    //dialog
-    private ModalDialog _dialog;
-    private int bCount => boxes.Count();
-    private string _overlayColor = "128,128,128";
-    private double _overlayOpacity = 50;
-    private double _modalHeight = 0;
-    private double _modalWitdth = 500;
-    private double _modalMinHeight = 100;
-    private double _modalMinWitdth = 100;
-    private bool _modalAnimate = true;
-    private bool _modalCloseOnClick = true;
-    private bool _modalCloseOnEsc = true;
-    private bool _modalFocus = true;
-    private bool _modalCentered = true;
-    private bool _modalShowClose = true;
-    private string _modalTitle = "Edit Box";
-    private string _yourName;
-
-    //Collapse
-
-    private string _collapsedColor = "DodgerBlue";
-    private string _expandedColor = "LightBlue";
-    private string _hoverColor = "LightGray";
-    private bool _isAnimated = false;
-    private bool _isCollapseDisabled = false;
-    private bool _isCollapsed = false;
-    private bool _showOverflow = false;
-    private int _height = 200;
-
-    //Accordion
-    private string _accordionCollapsedColor = "green";
-    private string _accordionExpandedColor = "lightGreen";
-    private string _accordionHoverColor = "lime";
-    private bool _isAccordionDisabled = false;
-    private int _collapseCount;
-
-    private Accordion _accordion;
-    private CollapsePanel? _activePanel;
-    private IList<BoxDTO> boxes = new List<BoxDTO>();
-    //private List<BoxDTO> upgradedBoxes = new List<BoxDTO>();
-    private List<string> users = new List<string>();
-    private List<string> _subnets => boxes.Where(x => x.Subnet != null).Select(s => s.Subnet).Distinct().ToList();
-    // private IList<BoxDTO> filteredBoxes = new List<BoxDTO>();
-    //private IList<BoxDTO> filteredBoxes = new List<BoxDTO>();
-    //private IList<ServiceDTO> services = new List<ServiceDTO>();
-    private IList<BoxDTO> boxesAdded = new List<BoxDTO>();
-    private IList<ServiceDTO> servicesAdded = new List<ServiceDTO>();
-    private IList<BoxDTO> filteredBoxes = new List<BoxDTO>();
-
-    private string error;
-    private string requestUri = "Box";
-    private string userUri = "User";
-    protected override async Task OnInitializedAsync()
-    {
-        hubConnection = new HubConnectionBuilder().WithUrl(NavigationManager.ToAbsoluteUri("/boxhub")).Build();
-        await hubConnection.StartAsync();
-
-        try
+        private enum SearchCategory
         {
-            boxes = await Http.GetFromJsonAsync<IList<BoxDTO>>(requestUri);
-            //fix the ordering here
-            boxes = boxes.Where(o => o.Ip != null).OrderBy(i => Version.Parse(i.Ip)).ToList();
-            users = await Http.GetFromJsonAsync<List<string>>(userUri);
-            filteredBoxes = new List<BoxDTO>(boxes);
-
-            //identifiers = boxes.Select(s => s.BoxId).ToList();
+            Ip,
+            Port,
+            Name,
+            Script,
+            Version,
+            Os
         }
-        catch (Exception e)
+        private enum SearchTypes
         {
-            Console.WriteLine(e);
-            error = "Error Encountered";
-        };
-        hubConnection.On<BoxDTO>("BoxUpdated", t =>
+            Contains,
+            Match
+        }
+
+        //dialog
+        private ModalDialog _dialog;
+        private int bCount => boxes.Count();
+        private string _overlayColor = "128,128,128";
+        private double _overlayOpacity = 50;
+        private double _modalHeight = 0;
+        private double _modalWitdth = 500;
+        private double _modalMinHeight = 100;
+        private double _modalMinWitdth = 100;
+        private bool _modalAnimate = true;
+        private bool _modalCloseOnClick = true;
+        private bool _modalCloseOnEsc = true;
+        private bool _modalFocus = true;
+        private bool _modalCentered = true;
+        private bool _modalShowClose = true;
+        private string _modalTitle = "Edit Box";
+        private string _yourName;
+
+        //Collapse
+
+        private string _collapsedColor = "DodgerBlue";
+        private string _expandedColor = "LightBlue";
+        private string _hoverColor = "LightGray";
+        private bool _isAnimated = false;
+        private bool _isCollapseDisabled = false;
+        private bool _isCollapsed = false;
+        private bool _showOverflow = false;
+        private int _height = 200;
+
+        //Accordion
+        private string _accordionCollapsedColor = "green";
+        private string _accordionExpandedColor = "lightGreen";
+        private string _accordionHoverColor = "lime";
+        private bool _isAccordionDisabled = false;
+        private int _collapseCount;
+
+        private Accordion _accordion;
+        private CollapsePanel? _activePanel;
+        private IList<BoxDTO> boxes = new List<BoxDTO>();
+        //private List<BoxDTO> upgradedBoxes = new List<BoxDTO>();
+        private List<string> users = new List<string>();
+        private List<string> _subnets => boxes.Where(x => x.Subnet != null).Select(s => s.Subnet).Distinct().ToList();
+        // private IList<BoxDTO> filteredBoxes = new List<BoxDTO>();
+        //private IList<BoxDTO> filteredBoxes = new List<BoxDTO>();
+        //private IList<ServiceDTO> services = new List<ServiceDTO>();
+        private IList<BoxDTO> boxesAdded = new List<BoxDTO>();
+        private IList<ServiceDTO> servicesAdded = new List<ServiceDTO>();
+        private IList<BoxDTO> filteredBoxes = new List<BoxDTO>();
+
+        private string error;
+        private string requestUri = "Box";
+        private string userUri = "User";
+        protected override async Task OnInitializedAsync()
         {
-            BoxDTO updatedBox = boxes.Where(s => s.BoxId == t.BoxId).FirstOrDefault();
-            boxes[boxes.IndexOf(updatedBox)] = t;
-            Search();
-        });
-        hubConnection.On("BoxAdded", async () =>
-        {
-            boxes = await Http.GetFromJsonAsync<IList<BoxDTO>>(requestUri);
-        //fix the ordering here
-        boxes = boxes.OrderBy(o => o.Ip).ToList();
-            Search();
-        });
-        hubConnection.On<string>("UserAdded", async t =>
-        {
-            users = await Http.GetFromJsonAsync<List<string>>(userUri);
-            StateHasChanged();
-        });
-        hubConnection.On<List<BoxDTO>>("BoxUpgraded", t =>
-        {
-            foreach (var tox in t.ToList())
+            hubConnection = new HubConnectionBuilder().WithUrl(NavigationManager.ToAbsoluteUri("/boxhub")).Build();
+            await hubConnection.StartAsync();
+
+            try
             {
-                BoxDTO b = boxes.Where(x => x.Ip == tox.Ip).FirstOrDefault();
-                b.Hostname = tox.Hostname;
-                b.State = tox.State;
-            //b.Os = tox.Os;
-            b.Subnet = tox.Subnet;
-                b.Services.Clear();
-                b.Services = tox.Services;
+                boxes = await Http.GetFromJsonAsync<IList<BoxDTO>>(requestUri);
+                //fix the ordering here
+                boxes = boxes.Where(o => o.Ip != null).OrderBy(i => Version.Parse(i.Ip)).ToList();
+                users = await Http.GetFromJsonAsync<List<string>>(userUri);
+                filteredBoxes = new List<BoxDTO>(boxes);
+
+                //identifiers = boxes.Select(s => s.BoxId).ToList();
             }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                error = "Error Encountered";
+            };
+            hubConnection.On<BoxDTO>("BoxUpdated", t =>
+            {
+                BoxDTO updatedBox = boxes.Where(s => s.BoxId == t.BoxId).FirstOrDefault();
+                boxes[boxes.IndexOf(updatedBox)] = t;
+                Search();
+            });
+            hubConnection.On("BoxAdded", async () =>
+            {
+                boxes = await Http.GetFromJsonAsync<IList<BoxDTO>>(requestUri);
+                //fix the ordering here
+                boxes = boxes.OrderBy(o => o.Ip).ToList();
+                Search();
+            });
+            hubConnection.On<string>("UserAdded", async t =>
+            {
+                users = await Http.GetFromJsonAsync<List<string>>(userUri);
+                StateHasChanged();
+            });
+            hubConnection.On<List<BoxDTO>>("BoxUpgraded", t =>
+            {
+                foreach (var tox in t.ToList())
+                {
+                    BoxDTO b = boxes.Where(x => x.Ip == tox.Ip).FirstOrDefault();
+                    b.Hostname = tox.Hostname;
+                    b.State = tox.State;
+                    //b.Os = tox.Os;
+                    b.Subnet = tox.Subnet;
+                    b.Services.Clear();
+                    b.Services = tox.Services;
+                }
+                Search();
+            });
+        }
+
+
+
+        public bool IsConnected =>
+        hubConnection.State == HubConnectionState.Connected;
+
+        public void Dispose()
+        {
+            _ = hubConnection.DisposeAsync();
+        }
+
+        //s => s.Services
+        //.Where(p => p.Port.ToString().Contains(_searchText)).ToList())
+        //.ToList();
+
+        private void OnCollapsed(bool state)
+        {
+            _isCollapsed = state;
+        }
+
+        private async Task OpenDialog(BoxDTO b, List<string> u)
+        {
+            await _dialog.Open(b, u);
+        }
+
+        private async Task HVS(BoxDTO bb)
+        {
+            var response = await Http.PutAsJsonAsync(requestUri, bb);
+            await _dialog.Close();
+        }
+        private async Task CloseDialog()
+        {
+            await _dialog.Close();
+        }
+
+        private async Task AddBox()
+        {
+            servicesAdded.Clear();
+            boxesAdded.Clear();
+            ServiceDTO newService = new ServiceDTO
+            {
+                Port = 99,
+                State = "open",
+                Name = "potato",
+                Version = "tomato",
+                Script = "oowerwerwerwerwerr"
+            };
+            servicesAdded.Add(newService);
+            servicesAdded.Add(newService);
+            BoxDTO newBox = new BoxDTO
+            {
+                Ip = "192.168.1.2",
+                Hostname = "yoyoyoyoyoo",
+                State = "open",
+                Os = "Windows",
+                Services = servicesAdded,
+                Subnet = "192.168.1.0/24"
+            };
+            BoxDTO newBox2 = new BoxDTO
+            {
+                Ip = "192.168.1.3",
+                Hostname = "hosty",
+                State = "open",
+                Os = "Linux",
+                Services = servicesAdded,
+                Subnet = "192.168.1.3/24"
+            };
+            boxesAdded.Add(newBox);
+            boxesAdded.Add(newBox2);
+            var response = await Http.PostAsJsonAsync(requestUri, boxesAdded);
+
+        }
+
+        private void ResetFilters()
+        {
+            _searchText = "";
+            _searchCategory = SearchCategory.Port;
+            _searchType = SearchTypes.Contains;
+            _subnetSelection = "all";
             Search();
-        });
-    }
-
-
-
-    public bool IsConnected =>
-    hubConnection.State == HubConnectionState.Connected;
-
-    public void Dispose()
-    {
-        _ = hubConnection.DisposeAsync();
-    }
-
-    //s => s.Services
-    //.Where(p => p.Port.ToString().Contains(_searchText)).ToList())
-    //.ToList();
-
-    private void OnCollapsed(bool state)
-    {
-        _isCollapsed = state;
-    }
-
-    private async Task OpenDialog(BoxDTO b, List<string> u)
-    {
-        await _dialog.Open(b, u);
-    }
-
-    private async Task HVS(BoxDTO bb)
-    {
-        var response = await Http.PutAsJsonAsync(requestUri, bb);
-        await _dialog.Close();
-    }
-    private async Task CloseDialog()
-    {
-        await _dialog.Close();
-    }
-
-    private async Task AddBox()
-    {
-        servicesAdded.Clear();
-        boxesAdded.Clear();
-        ServiceDTO newService = new ServiceDTO
-        {
-            Port = 99,
-            State = "open",
-            Name = "potato",
-            Version = "tomato",
-            Script = "oowerwerwerwerwerr"
-        };
-        servicesAdded.Add(newService);
-        servicesAdded.Add(newService);
-        BoxDTO newBox = new BoxDTO
-        {
-            Ip = "192.168.1.2",
-            Hostname = "yoyoyoyoyoo",
-            State = "open",
-            Os = "Windows",
-            Services = servicesAdded,
-            Subnet = "192.168.1.0/24"
-        };
-        BoxDTO newBox2 = new BoxDTO
-        {
-            Ip = "192.168.1.3",
-            Hostname = "hosty",
-            State = "open",
-            Os = "Linux",
-            Services = servicesAdded,
-            Subnet = "192.168.1.3/24"
-        };
-        boxesAdded.Add(newBox);
-        boxesAdded.Add(newBox2);
-        var response = await Http.PostAsJsonAsync(requestUri, boxesAdded);
-
-    }
-
-    private void ResetFilters()
-    {
-        _searchText = "";
-        _searchCategory = SearchCategory.Port;
-        _searchType = SearchTypes.Contains;
-        _subnetSelection = "all";
-        Search();
-    }
-
-    private void OnInput()
-    {
-    }
-    private void UpdateSearchText(ChangeEventArgs args)
-    {
-        _searchText = args.Value.ToString();
-        Search();
-    }
-
-    private void UpdateCategory(ChangeEventArgs args)
-    {
-        _searchCategory = (SearchCategory)Enum.Parse(typeof(SearchCategory), args.Value.ToString(), true);
-        Search();
-    }
-
-    private void UpdateType(ChangeEventArgs args)
-    {
-        _searchType = (SearchTypes)Enum.Parse(typeof(SearchTypes), args.Value.ToString(), true);
-        Search();
-    }
-    private void UpdateSubnet(ChangeEventArgs args)
-    {
-        _subnetSelection = args.Value.ToString();
-        Search();
-    }
-
-
-    private void Search()
-    {
-        if (!_subnetSelection.Equals("all"))
-        {
-            filteredBoxes = boxes.Where(o => o.Subnet != null && o.Subnet.Equals(_subnetSelection)).ToList();
-
-        }
-        else
-        {
-            filteredBoxes = boxes.ToList();
         }
 
-        if (!string.IsNullOrEmpty(_searchText))
+        private void OnInput()
         {
+        }
+        private void UpdateSearchText(ChangeEventArgs args)
+        {
+            _searchText = args.Value.ToString();
+            Search();
+        }
+
+        private void UpdateCategory(ChangeEventArgs args)
+        {
+            _searchCategory = (SearchCategory)Enum.Parse(typeof(SearchCategory), args.Value.ToString(), true);
+            Search();
+        }
+
+        private void UpdateType(ChangeEventArgs args)
+        {
+            _searchType = (SearchTypes)Enum.Parse(typeof(SearchTypes), args.Value.ToString(), true);
+            Search();
+        }
+        private void UpdateSubnet(ChangeEventArgs args)
+        {
+            _subnetSelection = args.Value.ToString();
+            Search();
+        }
+
+
+        private void Search()
+        {
+            if (!_subnetSelection.Equals("all"))
+            {
+                filteredBoxes = boxes.Where(o => o.Subnet != null && o.Subnet.Equals(_subnetSelection)).ToList();
+
+            }
+            else
+            {
+                filteredBoxes = boxes.ToList();
+            }
+
+            if (!string.IsNullOrEmpty(_searchText))
+            {
+                if (_searchType == SearchTypes.Contains)
+                {
+                    switch (_searchCategory)
+                    {
+                        case SearchCategory.Ip:
+                            filteredBoxes = filteredBoxes.Where(o => o.Ip.Contains(_searchText)).ToList();
+                            break;
+                        case SearchCategory.Port:
+                            filteredBoxes = filteredBoxes.Where(o => o.Services.Any(i => i.Port.ToString().Contains(_searchText))).ToList();
+                            break;
+                        case SearchCategory.Name:
+                            filteredBoxes = filteredBoxes.Where(o => o.Services.Any(i => i.Name != null && i.Name.ToString().Contains(_searchText))).ToList();
+                            break;
+                        case SearchCategory.Script:
+                            filteredBoxes = filteredBoxes.Where(o => o.Services.Any(i => i.Script != null && i.Script.ToString().Contains(_searchText))).ToList();
+                            break;
+                        case SearchCategory.Version:
+                            filteredBoxes = filteredBoxes.Where(o => o.Services.Any(i => i.Version != null && i.Version.ToString().Contains(_searchText))).ToList();
+                            break;
+                        case SearchCategory.Os:
+                            filteredBoxes = filteredBoxes.Where(o => o.Os != null && o.Os.Contains(_searchText)).ToList();
+                            break;
+                    }
+                }
+                else if (_searchType == SearchTypes.Match)
+                {
+                    switch (_searchCategory)
+                    {
+                        case SearchCategory.Ip:
+                            filteredBoxes = filteredBoxes.Where(o => o.Ip.Equals(_searchText)).ToList();
+                            break;
+                        case SearchCategory.Port:
+                            filteredBoxes = filteredBoxes.Where(o => o.Services.Any(i => i.Port.ToString().Equals(_searchText))).ToList();
+                            break;
+                        case SearchCategory.Name:
+                            filteredBoxes = filteredBoxes.Where(o => o.Services.Any(i => i.Name != null && i.Name.ToString().Equals(_searchText))).ToList();
+                            break;
+                        case SearchCategory.Script:
+                            filteredBoxes = filteredBoxes.Where(o => o.Services.Any(i => i.Script != null && i.Script.ToString().Equals(_searchText))).ToList();
+                            break;
+                        case SearchCategory.Version:
+                            filteredBoxes = filteredBoxes.Where(o => o.Services.Any(i => i.Version != null && i.Version.ToString().Equals(_searchText))).ToList();
+                            break;
+                        case SearchCategory.Os:
+                            filteredBoxes = filteredBoxes.Where(o => o.Os != null && o.Os.Equals(_searchText)).ToList();
+                            break;
+                    }
+                }
+            }
+            StateHasChanged();
+
+
+            //Console.WriteLine("hello");
+
+            /**
             if (_searchType == SearchTypes.Contains)
             {
-                switch (_searchCategory)
-                {
-                    case SearchCategory.Port:
-                        filteredBoxes = filteredBoxes.Where(o => o.Services.Any(i => i.Port.ToString().Contains(_searchText))).ToList();
-                        break;
-                    case SearchCategory.Name:
-                        filteredBoxes = filteredBoxes.Where(o => o.Services.Any(i => i.Name != null && i.Name.ToString().Contains(_searchText))).ToList();
-                        break;
-                    case SearchCategory.Script:
-                        filteredBoxes = filteredBoxes.Where(o => o.Services.Any(i => i.Script != null && i.Script.ToString().Contains(_searchText))).ToList();
-                        break;
-                    case SearchCategory.Version:
-                        filteredBoxes = filteredBoxes.Where(o => o.Services.Any(i => i.Version != null && i.Version.ToString().Contains(_searchText))).ToList();
-                        break;
-                    case SearchCategory.Os:
-                        filteredBoxes = filteredBoxes.Where(o => o.Os != null && o.Os.Contains(_searchText)).ToList();
-                        break;
-                }
+
             }
             else if (_searchType == SearchTypes.Match)
             {
-                switch (_searchCategory)
-                {
-                    case SearchCategory.Port:
-                        filteredBoxes = filteredBoxes.Where(o => o.Services.Any(i => i.Port.ToString().Equals(_searchText))).ToList();
-                        break;
-                    case SearchCategory.Name:
-                        filteredBoxes = filteredBoxes.Where(o => o.Services.Any(i => i.Name != null && i.Name.ToString().Equals(_searchText))).ToList();
-                        break;
-                    case SearchCategory.Script:
-                        filteredBoxes = filteredBoxes.Where(o => o.Services.Any(i => i.Script != null && i.Script.ToString().Equals(_searchText))).ToList();
-                        break;
-                    case SearchCategory.Version:
-                        filteredBoxes = filteredBoxes.Where(o => o.Services.Any(i => i.Version != null && i.Version.ToString().Equals(_searchText))).ToList();
-                        break;
-                    case SearchCategory.Os:
-                        filteredBoxes = filteredBoxes.Where(o => o.Os != null && o.Os.Equals(_searchText)).ToList();
-                        break;
-                }
+
             }
+            **/
         }
-        StateHasChanged();
 
-
-        //Console.WriteLine("hello");
-
-        /**
-        if (_searchType == SearchTypes.Contains)
+        private async Task DeleteBox()
         {
-
+            await Http.DeleteAsync(requestUri);
         }
-        else if (_searchType == SearchTypes.Match)
-        {
-
-        }
-        **/
-    }
-
-    private async Task DeleteBox()
-    {
-        await Http.DeleteAsync(requestUri);
-    }
     }
 
