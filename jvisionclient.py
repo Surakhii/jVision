@@ -117,11 +117,11 @@ def main():
     """
     print(Color.BLUE + banner + Color.END)
     example = 'Examples:\n\n'
-    example += "$ python3 client.py -i 192.168.50.3 -p 5001 -s 192.168.50.0/24 "
+    example += "$ python3 client.py -i 192.168.50.3 -p 7777 -s 192.168.50.0/24 "
     parser = argparse.ArgumentParser(formatter_class=argparse.RawDescriptionHelpFormatter, epilog=example)
     sgroup = parser.add_argument_group("Main Arguments")
     sgroup.add_argument("-i", metavar="[IP]", dest='target_ip', default=False, type=str, help="IP of collaboration server", required=True)
-    sgroup.add_argument("-p", metavar="[PORT]", dest='target_port', default=5001, type=int, help="Port of collab server", required=False)
+    sgroup.add_argument("-p", metavar="[PORT]", dest='target_port', default=7777, type=int, help="Port of collab server", required=False)
     sgroup.add_argument("-s", metavar="[VICTIM IP/HOST/SUBNET]", dest="victim_addr", default=False, type=str, help="Host name, IP or subnet of victim", required=True)
     sgroup.add_argument("-n", action='store_false', dest="heavy", default=False, help="only run heavy scan")
     if len(sys.argv) == 1:
@@ -130,13 +130,13 @@ def main():
 
     args = parser.parse_args()
     
-    target_server = "https://{}:{}".format(args.target_ip,args.target_port)
+    target_server = "http://{}:{}".format(args.target_ip,args.target_port)
 
     initial_scan = "nmap -n -sn -PS80,23,443,21,22,25,3389,110,445,139,143,53,135,3306,8080,1723,111,995,993,5900,1025,587,8888 {} -oG - | awk '/Up$/{{print $2}}' > hosts_simple.txt".format(args.victim_addr)
-    initial_scan_v = "nmap -sn -PS {} -oG - | awk '/Up$/{{print $2}}' > hosts_detailed.txt".format(args.victim_addr)
+    initial_scan_v = "nmap -sn {} -oG - | awk '/Up$/{{print $2}}' > hosts_detailed.txt".format(args.victim_addr)
 
-    first_scan = "nmap -n -T5 -iL hosts_simple.txt -oX temp1.xml {} > firstscan.txt".format(args.victim_addr)
-    second_scan = "nmap -T4 -iL hosts_detailed.txt -Pn -sSVC -p0-65535 -oX temp2.xml {} > secondscan.txt".format(args.victim_addr)
+    first_scan = "nmap -T5 -iL hosts_simple.txt --exclude-ports 502 -oX temp1.xml > firstscan.txt"
+    second_scan = "nmap -T5 -iL hosts_detailed.txt -sSVC --top-ports 10000 --exclude-ports 502 -oX temp2.xml > secondscan.txt"
 
     
     p2 = log.progress("Connecting to JVIS server")
