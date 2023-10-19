@@ -2,9 +2,6 @@ version: '3.4'
 
 services:
   blazorhosted:
-    image: nathansimage
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: silvercryptor/jvision
     ports:
         - 7777:7777
