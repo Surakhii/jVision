@@ -352,7 +352,7 @@ def main():
         pass
 
     try:
-        os.system(full_scan)
+        os.system(udp_scan)
     except:
         p11.failure(Color.RED + "✘" + Color.END)
         print(Color.RED + "\nScan on " + args.victim_addr + " failed\n")
