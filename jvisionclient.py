@@ -138,7 +138,7 @@ def main():
     first_scan = "nmap -T5 -iL hosts_simple.txt --exclude-ports 502 -oX temp1.xml > firstscan.txt"
     second_scan = "nmap -T5 -iL hosts_detailed.txt -sSVC --top-ports 10000 --exclude-ports 502 -oX temp2.xml > secondscan.txt"
     full_scan = "nmap -T5 -iL hosts_detailed.txt -sSVC -p- -A -O -oX temp3.xml > fullscan.txt"
-    udp_scan = "nmap -T5 -iL hosts_detailed.txt -sU -oX temp4.xml > udp_scan.txt"
+    udp_scan = "nmap -T5 -iL hosts_detailed.txt -sU -oX temp4.xml > udpscan.txt"
     
     p2 = log.progress("Connecting to JVIS server")
     try:
