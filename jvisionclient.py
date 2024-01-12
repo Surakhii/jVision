@@ -137,8 +137,7 @@ def main():
 
     first_scan = "nmap -T5 -iL hosts_simple.txt --exclude-ports 502 -oX temp1.xml > firstscan.txt"
     second_scan = "nmap -T5 -iL hosts_detailed.txt -sSVC --top-ports 10000 --exclude-ports 502 -oX temp2.xml > secondscan.txt"
-    full_scan = "nmap -T5 -iL hosts_detailed.txt -sSVC -p- -A -O -oX temp3.xml > fullscan.txt"
-    udp_scan = "nmap -T5 -iL hosts_detailed.txt -sU -oX temp4.xml > udpscan.txt"
+
     
     p2 = log.progress("Connecting to JVIS server")
     try:
@@ -284,113 +283,6 @@ def main():
         print(Color.RED + "\nCould not send results to " + target_server + "\n")
         exit(1)
     p7.success(Color.GREEN + "✓" + Color.END)
-
-
-
-
-    # full scan
-    p88 = log.progress("Running full scan")
-    try:
-        os.remove('temp3.xml')
-    except:
-        pass
-    try:
-        os.remove('fullscan.txt')
-    except:
-        pass
-
-    try:
-        os.system(full_scan)
-    except:
-        p88.failure(Color.RED + "✘" + Color.END)
-        print(Color.RED + "\nScan on " + args.victim_addr + " failed\n")
-        exit(1)
-
-
-    try:
-        l = open("fullscan.txt","r").read()
-        print(l)
-    except:
-        p88.failure(Color.RED + "✘" + Color.END)
-        print(Color.RED + "\nFailed to read scan\n")
-        exit(1)
-
-    p88.success(Color.GREEN + "✓" + Color.END)
-
-
-    p9 = log.progress("Parsing file")
-
-    b = Beautifier('temp3.xml', target_server, args.victim_addr)
-    #finish this
-    try:
-        b.parse_scan()
-    except:
-        p9.failure(Color.RED + "✘" + Color.END)
-        print(Color.RED + "\nCould not parse file")
-        exit(1)
-    p9.success(Color.GREEN + "✓" + Color.END)
-
-    p10 = log.progress("Uploading results to jVis server")
-    try:
-        b.upload_file()
-    except:
-        p10.failure(Color.RED + "✘" + Color.END)
-        print(Color.RED + "\nCould not send results to " + target_server + "\n")
-        exit(1)
-    p10.success(Color.GREEN + "✓" + Color.END)
-
-
-    # udp common ports
-    p11 = log.progress("Running UDP scan")
-    try:
-        os.remove('temp4.xml')
-    except:
-        pass
-    try:
-        os.remove('udpscan.txt')
-    except:
-        pass
-
-    try:
-        os.system(udp_scan)
-    except:
-        p11.failure(Color.RED + "✘" + Color.END)
-        print(Color.RED + "\nScan on " + args.victim_addr + " failed\n")
-        exit(1)
-
-
-    try:
-        l = open("udpscan.txt","r").read()
-        print(l)
-    except:
-        p11.failure(Color.RED + "✘" + Color.END)
-        print(Color.RED + "\nFailed to read scan\n")
-        exit(1)
-
-    p11.success(Color.GREEN + "✓" + Color.END)
-
-
-    p12 = log.progress("Parsing file")
-
-    b = Beautifier('temp4.xml', target_server, args.victim_addr)
-    #finish this
-    try:
-        b.parse_scan()
-    except:
-        p12.failure(Color.RED + "✘" + Color.END)
-        print(Color.RED + "\nCould not parse file")
-        exit(1)
-    p12.success(Color.GREEN + "✓" + Color.END)
-
-    p13 = log.progress("Uploading results to jVis server")
-    try:
-        b.upload_file()
-    except:
-        p13.failure(Color.RED + "✘" + Color.END)
-        print(Color.RED + "\nCould not send results to " + target_server + "\n")
-        exit(1)
-    p13.success(Color.GREEN + "✓" + Color.END)
-
 
 if __name__ == '__main__':
     main()
