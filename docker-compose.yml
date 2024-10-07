@@ -2,6 +2,6 @@ version: '3.4'
 
 services:
   blazorhosted:
-    image: silvercryptor/jvision
+    image: .
     ports:
         - 7777:7777
