@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -101,17 +101,12 @@ namespace jVision.Server.Controllers
                     new Topology{id=subnet,name=$"CHANGE ME<br>{subnet}",refs="",cat="sunet",width="580",height="360",parent="",identity=subnet}
                 };
                 myExport.AddRows(subnet_parent);
-                var subnet_rectangle = new List<Topology>
-                {
-                    new Topology{id=$"subnet{subnet}",name=subnet,refs="",cat="rekt",width="130",height="50",parent="",identity=$"subnet{subnet}"}
-                };
-                myExport.AddRows(subnet_rectangle);
                 foreach(var box in subnet_boxes)
                 {
                     var os = string.IsNullOrEmpty(box.Os) ? "default" : box.Os;
                     var comp_record = new List<Topology>
                     {
-                        new Topology{id=box.Ip, name=$"{box.Ip}<br>{box.Hostname}",refs="",cat=os,width="82",height="72",parent="",identity=box.Ip}
+                        new Topology{id=$"subnet{box.Ip}", name=$"{box.Hostname}<br>{box.Ip}",refs="",cat=os,width="82",height="72",parent="",identity=$"subnet{box.Ip}"}
                     };
                     myExport.AddRows(comp_record);
                 }
