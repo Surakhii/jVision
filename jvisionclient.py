@@ -136,7 +136,7 @@ def main():
     initial_scan_v = "nmap -sn {} -oG - | awk '/Up$/{{print $2}}' > hosts_detailed.txt".format(args.victim_addr)
 
     first_scan = "nmap -T5 -iL hosts_simple.txt --exclude-ports 502 -oX temp1.xml > firstscan.txt"
-    second_scan = "nmap -T5 -iL hosts_detailed.txt -sSVC --top-ports 10000 --exclude-ports 502 -oX temp2.xml > secondscan.txt"
+    second_scan = "nmap -T5 -iL hosts_detailed.txt -sSVC -p- --exclude-ports 502 -oX temp2.xml > secondscan.txt"
 
     
     p2 = log.progress("Connecting to JVIS server")
